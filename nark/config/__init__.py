@@ -27,7 +27,7 @@ from gettext import gettext as _
 
 from config_decorator import section, ConfigDecorator
 
-from easy_as_pypi_apppth import AppDirs
+from easy_as_pypi_appdirs import AppDirs
 
 from .log_levels import get_log_level_safe, get_log_name_safe, must_verify_log_level
 

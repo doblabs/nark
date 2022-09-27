@@ -58,8 +58,8 @@ requirements = [
     #  https://github.com/hotoffthehamster/config-decorator
     'config-decorator > 2.0.14, < 2.0.16',  # I.e., release 2.0.15 or dev vers from that.
     # ActiveState/appdirs + Singleton (app-wide access w/out appname) + `mkdir -p`.
-    #  https://github.com/tallybark/easy-as-pypi-apppth#🛣
-    'easy-as-pypi-apppth',
+    #  https://github.com/doblabs/easy-as-pypi-appdirs#🛣
+    'easy-as-pypi-appdirs',
     # Get-package-or-Git-version helper.
     #  https://github.com/hotoffthehamster/easy-as-pypi-getver
     'easy-as-pypi-getver',

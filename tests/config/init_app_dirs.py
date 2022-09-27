@@ -15,7 +15,7 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-from easy_as_pypi_apppth.app_dirs import register_application
+from easy_as_pypi_appdirs.app_dirs import register_application
 
 from nark import __package_name__
 

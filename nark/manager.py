@@ -20,7 +20,7 @@
 import os
 from datetime import datetime
 
-from easy_as_pypi_apppth import AppDirs
+from easy_as_pypi_appdirs import AppDirs
 
 from .config import decorate_config
 from .helpers import logging as logging_helpers

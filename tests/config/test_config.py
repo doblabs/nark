@@ -52,9 +52,9 @@ class TestNarkConfigurableDb(object):
     def test_db_path_with_appdirs(self, tmpdir, mocker):
         path = tmpdir.strpath
         # Note that if not already loaded, we'd need to import the package:
-        #   import easy_as_pypi_apppth  # noqa: F401
+        #   import easy_as_pypi_appdirs  # noqa: F401
         # but pytest_plugins includes init_app_dirs, which imports it.
-        mocker.patch('easy_as_pypi_apppth.appdirs.user_data_dir', return_value=path)
+        mocker.patch('easy_as_pypi_appdirs.appdirs.user_data_dir', return_value=path)
         # The ConfigRoot will already have been created without AppDirs setup,
         # so tell it to forget what it knows, and it'll scan defaults again.
         config_root = ConfigRoot
