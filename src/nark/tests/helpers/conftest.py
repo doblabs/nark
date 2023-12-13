@@ -78,7 +78,7 @@ factoid_fixture = (
             'start_raw': datetime.datetime(2015, 12, 21, 0, 0, 0),
             'end_raw': '13:00',
             'start': datetime.datetime(2015, 12, 21, 0, 0, 0),
-            'end': datetime.datetime(2015, 12, 25, 13, 0, 0),
+            'end': datetime.datetime(2015, 12, 21, 13, 0, 0),
             'activity': 'foo',
             'category': 'bar',
             'tags': [],
