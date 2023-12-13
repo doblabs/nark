@@ -201,7 +201,8 @@ class TestFact(object):
         'start',
         [
             None,
-            faker.date_time(),
+            # The faker randomizes the microsecond field, but nark assumes 0.
+            faker.date_time().replace(microsecond=0),
             '10',
             '+10',
             '-10h5m',
@@ -225,7 +226,14 @@ class TestFact(object):
         with pytest.raises(TypeError):
             fact.start = start
 
-    @pytest.mark.parametrize('end', [None, faker.date_time()])
+    @pytest.mark.parametrize(
+        'end',
+        [
+            None,
+            # The faker randomizes the microsecond field, but nark assumes 0.
+            faker.date_time().replace(microsecond=0),
+        ],
+    )
     def test_end_valid(self, fact, end):
         """Make sure that valid arguments get stored by the setter."""
         fact.end = end
@@ -234,6 +242,7 @@ class TestFact(object):
     def test_end_invalid(self, fact):
         """Make sure that trying to store dateimes as strings throws an error."""
         with pytest.raises(TypeError):
+            # No need to replace microseconds, because %M truncates (m)secs.
             fact.end = faker.date_time().strftime('%y-%m-%d %H:%M')
 
     def test_description_valid(self, fact, description_valid_parametrized):
