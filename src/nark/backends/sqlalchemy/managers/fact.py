@@ -273,7 +273,9 @@ class FactManager(GatherFactManager):
 
         query = query.filter(condition)
 
-        return not bool(query.count())
+        n_found = query.count()
+
+        return not bool(n_found)
 
     # ***
 
