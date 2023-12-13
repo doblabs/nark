@@ -96,6 +96,7 @@ class AlchemyFactFactory(factory.alchemy.SQLAlchemyModelFactory):
     activity = factory.SubFactory(AlchemyActivityFactory)
     start = factory.Faker('date_time')
     end = factory.LazyAttribute(lambda o: o.start + datetime.timedelta(hours=3))
+
     description = factory.Faker('paragraph')
 
     class Meta:
