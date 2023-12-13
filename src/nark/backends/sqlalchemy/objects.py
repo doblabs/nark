@@ -170,8 +170,16 @@ class AlchemyFact(Fact):
         self.deleted = bool(deleted)
         self.split_from = split_from
         self.activity = activity
-        self.start = start
-        self.end = end
+        # Clearing microsecond introduced for tests, specifically for
+        # faker/providers/date_time (our tests/'s AlchemyFactFactory).
+        if start is not None:
+            self.start = start.replace(microsecond=0)
+        else:
+            self.start = None
+        if end is not None:
+            self.end = end.replace(microsecond=0)
+        else:
+            self.end = None
         self.description = description
         # Tags can only be assigned after the fact has been created.
         self.tags = list()
