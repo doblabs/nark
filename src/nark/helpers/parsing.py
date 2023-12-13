@@ -749,7 +749,7 @@ class Parser(object):
             # Need os.linesep or is \n fine?
             seq = [part.replace('\n', '\\n') for part in seq]
             if len(seq) > 1:
-                sep_str = '{} or {}'.format(', '.join(seq[:-1]), seq[-1])
+                sep_str = '{}, or {}'.format(', '.join(seq[:-1]), seq[-1])
             else:
                 sep_str = seq[0]
             return sep_str
