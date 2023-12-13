@@ -537,20 +537,25 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "dateparser"
-version = "0.7.6"
+version = "1.2.0"
 description = "Date parsing library designed to parse dates from HTML pages"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.7"
 files = [
-    {file = "dateparser-0.7.6-py2.py3-none-any.whl", hash = "sha256:7552c994f893b5cb8fcf103b4cd2ff7f57aab9bfd2619fdf0cf571c0740fd90b"},
-    {file = "dateparser-0.7.6.tar.gz", hash = "sha256:e875efd8c57c85c2d02b238239878db59ff1971f5a823457fcc69e493bf6ebfa"},
+    {file = "dateparser-1.2.0-py2.py3-none-any.whl", hash = "sha256:0b21ad96534e562920a0083e97fd45fa959882d4162acc358705144520a35830"},
+    {file = "dateparser-1.2.0.tar.gz", hash = "sha256:7975b43a4222283e0ae15be7b4999d08c9a70e2d378ac87385b1ccf2cffbbb30"},
 ]
 
 [package.dependencies]
 python-dateutil = "*"
 pytz = "*"
-regex = "!=2019.02.19"
+regex = "<2019.02.19 || >2019.02.19,<2021.8.27 || >2021.8.27"
 tzlocal = "*"
+
+[package.extras]
+calendars = ["convertdate", "hijri-converter"]
+fasttext = ["fasttext"]
+langdetect = ["langdetect"]
 
 [[package]]
 name = "decorator"
@@ -2624,4 +2629,4 @@ readthedocs = ["sphinx", "sphinx", "sphinx-rtd-theme", "tomli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "e2775d7af97a8a99c2bd80d496c5b2867256cfcf4ca166551433c93664257fef"
+content-hash = "9debcd64152d41d39f48c8d8a418f3fa256afafbcf02a1ae32f9c133c1696241"
