@@ -119,7 +119,7 @@ class TestFactTime(object):
     def test_parse_clock_time_valid(self, clock_time):
         clock_time = '22:59'
         parsed_ct = parse_clock_time(clock_time)
-        assert parsed_ct == ('22', '59', '0')
+        assert parsed_ct == (22, 59, 0)
 
     def test_parse_clock_time_invalid(self):
         not_clock_time = '24:99'
