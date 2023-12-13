@@ -1,10 +1,15 @@
-# This file exists within 'nark':
-#
-#   https://github.com/tallybark/nark
+# Author: Landon Bouma <https://tallybark.com/>
+# Project: https://github.com/<varies>
+# Pattern: https://github.com/doblabs/easy-as-pypi#🥧
+# License: MIT
 
 # Makefile for Sphinx documentation
 
-PROJNAME = nark
+# Suss the project name from the parent directory name. Assumes this
+# file is under a docs/ directory in the project directory, and that
+# the project directory *is* named like the project, e.g., this file
+# might be: /path/to/my-project/docs/Makefile
+PROJNAME ?= $(shell basename "$$(dirname "$$(pwd)")")
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
