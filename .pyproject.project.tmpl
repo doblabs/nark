@@ -2,10 +2,10 @@
 
 # vim:tw=0:ts=4:sw=4:et:norl:ft=toml
 # Author: Landon Bouma <https://tallybark.com/>
-# Project: https://github.com/doblabs/easy-as-pypi#🥧
+# Project: https://github.com/doblabs/nark#👮
 # License: MIT
 
-# Copyright (c) © 2020-2023 Landon Bouma. All Rights Reserved.
+# Copyright (c) © 2018-2023 Landon Bouma. All Rights Reserved.
 
 {% block project_meta -%}
 
@@ -13,14 +13,14 @@
 # REFER: https://peps.python.org/pep-0621/
 #   https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 
-name = "easy-as-pypi"
+name = "nark"
 version = "0.0.0"
-description = "Bootstrapping your next Python CLI made easy as PyPI"
+description = "Back end framework for journaling and time tracking apps (like `dob`!)"
 
 authors = ["Landon Bouma <doblabs@tallybark.com>"]
 maintainers = ["Tally Bark LLC <doblabs@tallybark.com>"]
 
-license = "MIT"
+license = "GPLv3+"
 readme = "README.rst"
 
 # REFER: https://pypi.org/classifiers/
@@ -29,20 +29,21 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 # Keywords for PyPI to display, and to use for search results.
 keywords = [
-    "python",
-    "boilerplate",
-    "pyoilerplate",
-    "scaffolding",
-    "framework",
-    "CLI",
-    "TUI",
-    "skeleton",
-    "cookiecutter",
+    "journal",
+    "diary",
+    "timesheet",
+    "timetrack",
+    "jrnl",
+    "rednotebook",
+    "todo.txt",
+    "prjct",
+    "hamster",
+    "fact",
 ]
 
 # poetry build excludes __pycache__ dirs
@@ -70,18 +71,16 @@ include = [
 
 # ***
 
-# YOU: Disable this if your project derived from easy-as-pypi
-#      does not have a runnable script.
-#      - Otherwise set this to the package entry point.
-
-[tool.poetry.scripts]
-easy-as-pypi = "easy_as_pypi:cli"
+# YOU: Uncomment and customize to add a CLI entrypoint:
+#
+#   [tool.poetry.scripts]
+#   nark = "nark:cli"
 
 # ***
 
 [tool.easy_as_pypi]
 author = "Landon Bouma <https://tallybark.com/>"
-copy_years_owner = "2020-2023 Landon Bouma"
+copy_years_owner = "2018-2023 Landon Bouma"
 coc_contact_email = "tallybark+doblabs -at- gmail.com"
 
 # ***
@@ -107,18 +106,18 @@ coc_contact_email = "tallybark+doblabs -at- gmail.com"
 # WIRED: The Sphinx config (docs/conf.py) and .github/bin/update-poetry
 #        require that 'homepage' or 'repository' is set.
 
-homepage = "https://github.com/doblabs/easy-as-pypi#🥧"
+homepage = "https://github.com/doblabs/nark#👮"
 
 # Include 'repository' unless same as homepage.
-#  repository = "https://github.com/doblabs/easy-as-pypi"
+#  repository = "https://github.com/doblabs/nark"
 
-history = "https://github.com/doblabs/easy-as-pypi/blob/release/HISTORY.rst"
+history = "https://github.com/doblabs/nark/blob/release/HISTORY.rst"
 
-documentation = "https://easy-as-pypi.readthedocs.io/en/latest"
+documentation = "https://nark.readthedocs.io/en/latest"
 
-issues = "https://github.com/doblabs/easy-as-pypi/issues"
+issues = "https://github.com/doblabs/nark/issues"
 
-download = "https://pypi.org/project/easy-as-pypi/#files"
+download = "https://pypi.org/project/nark/#files"
 
 {% endblock -%}
 
@@ -126,22 +125,161 @@ download = "https://pypi.org/project/easy-as-pypi/#files"
 
 {% block isort_known_third_party -%}
     "click",
+    # *** External packages
+    "configobj",
+    "dateparser",
+    "icalendar",
+    "iso8601",
+    "lazy_import",
+    "pytz",
+    "sqlalchemy",
+    "tzlocal",
+    # *** HOTH packages
+    "ansi_escape_room",
+    "ansiwrap_hotoffthehamster",
+    "config_decorator",
+    "easy_as_pypi_appdirs",
+    "easy_as_pypi_getver",
+    "pedantic_timedelta",
+    "sqlalchemy_migrate_hotoffthehamster",
+    # *** Testing packages
+    "factory",
+    "faker",
+    "fauxfactory",
+    "freezegun",
+    "pytest",
+    "pytest_factoryboy",
 {%- endblock %}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
 
 {% block deps_test_fakers_and_factories -%}
 
-# **** Fakers not needed.
+# **** See Fakers below.
+{% endblock -%}
+
+{% block project_test_dependencies -%}
+# *** Datetime testing
+
+# - "travel through time by mocking the datetime module"
+#
+#   https://github.com/spulec/freezegun
+freezegun = ">=0.3.14"
+
+# ***** Fakers and Factories
+
+# - "package that generates fake data for you"
+#
+#   https://pypi.org/project/Faker
+#   https://github.com/joke2k/faker
+Faker = ">=18.7.0"
+
+# - "Faker integration with the pytest framework."
+#
+#   https://pypi.org/project/pytest-faker
+#   https://github.com/pytest-dev/pytest-faker
+pytest-faker = ">=2.0.0"
+
+# - "Generates random data for your tests"
+#
+#   https://pypi.org/project/fauxfactory
+#   https://github.com/omaciel/fauxfactory
+fauxfactory = ">=3.1.0"
+
+# - ORM record generator / "test fixtures replacement for Python".
+#
+#   https://pypi.org/project/factory-boy
+#   https://github.com/FactoryBoy/factory_boy
+factory-boy = ">=3.2.1"
+
+# - "Factory Boy support for pytest"
+#
+#   https://pypi.org/project/pytest-factoryboy
+#   https://github.com/pytest-dev/pytest-factoryboy
+pytest-factoryboy = ">=2.5.1"
+
+# ***** Other
+
+# For testing with dateparser
+#   https://github.com/scrapinghub/dateparser
+#
+#   https://pypi.org/project/regex/
+#   https://bitbucket.org/mrabarnett/mrab-regex
+regex = ">=2023.10.3"
+
+# *****
+
+# This is an *extras*-group dependency (from the EAPP template),
+# but there are three `nark` tests that look for a version tag.
+#
+# - "the blessed package to manage your versions by scm tags"
+#
+#   https://pypi.org/project/setuptools-scm/
+#   https://github.com/pypa/setuptools_scm/
+setuptools_scm = ">=8.0.4"
 {% endblock -%}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
 
+{#
+    [tool.poetry.dependencies]
+ #}
+
 {% block project_dependencies -%}
 
-# - "Composable command line interface toolkit"
+# Better INI/conf parser (preserves order, comments) than ConfigParser.
+#  https://github.com/DiffSK/configobj
+#  https://configobj.readthedocs.io/en/latest/
+configobj = "~5.0.6"
+
+# - "Date parsing library designed to parse dates from HTML pages"
 #
-#   https://pypi.org/project/click
-#   https://github.com/pallets/click
-click = "^8.0.0"
+#   https://pypi.org/project/dateparser/
+#   https://github.com/scrapinghub/dateparser
+dateparser = "~1.2.0"
+
+# https://github.com/collective/icalendar
+icalendar = "~4.0.5"
+# https://bitbucket.org/micktwomey/pyiso8601
+iso8601 = "~0.1.12"
+# https://github.com/mnmelo/lazy_import
+lazy_import = "~0.2.2"
+# Daylight saving time-aware timezone library.
+#  https://pythonhosted.org/pytz/
+pytz = ">=2019.3"
+# https://www.sqlalchemy.org/
+sqlalchemy = "~1.4.50"
+
+# *** HOTH packages.
+
+# "Very simple Python library for color and formatting in terminal."
+# Forked by HOTH (for italic "support"):
+#  https://github.com/hotoffthehamster/ansi-escape-room
+# Forked from dslackw:
+#  https://gitlab.com/dslackw/colored
+# Used in nark to format log messages, but also installed by dob(-bright),
+#  so not really adding any overhead.
+ansi-escape-room = ">0"
+# "textwrap, but savvy to ANSI colors"
+#  https://github.com/jonathaneunice/ansiwrap
+# Forked to update to latest Pythons
+#  https://github.com/hotoffthehamster/ansiwrap
+ansiwrap-hotoffthehamster = ">0"
+# Pythonic config @decorator.
+#  https://github.com/hotoffthehamster/config-decorator
+config-decorator = ">0"
+# ActiveState/appdirs + Singleton (app-wide access w/out appname) + `mkdir -p`.
+#  https://github.com/doblabs/easy-as-pypi-appdirs#🛣
+easy-as-pypi-appdirs = ">0"
+# Get-package-or-Git-version helper.
+#  https://github.com/hotoffthehamster/easy-as-pypi-getver
+easy-as-pypi-getver = ">0"
+# Elapsed timedelta formatter, e.g., "1.25 days".
+# - Imports as `pedantic_timedelta`.
+#  https://github.com/hotoffthehamster/human-friendly_pedantic-timedelta
+human-friendly_pedantic-timedelta = ">0"
+# Database gooser/versioner.
+#  https://pypi.org/project/sqlalchemy-migrate/
+#  https://sqlalchemy-migrate.readthedocs.io/en/latest/
+sqlalchemy-migrate-hotoffthehamster = ">0"
 {% endblock %}
