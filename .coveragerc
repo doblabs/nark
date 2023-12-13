@@ -1,9 +1,0 @@
-# vim:tw=0:ts=2:sw=2:et:norl:ft=dosini
-
-# This file exists within 'nark':
-#
-#   https://github.com/tallybark/nark
-
-[run]
-source=nark
-
