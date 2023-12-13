@@ -43,6 +43,10 @@ __time_0__ = time.time()
 # (which is something linter or runtime won't catch if wrong).
 __package_name__ = 'nark'
 
+# This version is substituted on poetry-build by poetry-dynamic-versioning.
+# - Consequently, __version__ remains empty when installed in 'editable' mode.
+__version__ = ""
+
 
 def get_version(include_head=False):
     return _get_version(
