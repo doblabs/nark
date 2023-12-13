@@ -225,7 +225,7 @@ class Parser(object):
             See ``setup_rules()`` for list of arguments.
 
         Returns:
-            err (ParserException): None if Factoid parser without problem, or an
+            err (ParserException): None if Factoid parsed without problem, or an
             Exception explaining what went wrong; but raises instead unless lenient.
         """
         self.prepare_parser(*args, **kwargs)
