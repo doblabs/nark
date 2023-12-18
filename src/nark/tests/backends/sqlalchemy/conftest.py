@@ -81,7 +81,7 @@ def alchemy_runner(request):
     function sets up just once. And then for each test, we'll create a clean
     session to use for testing that we clean up after.
 
-    This is pretty much straight from the factoryboi docs:
+    This is pretty much straight from the Factory Boy docs:
 
       https://factoryboy.readthedocs.io/en/latest/orms.html#sqlalchemy
 
@@ -348,7 +348,7 @@ def _alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
     lambda *args, **kwargs: None,
 )
 # (lb): 'sqlalchemy_migrate_hotoffthehamster.versioning.api.version'
-#       is more complicated; see with-patch, below.
+#       is more complicated; see `with patch`, above.
 def alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
     return _alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session)
 
