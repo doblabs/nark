@@ -17,9 +17,9 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-import pytest
-
 import datetime
+
+import pytest
 from icalendar import Calendar
 
 

@@ -19,7 +19,6 @@
 
 import logging
 import sys
-
 from gettext import gettext as _
 
 __all__ = (

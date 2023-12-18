@@ -19,9 +19,8 @@
 
 """Base class for CSVWriter and TSVWriter output formats."""
 
-from gettext import gettext as _
-
 import csv
+from gettext import gettext as _
 
 from . import ReportWriter
 

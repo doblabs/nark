@@ -19,13 +19,11 @@
 
 """This module provides several time-related convenience functions."""
 
-from gettext import gettext as _
-
 import datetime
 import math
+from gettext import gettext as _
 
 import lazy_import
-
 from pedantic_timedelta import PedanticTimedelta
 
 # Profiling: load pytz: ~ 0.002 secs.

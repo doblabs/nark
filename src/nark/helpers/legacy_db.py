@@ -19,10 +19,9 @@
 
 """Raw SQLite3 commands to upgrade legacy hamster-applet database."""
 
-from gettext import gettext as _
-
 import logging
 import sqlite3
+from gettext import gettext as _
 
 logger = logging.getLogger("nark.log")
 

@@ -19,8 +19,8 @@
 
 from gettext import gettext as _
 
-from . import BaseManager
 from ..items.category import Category
+from . import BaseManager
 
 
 class BaseCategoryManager(BaseManager):
