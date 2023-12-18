@@ -139,7 +139,7 @@ RE_PATTERN_RELATIVE_CLOCK = re.compile(
     # To reject such a candidate string, but to keep the regex simple,
     # we'll capture the hours:minutes separator and look for it in post.
     "^"
-    "(?P<hours>\d{1,2})(?P<hm_sep>:?)(?P<minutes>\d{2})(:(?P<seconds>\d{2}))?"
+    r"(?P<hours>\d{1,2})(?P<hm_sep>:?)(?P<minutes>\d{2})(:(?P<seconds>\d{2}))?"
     "(?P<period>" + RE_PATTERN_12H_PERIOD + ")?"
     "$"
 )
@@ -147,7 +147,7 @@ RE_PATTERN_RELATIVE_CLOCK = re.compile(
 # HARDCODED: There's an 'h' and 'm' in this regex.
 # FIXME: (lb): The 'h' and 'm' are not part of i18n, not l10n-friendly.
 RE_PATTERN_RELATIVE_DELTA = re.compile(
-    "^(?P<signage>[-+])?((?P<hours>\d+)h)?((?P<minutes>\d+)m?)?$"
+    r"^(?P<signage>[-+])?((?P<hours>\d+)h)?((?P<minutes>\d+)m?)?$"
 )
 
 
