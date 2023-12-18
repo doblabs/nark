@@ -41,7 +41,7 @@ class Activity(BaseItem):
 
             pk: The unique primary key used by the backend.
 
-            category (Category): ``Category`` instance associated with this ``Activity``.
+            category (Category): ``Category`` instance associated w/ this ``Activity``.
 
             deleted (bool): True if this ``Activity`` has been marked as deleted.
 
