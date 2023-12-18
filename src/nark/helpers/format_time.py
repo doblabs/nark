@@ -29,19 +29,20 @@ import lazy_import
 from pedantic_timedelta import PedanticTimedelta
 
 # Profiling: load pytz: ~ 0.002 secs.
-pytz = lazy_import.lazy_module('pytz')
+pytz = lazy_import.lazy_module("pytz")
 
 
 __all__ = (
-    'isoformat',
-    'isoformat_tzinfo',
-    'isoformat_tzless',
+    "isoformat",
+    "isoformat_tzinfo",
+    "isoformat_tzless",
 )
 
 
 # ***
 
-def isoformat(dt, sep='T', timespec='auto', include_tz=False):
+
+def isoformat(dt, sep="T", timespec="auto", include_tz=False):
     """
     FIXME: Document
 
@@ -70,44 +71,45 @@ def isoformat(dt, sep='T', timespec='auto', include_tz=False):
     ValueError will be raised on an invalid timespec argument.
 
     """
+
     def _isoformat(dt, sep, timespec, include_tz):
         timecomp = _format_timespec(dt, timespec)
 
-        tzcomp = ''
+        tzcomp = ""
         if dt.tzinfo:
             if include_tz:
-                tzcomp = '%z'
+                tzcomp = "%z"
             else:
                 dt = dt.astimezone(pytz.utc)
         # else, a naive datetime, we'll just have to assume it's UTC!
 
-        return dt.strftime('%Y-%m-%d{}{}{}'.format(sep, timecomp, tzcomp))
+        return dt.strftime("%Y-%m-%d{}{}{}".format(sep, timecomp, tzcomp))
 
     def _format_timespec(dt, timespec):
-        if timespec == 'auto':
+        if timespec == "auto":
             if not dt.microsecond:
-                timespec = 'seconds'
+                timespec = "seconds"
             else:
-                timespec = 'microseconds'
+                timespec = "microseconds"
 
-        if timespec == 'hours':
-            return '%H'
-        elif timespec == 'minutes':
-            return '%H:%M'
-        elif timespec == 'seconds':
-            return '%H:%M:%S'
-        elif timespec == 'milliseconds':
-            msec = '{:03}'.format(math.floor(dt.microsecond / 1000))
-            return '%H:%M:%S.{}'.format(msec)
-        elif timespec == 'microseconds':
-            return '%H:%M:%S.%f'
+        if timespec == "hours":
+            return "%H"
+        elif timespec == "minutes":
+            return "%H:%M"
+        elif timespec == "seconds":
+            return "%H:%M:%S"
+        elif timespec == "milliseconds":
+            msec = "{:03}".format(math.floor(dt.microsecond / 1000))
+            return "%H:%M:%S.{}".format(msec)
+        elif timespec == "microseconds":
+            return "%H:%M:%S.%f"
         else:
-            raise ValueError('Not a valid `timespec`: {}'.format(timespec))
+            raise ValueError("Not a valid `timespec`: {}".format(timespec))
 
     return _isoformat(dt, sep, timespec, include_tz)
 
 
-def isoformat_tzinfo(dt, sep='T', timespec='auto'):
+def isoformat_tzinfo(dt, sep="T", timespec="auto"):
     """FIXME: Document"""
     if isinstance(dt, datetime.datetime):
         return isoformat(dt, sep=sep, timespec=timespec, include_tz=True)
@@ -115,7 +117,7 @@ def isoformat_tzinfo(dt, sep='T', timespec='auto'):
         return dt
 
 
-def isoformat_tzless(dt, sep='T', timespec='auto'):
+def isoformat_tzless(dt, sep="T", timespec="auto"):
     """FIXME: Document"""
     if isinstance(dt, datetime.datetime):
         return isoformat(dt, sep=sep, timespec=timespec, include_tz=False)
@@ -125,7 +127,8 @@ def isoformat_tzless(dt, sep='T', timespec='auto'):
 
 # ***
 
-def format_delta(delta, style='%M', **kwargs):
+
+def format_delta(delta, style="%M", **kwargs):
     """
     Return a string representation of ``Fact().delta``.
 
@@ -144,6 +147,7 @@ def format_delta(delta, style='%M', **kwargs):
     Returns:
         str: Formatted string representing this fact's *duration*.
     """
+
     def _format_delta():
         try:
             seconds = delta.total_seconds()
@@ -151,25 +155,25 @@ def format_delta(delta, style='%M', **kwargs):
             seconds = delta if delta is not None else 0
         if not style:
             return format_pedantic(seconds)
-        elif style == '%S':
+        elif style == "%S":
             return str(seconds)
-        elif style == '%M':
+        elif style == "%M":
             minutes = int(seconds / 60)
             return str(minutes)
         else:
             hours = int(seconds / 3600)
             minutes = int((seconds % 3600) / 60)
-            if style == '%H:%M':
+            if style == "%H:%M":
                 return format_hours_mins(hours, minutes)
-            elif style == 'HHhMMm':
+            elif style == "HHhMMm":
                 return format_hours_h_mins_m(hours, minutes)
         raise ValueError(_("Invalid format_delta style ‘{}’.").format(style))
 
     def format_hours_mins(hours, minutes):
-        return '{0:02d}:{1:02d}'.format(hours, minutes)
+        return "{0:02d}:{1:02d}".format(hours, minutes)
 
     def format_hours_h_mins_m(hours, minutes):
-        text = ''
+        text = ""
         text += "{0:>2d} ".format(hours)
         text += _("hour ") if hours == 1 else _("hours")
         text += " {0:>2d} ".format(minutes)
@@ -178,9 +182,12 @@ def format_delta(delta, style='%M', **kwargs):
 
     def format_pedantic(seconds):
         (
-            tm_fmttd, tm_scale, tm_units,
-        ) = PedanticTimedelta(seconds=seconds).time_format_scaled(**kwargs)
+            tm_fmttd,
+            tm_scale,
+            tm_units,
+        ) = PedanticTimedelta(
+            seconds=seconds
+        ).time_format_scaled(**kwargs)
         return tm_fmttd
 
     return _format_delta()
-

@@ -28,13 +28,13 @@ from nark.helpers.fact_time import (
     day_end_datetime,
     must_be_datetime_or_relative,
     must_not_start_after_end,
-    parse_clock_time
+    parse_clock_time,
 )
 
 
 @pytest.fixture
 def clock_time():
-    clock_time = '22:59'
+    clock_time = "22:59"
     return parse_clock_time(clock_time)
 
 
@@ -82,14 +82,14 @@ class TestFactTime(object):
         assert new_dt == datetime.datetime(2015, 12, 10, 12, 30, 33)
 
     def test_must_be_datetime_or_relative_not_relative_raises(self):
-        dt = 'foo'
+        dt = "foo"
         with pytest.raises(TypeError) as excinfo:
             must_be_datetime_or_relative(dt)
-        errmsg = 'Expected time entry to indicate relative time, not:'
+        errmsg = "Expected time entry to indicate relative time, not:"
         assert str(excinfo.value).startswith(errmsg)
 
     def test_must_be_datetime_or_relative_not_relative_valid(self):
-        dt = '-5h13m'
+        dt = "-5h13m"
         new_dt = must_be_datetime_or_relative(dt)
         assert new_dt == dt
 
@@ -97,32 +97,35 @@ class TestFactTime(object):
         dt = object()
         with pytest.raises(TypeError) as excinfo:
             must_be_datetime_or_relative(dt)
-        errmsg = 'Time entry not `datetime`, relative string, or `None`, but:'
+        errmsg = "Time entry not `datetime`, relative string, or `None`, but:"
         assert str(excinfo.value).startswith(errmsg)
 
     def test_must_not_start_after_end_start_after_end_raises(
-        self, dt_relative_early, dt_relative_later,
+        self,
+        dt_relative_early,
+        dt_relative_later,
     ):
         range_tuple = (dt_relative_later, dt_relative_early)
         with pytest.raises(ValueError) as excinfo:
             must_not_start_after_end(range_tuple)
-        errmsg = 'Start after end!'
+        errmsg = "Start after end!"
         assert str(excinfo.value) == errmsg
 
     def test_must_not_start_after_end_end_after_start_valid(
-        self, dt_relative_early, dt_relative_later,
+        self,
+        dt_relative_early,
+        dt_relative_later,
     ):
         range_tuple = (dt_relative_early, dt_relative_later)
         new_rt = must_not_start_after_end(range_tuple)
         assert new_rt == range_tuple
 
     def test_parse_clock_time_valid(self, clock_time):
-        clock_time = '22:59'
+        clock_time = "22:59"
         parsed_ct = parse_clock_time(clock_time)
         assert parsed_ct == (22, 59, 0)
 
     def test_parse_clock_time_invalid(self):
-        not_clock_time = '24:99'
+        not_clock_time = "24:99"
         parsed_ct = parse_clock_time(not_clock_time)
         assert parsed_ct is None
-

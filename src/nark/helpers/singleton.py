@@ -17,9 +17,7 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-__all__ = (
-    'Singleton',
-)
+__all__ = ("Singleton",)
 
 
 class Singleton(type):
@@ -38,4 +36,3 @@ class Singleton(type):
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
-

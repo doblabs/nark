@@ -22,10 +22,10 @@
 from sqlalchemy import asc, desc
 
 __all__ = (
-    'query_apply_limit_offset',
-    'query_apply_true_or_not',
-    'query_prepare_datetime',
-    'query_sort_order_at_index',
+    "query_apply_limit_offset",
+    "query_apply_true_or_not",
+    "query_prepare_datetime",
+    "query_sort_order_at_index",
 )
 
 
@@ -61,7 +61,7 @@ def query_apply_true_or_not(query, column, condition):
 
 def query_sort_order_at_index(sort_orders, idx):
     try:
-        direction = desc if sort_orders and sort_orders[idx] == 'desc' else asc
+        direction = desc if sort_orders and sort_orders[idx] == "desc" else asc
     except IndexError:
         direction = asc
     return direction
@@ -76,7 +76,6 @@ def query_prepare_datetime(datetm):
     #   gets translated without, e.g., "2018-06-29 16:32". And we
     #   all know that "2018-06-29 16:32:00" > "2018-06-29 16:32".
     # See also: func.datetime(AlchemyFact.start/end).
-    cmp_fmt = '%Y-%m-%d %H:%M:%S'
+    cmp_fmt = "%Y-%m-%d %H:%M:%S"
     text = datetm.strftime(cmp_fmt)
     return text
-
