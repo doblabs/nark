@@ -20,47 +20,53 @@
 """This module provides nark raw fact parsing-related functions."""
 
 __all__ = (
-    'ParserException',
-    'ParserMissingDatetimeException',
-    'ParserMissingDatetimeOneException',
-    'ParserMissingDatetimeTwoException',
-    'ParserInvalidDatetimeException',
-    'ParserMissingSeparatorActivity',
-    'ParserMissingActivityException',
+    "ParserException",
+    "ParserMissingDatetimeException",
+    "ParserMissingDatetimeOneException",
+    "ParserMissingDatetimeTwoException",
+    "ParserInvalidDatetimeException",
+    "ParserMissingSeparatorActivity",
+    "ParserMissingActivityException",
 )
 
 
 class ParserException(Exception):
     """Raised if parser cannot decipher nark factoid string."""
+
     pass
 
 
 class ParserMissingDatetimeException(ParserException):  # noqa: E302
     """Raised if the raw_fact is missing one or both datetime tokens."""
+
     pass
 
 
 class ParserMissingDatetimeOneException(ParserMissingDatetimeException):  # noqa: E302
     """Raised if the raw_fact is missing its start datetime token(s)."""
+
     pass
 
 
 class ParserMissingDatetimeTwoException(ParserMissingDatetimeException):  # noqa: E302
     """Raised if the raw_fact is missing its end datetime token(s)."""
+
     pass
 
 
 class ParserInvalidDatetimeException(ParserException):  # noqa: E302
     """Raised if a time from raw_fact in not parseworthy."""
+
     pass
 
 
 class ParserMissingSeparatorActivity(ParserException):  # noqa: E302
     """Raised if activity@category separator not found."""
+
     pass
 
 
 class ParserMissingActivityException(ParserException):  # noqa: E302
     """Raised if factoid is missing: act@cat, cat@, @cat, or just @."""
-    pass
 
+    pass

@@ -25,9 +25,7 @@ import csv
 
 from . import ReportWriter
 
-__all__ = (
-    'PlaintextWriter',
-)
+__all__ = ("PlaintextWriter",)
 
 
 class PlaintextWriter(ReportWriter):
@@ -35,7 +33,7 @@ class PlaintextWriter(ReportWriter):
         self,
         output_b=False,
         # dialect and **fmtparams passed to csv.writer().
-        dialect='excel',
+        dialect="excel",
         **fmtparams
     ):
         """
@@ -58,13 +56,17 @@ class PlaintextWriter(ReportWriter):
         #   >>> csv.list_dialects()
         #   ['excel', 'excel-tab', 'unix']
         self.csv_writer = csv.writer(
-            self.output_file, dialect=self.dialect, **self.fmtparams,
+            self.output_file,
+            dialect=self.dialect,
+            **self.fmtparams,
         )
 
-    def open_file(self, path, output_b=False, newline=''):
+    def open_file(self, path, output_b=False, newline=""):
         # Per docs: "If csvfile is a file object, it should be opened with newline=''".
         return super(PlaintextWriter, self).open_file(
-            path=path, output_b=output_b, newline=newline,
+            path=path,
+            output_b=output_b,
+            newline=newline,
         )
 
     # ***
@@ -135,5 +137,3 @@ class PlaintextWriter(ReportWriter):
         binary mode.
         """
         self.csv_writer.writerow(row)
-
-

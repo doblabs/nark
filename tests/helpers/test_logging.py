@@ -27,7 +27,7 @@ class TestSetupHandler(object):
         """Test formatter fetcher."""
         formatter = logging_helpers.formatter_basic()
         # (lb): Is this legit, or a little too _intimate?
-        expected = '[%(levelname)s] %(asctime)s %(name)s %(funcName)s: %(message)s'
+        expected = "[%(levelname)s] %(asctime)s %(name)s %(funcName)s: %(message)s"
         assert formatter._fmt == expected
 
     def test_setup_handler_stream_handler(self, mocker):
@@ -37,4 +37,3 @@ class TestSetupHandler(object):
         logger = mocker.MagicMock()
         logging_helpers.setup_handler(stream_handler, formatter, logger)
         logger.addHandler.assert_called_with(stream_handler)
-

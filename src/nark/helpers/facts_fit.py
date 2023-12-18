@@ -22,8 +22,8 @@
 from datetime import datetime
 
 __all__ = (
-    'antecedent_fact',
-    'subsequent_fact',
+    "antecedent_fact",
+    "subsequent_fact",
 )
 
 
@@ -32,9 +32,8 @@ def antecedent_fact(facts_mgr, new_facts, now_time):
         # 2019-01-19: This isn't quite right. We could use earliest
         # clock time if we find first datetime, then look again for
         # clock time....
-        if (
-            (fact.start and isinstance(fact.start, datetime))
-            or (fact.end and isinstance(fact.end, datetime))
+        if (fact.start and isinstance(fact.start, datetime)) or (
+            fact.end and isinstance(fact.end, datetime)
         ):
             return facts_mgr.antecedent(fact=fact)
     return facts_mgr.antecedent(ref_time=now_time)
@@ -42,10 +41,8 @@ def antecedent_fact(facts_mgr, new_facts, now_time):
 
 def subsequent_fact(facts_mgr, new_facts):
     for fact in reversed(new_facts):
-        if (
-            (fact.end and isinstance(fact.end, datetime))
-            or (fact.start and isinstance(fact.start, datetime))
+        if (fact.end and isinstance(fact.end, datetime)) or (
+            fact.start and isinstance(fact.start, datetime)
         ):
             return facts_mgr.subsequent(fact=fact)
     return None
-

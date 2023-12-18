@@ -23,7 +23,7 @@ import pytest
 class TestActivityManager:
     def test_save_new(self, basestore, activity, mocker):
         """Make sure that saving an new activity calls ``_add``."""
-        mocker.patch.object(basestore.activities, '_add', return_value=activity)
+        mocker.patch.object(basestore.activities, "_add", return_value=activity)
         try:
             basestore.activities.save(activity)
         except NotImplementedError:
@@ -33,7 +33,7 @@ class TestActivityManager:
     def test_save_existing(self, basestore, activity, mocker):
         """Make sure that saving an existing activity calls ``_update``."""
         activity.pk = 0
-        mocker.patch.object(basestore.activities, '_update', return_value=activity)
+        mocker.patch.object(basestore.activities, "_update", return_value=activity)
         try:
             basestore.activities.save(activity)
         except NotImplementedError:
@@ -42,18 +42,22 @@ class TestActivityManager:
 
     def test_get_or_create_existing(self, basestore, activity, mocker):
         mocker.patch.object(
-            basestore.activities, 'get_by_composite', return_value=activity,
+            basestore.activities,
+            "get_by_composite",
+            return_value=activity,
         )
-        mocker.patch.object(basestore.activities, 'save', return_value=activity)
+        mocker.patch.object(basestore.activities, "save", return_value=activity)
         result = basestore.activities.get_or_create(activity)
         assert result.name == activity.name
         assert basestore.activities.save.called is False
 
     def test_get_or_create_new(self, basestore, activity, mocker):
         mocker.patch.object(
-            basestore.activities, 'get_by_composite', side_effect=KeyError(),
+            basestore.activities,
+            "get_by_composite",
+            side_effect=KeyError(),
         )
-        mocker.patch.object(basestore.activities, 'save', return_value=activity)
+        mocker.patch.object(basestore.activities, "save", return_value=activity)
         result = basestore.activities.get_or_create(activity)
         assert result.name == activity.name
         assert basestore.activities.save.called is True
@@ -89,4 +93,3 @@ class TestActivityManager:
     def test_gather_not_implemented(self, basestore):
         with pytest.raises(NotImplementedError):
             basestore.activities.gather(query_terms=None)
-

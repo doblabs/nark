@@ -27,16 +27,16 @@ from nark.backends.sqlalchemy import objects
 
 # Profiling: Loading `migrate` takes ~ 0.090 seconds.
 migrate_exceptions = lazy_import.lazy_module(
-    'sqlalchemy_migrate_hotoffthehamster.exceptions'
+    "sqlalchemy_migrate_hotoffthehamster.exceptions"
 )
 migrate_versioning_cfgparse = lazy_import.lazy_module(
-    'sqlalchemy_migrate_hotoffthehamster.versioning.cfgparse'
+    "sqlalchemy_migrate_hotoffthehamster.versioning.cfgparse"
 )
 migrate_versioning_api = lazy_import.lazy_module(
-    'sqlalchemy_migrate_hotoffthehamster.versioning.api'
+    "sqlalchemy_migrate_hotoffthehamster.versioning.api"
 )
 
-__all__ = ('MigrationsManager', )
+__all__ = ("MigrationsManager",)
 
 
 class MigrationsManager(BaseMigrationsManager):
@@ -84,7 +84,10 @@ class MigrationsManager(BaseMigrationsManager):
             url = self.engine_or_url
             try:
                 migrate_versioning_api.version_control(
-                    url, self.basepath, version=version, config=self.config,
+                    url,
+                    self.basepath,
+                    version=version,
+                    config=self.config,
                 )
                 return True
             except migrate_exceptions.DatabaseAlreadyControlledError:
@@ -100,7 +103,8 @@ class MigrationsManager(BaseMigrationsManager):
         if current_ver is None:
             return None
         latest_ver = migrate_versioning_api.version(
-            self.basepath, config=self.config,
+            self.basepath,
+            config=self.config,
         )
         if not latest_ver:
             return None
@@ -109,7 +113,10 @@ class MigrationsManager(BaseMigrationsManager):
             next_version = current_ver - 1
             url = self.engine_or_url
             migrate_versioning_api.downgrade(
-                url, self.basepath, version=next_version, config=self.config,
+                url,
+                self.basepath,
+                version=next_version,
+                config=self.config,
             )
             return True
         else:
@@ -121,7 +128,8 @@ class MigrationsManager(BaseMigrationsManager):
         if current_ver is None:
             return None
         latest_ver = migrate_versioning_api.version(
-            self.basepath, config=self.config,
+            self.basepath,
+            config=self.config,
         )
         if not latest_ver:
             return None
@@ -130,7 +138,10 @@ class MigrationsManager(BaseMigrationsManager):
             next_version = current_ver + 1
             url = self.engine_or_url
             migrate_versioning_api.upgrade(
-                url, self.basepath, version=next_version, config=self.config,
+                url,
+                self.basepath,
+                version=next_version,
+                config=self.config,
             )
             return True
         else:
@@ -141,7 +152,9 @@ class MigrationsManager(BaseMigrationsManager):
         url = self.engine_or_url
         try:
             return migrate_versioning_api.db_version(
-                url, self.basepath, config=self.config,
+                url,
+                self.basepath,
+                config=self.config,
             )
         except migrate_exceptions.DatabaseNotControlledError:
             return None
@@ -150,7 +163,8 @@ class MigrationsManager(BaseMigrationsManager):
         """Returns the latest version defined by the application."""
         try:
             repo_latest = migrate_versioning_api.version(
-                self.basepath, config=self.config,
+                self.basepath,
+                config=self.config,
             )
             return int(repo_latest.value)
         except migrate_exceptions.DatabaseNotControlledError:
@@ -162,11 +176,11 @@ class MigrationsManager(BaseMigrationsManager):
         """Return sqlalchemy-migrate migrate.cfg a hot-n-ready config object."""
         # See nark/migrations/migrate.cfg.example for descriptions.
         config = migrate_versioning_cfgparse.Parser()
-        config['db_settings'] = {}
-        config['db_settings']['repository_id'] = 'nark-migrations'
-        config['db_settings']['version_table'] = 'migrate_version'
-        config['db_settings']['required_dbs'] = '[]'
-        config['db_settings']['use_timestamp_numbering'] = 'False'
+        config["db_settings"] = {}
+        config["db_settings"]["repository_id"] = "nark-migrations"
+        config["db_settings"]["version_table"] = "migrate_version"
+        config["db_settings"]["required_dbs"] = "[]"
+        config["db_settings"]["use_timestamp_numbering"] = "False"
         return config
 
     def migrations_path(self):
@@ -178,7 +192,7 @@ class MigrationsManager(BaseMigrationsManager):
                 #    path = os.path.join(os.path.dirname(nark.__file__), 'migrations')
                 # except that nark is not a package, it's this package!
                 os.path.dirname(__file__),
-                '../../../migrations',
+                "../../../migrations",
             )
         )
         return path
@@ -197,4 +211,3 @@ class MigrationsManager(BaseMigrationsManager):
         #    Cols renamed: facts.start_time/end_time → facts.start/end
         #  Please open a ticket if you really want this feature!
         raise NotImplementedError
-

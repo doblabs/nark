@@ -35,7 +35,7 @@ from ..helpers.parse_time import parse_dated
 
 from .query_terms import QueryTerms
 
-__all__ = ('BaseManager', )
+__all__ = ("BaseManager",)
 
 
 class BaseManager(object):
@@ -58,7 +58,8 @@ class BaseManager(object):
         message = _(
             "The {} item ({!r}) cannot be added because it already has a PK."
             " Perhaps call the ``_update`` method instead".format(
-                self.__class__.__name__, hamster_item,
+                self.__class__.__name__,
+                hamster_item,
             )
         )
         self.store.logger.error(message)
@@ -137,7 +138,7 @@ class BaseManager(object):
             return self.gather(qt, **kwargs)
 
         def _must_parse_since_until(since, until):
-            self.store.logger.debug('since: {} / until: {}'.format(since, until))
+            self.store.logger.debug("since: {} / until: {}".format(since, until))
 
             # Convert the since and until time strings to datetimes.
             since = parse_dated(since, self.store.now) if since else None
@@ -164,17 +165,16 @@ class BaseManager(object):
                 # The user specified a date, but not a time. Assume midnight.
                 # MAYBE: Use config['day_start'] and subtract a day minus a minute?
                 self.store.logger.debug(
-                    _('Using midnight as clock time for `since` date.')
+                    _("Using midnight as clock time for `since` date.")
                 )
-                day_start = self.config['time.day_start']
+                day_start = self.config["time.day_start"]
                 since_dt = datetime.datetime.combine(since, day_start)
             elif isinstance(since, datetime.time):
                 since_dt = datetime.datetime.combine(datetime.date.today(), since)
             else:
                 message = _(
-                    'Unable to convert the since input to a datetime.'
-                    ' Neither date, nor time, nor datetime: ‘{}’'
-                    .format(str(since))
+                    "Unable to convert the since input to a datetime."
+                    " Neither date, nor time, nor datetime: ‘{}’".format(str(since))
                 )
                 self.store.logger.debug(message)
                 raise TypeError(message)
@@ -197,9 +197,8 @@ class BaseManager(object):
                 until_dt = datetime.datetime.combine(datetime.date.today(), until)
             else:
                 message = _(
-                    'Unable to convert the until input to a datetime.'
-                    ' Neither date, nor time, nor datetime: ‘{}’'
-                    .format(str(until))
+                    "Unable to convert the until input to a datetime."
+                    " Neither date, nor time, nor datetime: ‘{}’".format(str(until))
                 )
                 raise TypeError(message)
             return until_dt
@@ -207,4 +206,3 @@ class BaseManager(object):
         return _get_all()
 
     # ***
-

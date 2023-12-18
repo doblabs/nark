@@ -20,22 +20,23 @@ from nark.helpers.format_text import format_value_truncate
 
 class TestFormatText(object):
     def test_format_value_truncate_one_word(self):
-        truncated = format_value_truncate('abcdefghijkl', trunc_width=6)
-        assert truncated == '...'
+        truncated = format_value_truncate("abcdefghijkl", trunc_width=6)
+        assert truncated == "..."
 
     def test_format_value_truncate_two_words(self):
-        truncated = format_value_truncate('abc defghijkl', trunc_width=9)
-        assert truncated == 'abc...'
+        truncated = format_value_truncate("abc defghijkl", trunc_width=9)
+        assert truncated == "abc..."
 
     def test_format_value_truncate_abc_de_6_plain(self):
         truncated = format_value_truncate(
-            'abc de fghijkl', trunc_width=9,
+            "abc de fghijkl",
+            trunc_width=9,
         )
-        assert truncated == 'abc de...'
+        assert truncated == "abc de..."
 
     def test_format_value_truncate_abc_de_6_italic_reset(self):
         truncated = format_value_truncate(
-            '\x1b[3mabc de fghijkl\x1b[0m', trunc_width=9,
+            "\x1b[3mabc de fghijkl\x1b[0m",
+            trunc_width=9,
         )
-        assert truncated == '\x1b[3mabc de...\x1b[0m'
-
+        assert truncated == "\x1b[3mabc de...\x1b[0m"

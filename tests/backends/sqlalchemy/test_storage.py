@@ -29,6 +29,7 @@ from nark.config import decorate_config
 # setup those are not really needed.
 class TestStore(object):
     """Tests to make sure our store/test setup behaves as expected."""
+
     def test_build_is_not_persistent(self, alchemy_store, alchemy_category_factory):
         """
         Make sure that calling ``factory.build()`` does not create a
@@ -72,7 +73,9 @@ class TestStore(object):
         assert alchemy_store.db_url == expectation
 
     def test_get_db_url_missing_keys(
-        self, alchemy_config_missing_store_config_parametrized, alchemy_store,
+        self,
+        alchemy_config_missing_store_config_parametrized,
+        alchemy_store,
     ):
         """
         Make sure that db_url composition throws error if key/values are
@@ -88,6 +91,5 @@ class TestStore(object):
 
     def test_init_with_unicode_path(self, alchemy_config, db_path_parametrized):
         """Test that Instantiating a store with a unicode path works."""
-        alchemy_config['db.path'] = db_path_parametrized
+        alchemy_config["db.path"] = db_path_parametrized
         assert SQLAlchemyStore(alchemy_config)
-
