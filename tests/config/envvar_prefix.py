@@ -19,5 +19,4 @@ from config_decorator import KeyChainedValue
 
 from nark import __package_name__
 
-KeyChainedValue._envvar_prefix = '{}_'.format(__package_name__.upper())
-
+KeyChainedValue._envvar_prefix = "{}_".format(__package_name__.upper())

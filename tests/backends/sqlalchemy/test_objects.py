@@ -20,6 +20,7 @@
 
 class TestAlchemyCategory(object):
     """Make sure our custom methods behave properly."""
+
     def test_as_hamster(self, alchemy_store, alchemy_category):
         """Make sure that conversion into a ``nark.Category```works as expected."""
         category = alchemy_category.as_hamster(alchemy_store)
@@ -28,6 +29,7 @@ class TestAlchemyCategory(object):
 
 class TestAlchemyActivity(object):
     """Make sure our custom methods behave properly."""
+
     def test_as_hamster(self, alchemy_store, alchemy_activity):
         """Make sure that conversion into a ``nark.Activity```works as expected."""
         activity = alchemy_activity.as_hamster(alchemy_store)
@@ -43,6 +45,7 @@ class TestAlchemyActivity(object):
 
 class TestAlchemyTag(object):
     """Make sure our custom methods behave properly."""
+
     def test_as_hamster(self, alchemy_store, alchemy_tag):
         """Make sure that conversion into a ``nark.Tag``works as expected."""
         tag = alchemy_tag.as_hamster(alchemy_store)
@@ -79,4 +82,3 @@ class TestAlchemyFact(object):
         """Make sure that conversion into a ``nark.Fact```works as expected."""
         fact = alchemy_fact.as_hamster(alchemy_store)
         assert fact.equal_fields(alchemy_fact)
-

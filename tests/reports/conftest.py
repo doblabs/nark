@@ -35,7 +35,7 @@ from nark.tests.item_factories import *  # noqa: F401, F403
 
 @pytest.fixture
 def path(tmpdir):
-    path = tmpdir.mkdir('reports').join('export.fmt').strpath
+    path = tmpdir.mkdir("reports").join("export.fmt").strpath
     return path
 
 
@@ -90,6 +90,7 @@ def xml_writer(path):
 
 # ***
 
+
 @pytest.fixture
 def list_of_facts(fact_factory):
     """
@@ -97,6 +98,7 @@ def list_of_facts(fact_factory):
 
     The key point here is that these fact *do not overlap*!
     """
+
     def get_list_of_facts(number_of_facts):
         facts = []
         # MAYBE: Use controller.store.now ?
@@ -107,6 +109,7 @@ def list_of_facts(fact_factory):
             facts.append(fact_factory(start=start))
             old_start = start
         return facts
+
     return get_list_of_facts
 
 
@@ -133,4 +136,3 @@ def table(faker):
     for iters in range(FAKER_TABLE_LEN):
         table.append(faker.words(nb=FAKER_WORDS_NB))
     return table
-

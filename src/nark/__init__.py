@@ -24,10 +24,10 @@ import time
 from easy_as_pypi_getver import get_version as _get_version
 
 __all__ = (
-    'get_version',
-    '__package_name__',
-    '__time_0__',
-    '__PROFILING__',
+    "get_version",
+    "__package_name__",
+    "__time_0__",
+    "__PROFILING__",
     # Private:
     #  '_version_from_tags',
 )
@@ -41,7 +41,7 @@ __time_0__ = time.time()
 # but not sure if way to get programmatically. This is closest
 # solution that avoids hardcoding the library name in strings
 # (which is something linter or runtime won't catch if wrong).
-__package_name__ = 'nark'
+__package_name__ = "nark"
 
 # This version is substituted on poetry-build by poetry-dynamic-versioning.
 # - Consequently, __version__ remains empty when installed in 'editable' mode.
@@ -54,4 +54,3 @@ def get_version(include_head=False):
         reference_file=__file__,
         include_head=include_head,
     )
-

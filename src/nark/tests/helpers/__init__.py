@@ -16,4 +16,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Tests infrasture for nark.helpers package."""
-

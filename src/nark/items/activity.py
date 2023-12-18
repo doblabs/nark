@@ -25,7 +25,8 @@ from .category import Category
 from .item_base import BaseItem
 
 ActivityTuple = namedtuple(
-    'ActivityTuple', ('pk', 'name', 'category', 'deleted', 'hidden'),
+    "ActivityTuple",
+    ("pk", "name", "category", "deleted", "hidden"),
 )
 
 
@@ -66,7 +67,7 @@ class Activity(BaseItem):
     def name(self, name):
         # NOTE: (lb): Unlike Category.name=, not requiring ``not name``.
         if name is None:
-            raise ValueError(_('Activity name must not be None.'))
+            raise ValueError(_("Activity name must not be None."))
         self._name = str(name)
 
     @classmethod
@@ -147,10 +148,10 @@ class Activity(BaseItem):
 
     def __str__(self):
         if self.category is None:
-            full_name = '{name}'.format(name=self.name)
+            full_name = "{name}".format(name=self.name)
         else:
-            full_name = '{name} ({category})'.format(
-                name=self.name, category=self.category.name,
+            full_name = "{name} ({category})".format(
+                name=self.name,
+                category=self.category.name,
             )
         return full_name
-

@@ -24,5 +24,4 @@ class TestCSVWriter(object):
     def test_csv_writer_init(self, csv_writer, path):
         """Make sure that initialition provides us with a ``csv.writer`` instance."""
         assert csv_writer.csv_writer
-        assert csv_writer.csv_writer.dialect == csv.get_dialect('excel')
-
+        assert csv_writer.csv_writer.dialect == csv.get_dialect("excel")

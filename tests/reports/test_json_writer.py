@@ -27,7 +27,7 @@ class TestJSONWriter(object):
         facts = list_of_facts(number_of_facts)
         output_path = json_writer.output_file.name
         json_writer.write_facts(facts)
-        with open(output_path, 'r') as fobj:
+        with open(output_path, "r") as fobj:
             result = json.load(fobj)
             for idx, fact in enumerate(facts):
                 assert result[idx] == json_writer.fact_as_dict(fact)
@@ -36,9 +36,8 @@ class TestJSONWriter(object):
         """Make sure the calendar is actually written do disk before file is closed."""
         output_path = json_writer.output_file.name
         json_writer.write_report(table, headers)
-        with open(output_path, 'r') as fobj:
+        with open(output_path, "r") as fobj:
             result = json.load(fobj)
             for idx, row in enumerate(table):
                 kvals = {key: value for key, value in zip(headers, row)}
                 assert result[idx] == kvals
-

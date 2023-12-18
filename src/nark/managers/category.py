@@ -202,4 +202,3 @@ class BaseCategoryManager(BaseManager):
         Return a list of ``Categories`` matching given criteria.
         """
         raise NotImplementedError
-

@@ -39,24 +39,24 @@ class TestXMLWriter(object):
         #   xml_writer.write_facts([fact])
         # But then the elem.setAttribute() methods do not work.
         # So call _write_fact directly, and test write_facts elsewhere.
-        xml_writer.start_document('facts')
-        mocker.patch.object(xml_writer.fact_list, 'appendChild')
+        xml_writer.start_document("facts")
+        mocker.patch.object(xml_writer.fact_list, "appendChild")
         xml_writer._write_fact(idx=0, fact=fact)
         # Grab the document element created and passed to appendChild.
         result = xml_writer.fact_list.appendChild.call_args[0][0]
         fact_start = fact.start_fmt(xml_writer.datetime_format)
         fact_end = fact.end_fmt(xml_writer.datetime_format)
         fact_duration = fact.format_delta(style=xml_writer.duration_fmt)
-        assert result.getAttribute('start') == fact_start
-        assert result.getAttribute('end') == fact_end
-        assert result.getAttribute('duration') == fact_duration
-        assert result.getAttribute('activity') == fact.activity_name
-        assert result.getAttribute('category') == fact.category_name
-        assert result.getAttribute('description') == fact.description_or_empty
+        assert result.getAttribute("start") == fact_start
+        assert result.getAttribute("end") == fact_end
+        assert result.getAttribute("duration") == fact_duration
+        assert result.getAttribute("activity") == fact.activity_name
+        assert result.getAttribute("category") == fact.category_name
+        assert result.getAttribute("description") == fact.description_or_empty
 
     def test_xml_writer_write_report(self, xml_writer, mocker, headers, row):
-        xml_writer.start_document('results')
-        mocker.patch.object(xml_writer.fact_list, 'appendChild')
+        xml_writer.start_document("results")
+        mocker.patch.object(xml_writer.fact_list, "appendChild")
         xml_writer._write_result(row, headers)
         result = xml_writer.fact_list.appendChild.call_args[0][0]
         for idx, col in enumerate(headers):
@@ -65,7 +65,7 @@ class TestXMLWriter(object):
     def test_xml_writer_write_facts__close(self, xml_writer, fact, path):
         """Make sure the calendar is actually written do disk before file is closed."""
         xml_writer.write_facts([fact])
-        with open(path, 'r') as fobj:
+        with open(path, "r") as fobj:
             result = xml.dom.minidom.parse(fobj)
             assert result.toxml()
 
@@ -73,7 +73,6 @@ class TestXMLWriter(object):
         """Make sure the calendar is actually written do disk before file is closed."""
         output_path = xml_writer.output_file.name
         xml_writer.write_report(table, headers)
-        with open(output_path, 'r') as fobj:
+        with open(output_path, "r") as fobj:
             result = xml.dom.minidom.parse(fobj)
             assert result.toxml()
-

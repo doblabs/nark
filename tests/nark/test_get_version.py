@@ -19,15 +19,14 @@ import re
 
 from nark import get_version
 
-class TestNarkGetVer:
 
+class TestNarkGetVer:
     def test_get_version_argless(self):
         # E.g., '3.2.4.dev5+gd15b68dc.d20201209'
         pkg_version = get_version()
-        assert re.match(r'^[0-9]+\.[0-9]+', pkg_version)
+        assert re.match(r"^[0-9]+\.[0-9]+", pkg_version)
 
     def test_get_version_include_head_normal(self):
         # E.g., '3.2.4.dev5+gd15b68dc.d20201209 (3.2.4.dev16+g2bd6b40e)'
         pkg_version = get_version(include_head=True)
-        assert re.match(r'^[0-9]+\.[0-9]+.* (.*)$', pkg_version)
-
+        assert re.match(r"^[0-9]+\.[0-9]+.* (.*)$", pkg_version)
