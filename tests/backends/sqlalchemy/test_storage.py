@@ -23,6 +23,9 @@ from nark.backends.sqlalchemy.objects import AlchemyCategory
 from nark.backends.sqlalchemy.storage import SQLAlchemyStore
 from nark.config import decorate_config
 
+# isort: off / Otherwise isort removes one of the following blank lines,
+# but it doesn't if you remove the comment atop the following class.
+
 
 # The reason we see a great deal of count == 0 statements is to make sure that
 # db rollback works as expected. Once we are confident in our sqlalchemy/pytest
