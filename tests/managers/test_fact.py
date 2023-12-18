@@ -24,7 +24,6 @@ from freezegun import freeze_time
 
 from nark.managers.query_terms import QueryTerms
 
-
 # ***
 
 
