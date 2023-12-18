@@ -21,6 +21,5 @@
 from sqlalchemy_migrate_hotoffthehamster.versioning.shell import main
 
 
-if __name__ == '__main__':
-    main(debug='False')
-
+if __name__ == "__main__":
+    main(debug="False")

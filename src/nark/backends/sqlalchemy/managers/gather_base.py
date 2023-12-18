@@ -28,9 +28,7 @@ from . import (
     query_sort_order_at_index,
 )
 
-__all__ = (
-    'GatherBaseAlchemyManager',
-)
+__all__ = ("GatherBaseAlchemyManager",)
 
 
 class GatherBaseAlchemyManager(object):
@@ -75,9 +73,8 @@ class GatherBaseAlchemyManager(object):
 
         # Compute the aggregate values if the user wants them returned with
         # the results, or if the user wants to sort the results accordingly.
-        compute_usage = (
-            qt.include_stats
-            or qt.sort_cols_has_any('start', 'usage', 'time')
+        compute_usage = qt.include_stats or qt.sort_cols_has_any(
+            "start", "usage", "time"
         )
         # If user is requesting filtering or sorting according to time, join Fact.
         requires_fact_table = self._gather_query_requires_fact(qt, compute_usage)
@@ -88,7 +85,11 @@ class GatherBaseAlchemyManager(object):
             query, agg_cols = _gather_query_start()
 
             query = self.query_filter_by_fact_times(
-                query, qt.since, qt.until, qt.endless, qt.partial,
+                query,
+                qt.since,
+                qt.until,
+                qt.endless,
+                qt.partial,
             )
 
             query = self.query_filter_by_activities(query, qt)
@@ -138,7 +139,7 @@ class GatherBaseAlchemyManager(object):
             if not requires_fact_table:
                 query = self._gather_query_start_timeless(qt, alchemy_cls)
             else:
-                if qt.include_stats or qt.sort_cols_has_any('usage'):
+                if qt.include_stats or qt.sort_cols_has_any("usage"):
                     # (lb): I tried the COUNT() on the pk, e.g.,
                     #   count_col = func.count(alchemy_cls.pk).label('uses')
                     # but then if alchemy_cls is NULL (e.g., if Fact has an
@@ -147,13 +148,13 @@ class GatherBaseAlchemyManager(object):
                     # then NULL rows will be counted (e.g., try `dob usage cat`).
                     # Just be sure there's a GROUP BY, otherwise the COUNT(*)
                     # will collapse all rows.
-                    count_col = func.count().label('uses')
+                    count_col = func.count().label("uses")
                     agg_cols.append(count_col)
-                if qt.include_stats or qt.sort_cols_has_any('time'):
+                if qt.include_stats or qt.sort_cols_has_any("time"):
                     time_col = func.sum(
                         func.julianday(AlchemyFact.end)
                         - func.julianday(AlchemyFact.start)
-                    ).label('span')
+                    ).label("span")
                     agg_cols.append(time_col)
                 query = self._gather_query_start_aggregate(qt, agg_cols)
 
@@ -167,7 +168,7 @@ class GatherBaseAlchemyManager(object):
 
             filters = []
             for term in qt.search_terms:
-                filters.append(alchemy_cls.name.ilike('%{}%'.format(term)))
+                filters.append(alchemy_cls.name.ilike("%{}%".format(term)))
             query = query.filter(or_(*filters))
 
             return query
@@ -223,12 +224,7 @@ class GatherBaseAlchemyManager(object):
     # ***
 
     def _gather_query_requires_fact(self, qt, compute_usage):
-        requires_fact_table = (
-            compute_usage
-            or qt.since
-            or qt.until
-            or qt.endless
-        )
+        requires_fact_table = compute_usage or qt.since or qt.until or qt.endless
         return requires_fact_table
 
     # ***
@@ -241,7 +237,12 @@ class GatherBaseAlchemyManager(object):
     # ***
 
     def query_filter_by_fact_times(
-        self, query, since=None, until=None, endless=False, partial=False,
+        self,
+        query,
+        since=None,
+        until=None,
+        endless=False,
+        partial=False,
     ):
         def _query_filter_by_fact_times(query, since, until, endless, partial):
             fmt_since = query_prepare_datetime(since) if since else None
@@ -274,16 +275,18 @@ class GatherBaseAlchemyManager(object):
                     ),
                 )
             elif since and until:
-                query = query.filter(or_(
-                    and_(
-                        func.datetime(AlchemyFact.start) >= since,
-                        func.datetime(AlchemyFact.start) <= until,
-                    ),
-                    and_(
-                        func.datetime(AlchemyFact.end) >= since,
-                        func.datetime(AlchemyFact.end) <= until,
-                    ),
-                ))
+                query = query.filter(
+                    or_(
+                        and_(
+                            func.datetime(AlchemyFact.start) >= since,
+                            func.datetime(AlchemyFact.start) <= until,
+                        ),
+                        and_(
+                            func.datetime(AlchemyFact.end) >= since,
+                            func.datetime(AlchemyFact.end) <= until,
+                        ),
+                    )
+                )
             else:
                 pass
             return query
@@ -328,12 +331,12 @@ class GatherBaseAlchemyManager(object):
                 # method, there's no production code that does that; you'd only
                 # get here from a new test. Or maybe for some reason wiring
                 # this path for some new feature.
-                criterion = (AlchemyActivity.pk == activity.pk)
+                criterion = AlchemyActivity.pk == activity.pk
             else:
                 # NOTE: Strict name matching, case and exactness.
                 #       Not, say, func.lower(name) == func.lower(...),
                 #       or using sqlalchemy ilike().
-                criterion = (AlchemyActivity.name == activity_name)
+                criterion = AlchemyActivity.name == activity_name
         else:
             # activity is None.
             # (lb): Note that there's no production path that'll bring execution here.
@@ -341,7 +344,7 @@ class GatherBaseAlchemyManager(object):
             #   But what's the use case? You can find nameless Activities with `-a ''`.
             #   And there shouldn't be any Facts where Activity is NONE, right?
             #   Only unnamed Activities, and there's only at most one of those.
-            criterion = (AlchemyFact.activity == None)  # noqa: E711
+            criterion = AlchemyFact.activity == None  # noqa: E711
         return criterion
 
     def query_filter_by_activity_name(self, activity):
@@ -373,16 +376,16 @@ class GatherBaseAlchemyManager(object):
             if category_name is None:
                 # See comment in query_filter_by_activity: this path not
                 # reachable via production code.
-                criterion = (AlchemyCategory.pk == category.pk)
+                criterion = AlchemyCategory.pk == category.pk
             else:
                 # NOTE: Strict name matching. Case and exactness count.
-                criterion = (AlchemyCategory.name == category_name)
+                criterion = AlchemyCategory.name == category_name
         else:
             # (lb): I tried to avoid delinting (the noqa) using is_, e.g.,
             #   criterion = (AlchemyActivity.category.is_(None))
             # but didn't happen:
             #   *** NotImplementedError: <function is_ at 0x7f75030f0280>
-            criterion = (AlchemyActivity.category == None)  # noqa: E711
+            criterion = AlchemyActivity.category == None  # noqa: E711
         return criterion
 
     def query_filter_by_category_name(self, category):
@@ -415,12 +418,12 @@ class GatherBaseAlchemyManager(object):
             if tag_name is None:
                 # See comment in query_filter_by_activity: this path not
                 # reachable via production code.
-                criterion = (AlchemyTag.pk == tag.pk)
+                criterion = AlchemyTag.pk == tag.pk
             else:
-                criterion = (AlchemyTag.name == tag_name)
+                criterion = AlchemyTag.name == tag_name
         else:
             # tag is None.
-            criterion = (AlchemyFact.tags == None)  # noqa: E711
+            criterion = AlchemyFact.tags == None  # noqa: E711
         return criterion
 
     def query_filter_by_tag_name(self, tag):
@@ -438,7 +441,12 @@ class GatherBaseAlchemyManager(object):
         for idx, sort_col in enumerate(query_terms.sort_cols or []):
             direction = query_sort_order_at_index(query_terms.sort_orders, idx)
             query = self.query_order_by_sort_col(
-                query, query_terms, sort_col, direction, has_facts, *agg_cols,
+                query,
+                query_terms,
+                sort_col,
+                direction,
+                has_facts,
+                *agg_cols,
             )
         return query
 
@@ -484,30 +492,27 @@ class GatherBaseAlchemyManager(object):
         # when required for the sort.
         order_cols = []
         check_agg = False
-        if sort_col == 'start':
+        if sort_col == "start":
             assert has_facts
             order_cols = self.cols_order_by_start(query)
-        elif sort_col == 'usage':
+        elif sort_col == "usage":
             order_cols = [count_col]
             check_agg = True
-        elif sort_col == 'time':
+        elif sort_col == "time":
             order_cols = [time_col]
             check_agg = True
-        elif (
-            sort_col == 'activity'
-            or (name_col == 'activity' and (sort_col == 'name' or not sort_col))
+        elif sort_col == "activity" or (
+            name_col == "activity" and (sort_col == "name" or not sort_col)
         ):
             order_cols = [AlchemyActivity.name]
-        elif (
-            sort_col == 'category'
-            or (name_col == 'category' and (sort_col == 'name' or not sort_col))
+        elif sort_col == "category" or (
+            name_col == "category" and (sort_col == "name" or not sort_col)
         ):
             order_cols = [AlchemyCategory.name]
-        elif (
-            sort_col == 'tag'
-            or (name_col == 'tag' and (sort_col == 'name' or not sort_col))
+        elif sort_col == "tag" or (
+            name_col == "tag" and (sort_col == "name" or not sort_col)
         ):
-            if self._gather_query_order_by_name_col == 'tag':
+            if self._gather_query_order_by_name_col == "tag":
                 order_cols = [AlchemyTag.name]
             else:
                 # Print a warning if called on Activity.get_all or Category.get_all,
@@ -542,14 +547,14 @@ class GatherBaseAlchemyManager(object):
     # ***
 
     def query_prepared_trace(self, query):
-        if self.store.config['dev.catch_errors']:
+        if self.store.config["dev.catch_errors"]:
             # 2020-05-21: I don't generally like more noise in my tmux dev environment
             # logger pane, but I do like seeing the query, especially with all the
             # recent gather() development (improved grouping, sorting, and aggregates).
             logf = self.store.logger.warning
         else:
             logf = self.store.logger.debug
-        logf('Query: {}'.format(str(query)))
+        logf("Query: {}".format(str(query)))
 
     # ***
 
@@ -591,5 +596,5 @@ class GatherBaseAlchemyManager(object):
 
     # ***
 
-# ***
 
+# ***

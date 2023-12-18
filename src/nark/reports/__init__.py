@@ -21,4 +21,3 @@
 
 # For convenience.
 from .report_writer import ReportWriter  # noqa: F401
-

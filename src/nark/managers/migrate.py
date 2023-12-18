@@ -56,4 +56,3 @@ class BaseMigrationsManager(BaseManager):
     def legacy_upgrade_from_hamster_lib(self):
         """Upgrade legacy SQLite database created by hamster-lib."""
         raise NotImplementedError
-

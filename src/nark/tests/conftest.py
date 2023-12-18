@@ -46,23 +46,23 @@ def endless_fact(fact_factory):
 def _base_config(tmpdir):
     """Provide a generic baseline configuration."""
     base_config = {
-        'db': {
-            'orm': 'sqlalchemy',
-            'engine': 'sqlite',
-            'path': ':memory:',
+        "db": {
+            "orm": "sqlalchemy",
+            "engine": "sqlite",
+            "path": ":memory:",
         },
-        'dev': {
-            'catch_errors': False,
-            'lib_log_level': 'WARNING',
-            'sql_log_level': 'WARNING',
+        "dev": {
+            "catch_errors": False,
+            "lib_log_level": "WARNING",
+            "sql_log_level": "WARNING",
         },
-        'time': {
+        "time": {
             # FIXME: (lb): Make special tests for these less used options
             #        and then just set to default values here, e.g.,
             #           'day_start': '',
             #           'fact_min_delta': 0,
-            'day_start': datetime.time(hour=5, minute=30, second=0),
-            'fact_min_delta': 60,
+            "day_start": datetime.time(hour=5, minute=30, second=0),
+            "fact_min_delta": 60,
         },
     }
     # (lb): The application deals with a ConfigDecorator object, and not a
@@ -94,11 +94,13 @@ def base_config_ro():
 @pytest.fixture
 def start_end_datetimes_from_offset_now():
     """Generate start/end datetime tuple with given offset in minutes."""
+
     def generate(offset):
         # MAYBE: Use controller.store.now?
         end = datetime.datetime.now().replace(microsecond=0)
         start = end - datetime.timedelta(minutes=offset)
         return (start, end)
+
     return generate
 
 
@@ -106,11 +108,13 @@ def start_end_datetimes_from_offset_now():
 # (lb): If shouldn't matter if we use now() or utcnow(). Right?
 def start_end_datetimes_from_offset_utcnow():
     """Generate start/end datetime tuple with given offset in minutes."""
+
     def generate(offset):
         # MAYBE: Use controller.store.now?
         end = datetime.datetime.utcnow().replace(microsecond=0)
         start = end - datetime.timedelta(minutes=offset)
         return (start, end)
+
     return generate
 
 
@@ -156,7 +160,7 @@ def start_datetime_ro():
 
 
 @pytest.fixture
-@freeze_time('2015-12-12 2:00')
+@freeze_time("2015-12-12 2:00")
 def start_datetime_early_2am():
     """Provide an arbitrary datetime."""
     # (lb): Because Freezegun, datetime.now() is datetime.utcnow().
@@ -173,43 +177,55 @@ def description():
 @pytest.fixture
 def new_category_values():
     """Return garanteed modified values for a given category."""
+
     def modify(category):
         return {
-            'name': category.name + 'foobar',
+            "name": category.name + "foobar",
         }
+
     return modify
 
 
 @pytest.fixture
 def new_tag_values():
     """Return garanteed modified values for a given tag."""
+
     def modify(tag):
         return {
-            'name': tag.name + 'foobar',
+            "name": tag.name + "foobar",
         }
+
     return modify
 
 
 @pytest.fixture
 def new_fact_values(tag_factory, activity_factory):
     """Provide guaranteed different Fact-values for a given Fact-instance."""
+
     def modify(fact):
         if fact.end:
             end = fact.end - datetime.timedelta(days=10)
         else:
             end = None
         return {
-            'activity': activity_factory(),
-            'start': fact.start - datetime.timedelta(days=10),
-            'end': end,
-            'description': fact.description + 'foobar',
-            'tags': set([tag_factory() for i in range(5)])
+            "activity": activity_factory(),
+            "start": fact.start - datetime.timedelta(days=10),
+            "end": end,
+            "description": fact.description + "foobar",
+            "tags": set([tag_factory() for i in range(5)]),
         }
+
     return modify
 
 
 # Valid attributes parametrized
-@pytest.fixture(params=('', 'cyrillic', 'utf8', ))
+@pytest.fixture(
+    params=(
+        "",
+        "cyrillic",
+        "utf8",
+    )
+)
 def name_string_valid_parametrized(request):
     """Provide a variety of strings that should be valid non-tag *names*."""
     if not request.param:
@@ -217,7 +233,12 @@ def name_string_valid_parametrized(request):
     return fauxfactory.gen_string(request.param)
 
 
-@pytest.fixture(params=('cyrillic', 'utf8',))
+@pytest.fixture(
+    params=(
+        "cyrillic",
+        "utf8",
+    )
+)
 def name_string_valid_parametrized_tag(request):
     """Provide a variety of strings that should be valid tag *names*."""
     return fauxfactory.gen_string(request.param)
@@ -229,18 +250,20 @@ def name_string_invalid_parametrized(request):
     return request.param
 
 
-@pytest.fixture(params=(None, ''))
+@pytest.fixture(params=(None, ""))
 def name_string_invalid_parametrized_tag(request):
     """Provide a variety of strings that should be valid tag *names*."""
     return request.param
 
 
-@pytest.fixture(params=(
-    fauxfactory.gen_string('numeric'),
-    fauxfactory.gen_string('alphanumeric'),
-    fauxfactory.gen_string('utf8'),
-    None,
-))
+@pytest.fixture(
+    params=(
+        fauxfactory.gen_string("numeric"),
+        fauxfactory.gen_string("alphanumeric"),
+        fauxfactory.gen_string("utf8"),
+        None,
+    )
+)
 def pk_valid_parametrized(request):
     """Provide a variety of valid primary keys.
 
@@ -251,20 +274,19 @@ def pk_valid_parametrized(request):
     return request.param
 
 
-@pytest.fixture(params=(True, False, 0, 1, '', 'foobar'))
+@pytest.fixture(params=(True, False, 0, 1, "", "foobar"))
 def deleted_valid_parametrized(request):
     """Return various valid values for the ``deleted`` argument."""
     return request.param
 
 
-@pytest.fixture(params='alpha cyrillic latin1 utf8'.split())
+@pytest.fixture(params="alpha cyrillic latin1 utf8".split())
 def description_valid_parametrized(request):
     """Provide a variety of strings that should be valid *descriptions*."""
     return fauxfactory.gen_string(request.param)
 
 
-@pytest.fixture(params='alpha cyrillic latin1 utf8'.split())
+@pytest.fixture(params="alpha cyrillic latin1 utf8".split())
 def tag_list_valid_parametrized(request):
     """Provide a variety of strings that should be valid *descriptions*."""
     return set([fauxfactory.gen_string(request.param) for i in range(4)])
-

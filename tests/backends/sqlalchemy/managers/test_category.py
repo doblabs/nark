@@ -23,7 +23,7 @@ from nark.backends.sqlalchemy.objects import AlchemyCategory
 from nark.items.category import Category
 
 
-class TestCategoryManager():
+class TestCategoryManager:
     """"""
 
     def test_add_new(self, alchemy_store, alchemy_category_factory):
@@ -60,13 +60,16 @@ class TestCategoryManager():
         raises an exception.
         """
         category = alchemy_category_factory().as_hamster(alchemy_store)
-        category.name += 'foobar'
+        category.name += "foobar"
         assert category.pk
         with pytest.raises(ValueError):
             alchemy_store.categories._add(category)
 
     def test_update(
-        self, alchemy_store, alchemy_category_factory, new_category_values,
+        self,
+        alchemy_store,
+        alchemy_category_factory,
+        new_category_values,
     ):
         """Test that updateing a alchemy_category works as expected."""
         assert alchemy_store.session.query(AlchemyCategory).count() == 0
@@ -106,7 +109,8 @@ class TestCategoryManager():
         throws an error.
         """
         category_1, category_2 = (
-            alchemy_category_factory(), alchemy_category_factory(),
+            alchemy_category_factory(),
+            alchemy_category_factory(),
         )
         category_2 = category_2.as_hamster(alchemy_store)
         category_2.name = category_1.name
@@ -190,7 +194,10 @@ class TestCategoryManager():
         assert result == alchemy_category
 
     def test_get_all_match_categories(
-        self, alchemy_store, set_of_alchemy_facts_active, alchemy_category_factory,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts_active,
+        alchemy_category_factory,
     ):
         """Test get_all argument: QueryTerms.match_activities."""
         category_0 = set_of_alchemy_facts_active[0].activity.category
@@ -210,27 +217,26 @@ class TestCategoryManager():
     # ***
 
     @pytest.mark.parametrize(
-        ('sort_cols'),
+        ("sort_cols"),
         (
-            (['start']),
+            (["start"]),
             ([None]),
-            (['usage']),
-            (['time']),
-            (['activity']),
-            (['category']),
-        )
+            (["usage"]),
+            (["time"]),
+            (["activity"]),
+            (["category"]),
+        ),
     )
     def test_get_all_sort_cols(self, alchemy_store, sort_cols):
         alchemy_store.categories.get_all(sort_cols=sort_cols)
 
     def test_get_all_sort_cols_tag_fails(self, alchemy_store, mocker):
         # The tag table is not joined for Activity query.
-        mocker.patch.object(alchemy_store.logger, 'warning')
-        alchemy_store.categories.get_all(sort_cols=['tag'])
+        mocker.patch.object(alchemy_store.logger, "warning")
+        alchemy_store.categories.get_all(sort_cols=["tag"])
         assert alchemy_store.logger.warning.called
 
     def test_get_all_sort_cols_unknown(self, alchemy_store, mocker):
-        mocker.patch.object(alchemy_store.logger, 'warning')
-        alchemy_store.categories.get_all(sort_cols=['foo'])
+        mocker.patch.object(alchemy_store.logger, "warning")
+        alchemy_store.categories.get_all(sort_cols=["foo"])
         assert alchemy_store.logger.warning.called
-

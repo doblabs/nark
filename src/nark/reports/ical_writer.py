@@ -25,16 +25,15 @@ import lazy_import
 
 from . import ReportWriter
 
-__all__ = (
-    'ICALWriter',
-)
+__all__ = ("ICALWriter",)
 
 # Profiling: load icalendar: ~ 0.008 secs.
-icalendar = lazy_import.lazy_module('icalendar')
+icalendar = lazy_import.lazy_module("icalendar")
 
 
 class ICALWriter(ReportWriter):
     """A simple ical writer for fact export."""
+
     def __init__(self, *args, **kwargs):
         """
         Initiate new instance and open an output file like object.
@@ -44,7 +43,7 @@ class ICALWriter(ReportWriter):
                 will be directed to. datetime_format (str): String specifying
                 how datetime information is to be rendered in the output.
         """
-        kwargs['output_b'] = True
+        kwargs["output_b"] = True
         super(ICALWriter, self).__init__(*args, **kwargs)
         self.calendar = icalendar.Calendar()
 
@@ -73,13 +72,13 @@ class ICALWriter(ReportWriter):
 
         event = icalendar.Event()
 
-        event.add('dtstart', fact.start)
+        event.add("dtstart", fact.start)
         if fact.end:
             # MAGIC_NUMBER: (lb): Add one second, because `dtend` is non-inclusive.
-            event.add('dtend', fact.end + datetime.timedelta(seconds=1))
-        event.add('categories', [fact.category_name])
-        event.add('summary', fact.activity_name)
-        event.add('description', fact.description_or_empty)
+            event.add("dtend", fact.end + datetime.timedelta(seconds=1))
+        event.add("categories", [fact.category_name])
+        event.add("summary", fact.activity_name)
+        event.add("description", fact.description_or_empty)
 
         self.calendar.add_component(event)
 
@@ -90,4 +89,3 @@ class ICALWriter(ReportWriter):
         """Custom close method to make sure the calendar is actually writen do disk."""
         self.output_file.write(self.calendar.to_ical())
         return super(ICALWriter, self)._close()
-

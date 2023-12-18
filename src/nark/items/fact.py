@@ -39,14 +39,14 @@ try:
     from math import inf
 except ImportError:  # pragma: no cover: Do not support < 3.5.
     # < Python 3.5.
-    inf = float('inf')
+    inf = float("inf")
 
 
 __all__ = (
-    'SinceTimeBegan',
-    'UntilTimeStops',
-    'FactTuple',
-    'Fact',
+    "SinceTimeBegan",
+    "UntilTimeStops",
+    "FactTuple",
+    "Fact",
 )
 
 
@@ -58,22 +58,23 @@ UntilTimeStops = datetime(9999, 12, 31, 23, 59, 59)
 
 
 FactTuple = namedtuple(
-    'FactTuple',
+    "FactTuple",
     (
-        'pk',
-        'activity',
-        'start',
-        'end',
-        'description',
-        'tags',
-        'deleted',
-        'split_from',
+        "pk",
+        "activity",
+        "start",
+        "end",
+        "description",
+        "tags",
+        "deleted",
+        "split_from",
     ),
 )
 
 
 class Fact(BaseItem):
     """Storage agnostic class for facts."""
+
     def __init__(
         self,
         activity,
@@ -171,7 +172,7 @@ class Fact(BaseItem):
     def as_kvals(self):
         parts = []
         for key in sorted(self.__dict__.keys()):
-            if key == 'name':
+            if key == "name":
                 # The 'name' attribute is part of BaseItem but not used by Fact.
                 # - (lb): Weird: Including this assert causes the coverage to indicate
                 #   that the `continue` is not covered. But with the assert commented,
@@ -180,7 +181,7 @@ class Fact(BaseItem):
                 #     assert self.name is None
                 #     pass
                 continue
-            elif key == 'tags':
+            elif key == "tags":
                 val = repr(self.tags_sorted)
             else:
                 # Not that nark knows anything about this, but dob's derived
@@ -196,10 +197,8 @@ class Fact(BaseItem):
                     val = id(raw)
                 else:
                     val = repr(raw)
-            parts.append(
-                "{key}={val}".format(key=key, val=val)
-            )
-        repred = "Fact({})".format(', '.join(parts))
+            parts.append("{key}={val}".format(key=key, val=val))
+        repred = "Fact({})".format(", ".join(parts))
         return repred
 
     def as_tuple(self, include_pk=True, sans_end=False):
@@ -237,8 +236,7 @@ class Fact(BaseItem):
         )
 
     def copy(self, include_pk=True):
-        """
-        """
+        """ """
         new_fact = self.__class__(
             activity=self.activity,
             start=self.start,
@@ -311,23 +309,23 @@ class Fact(BaseItem):
 
     def start_fmt(self, datetime_format="%Y-%m-%d %H:%M:%S"):
         """If start, return a ``strftime``-formatted string, otherwise return ``''``."""
-        return self.start.strftime(datetime_format) if self.start else ''
+        return self.start.strftime(datetime_format) if self.start else ""
 
     @property
     def start_fmt_utc(self):
         """FIXME: Document"""
         if not self.start:
-            return ''
+            return ""
         # Format like: '%Y-%m-%d %H:%M:%S%z'
-        return format_time.isoformat_tzinfo(self.start, sep=' ', timespec='seconds')
+        return format_time.isoformat_tzinfo(self.start, sep=" ", timespec="seconds")
 
     @property
     def start_fmt_local(self):
         """FIXME: Document"""
         if not self.start:
-            return ''
+            return ""
         # Format like: '%Y-%m-%d %H:%M:%S'
-        return format_time.isoformat_tzless(self.start, sep=' ', timespec='seconds')
+        return format_time.isoformat_tzless(self.start, sep=" ", timespec="seconds")
 
     # ***
 
@@ -351,35 +349,39 @@ class Fact(BaseItem):
 
     def end_fmt(self, datetime_format="%Y-%m-%d %H:%M:%S"):
         """If end, return a ``strftime``-formatted string, otherwise return ``''``."""
-        return self.end.strftime(datetime_format) if self.end else ''
+        return self.end.strftime(datetime_format) if self.end else ""
 
     @property
     def end_fmt_utc(self):
         """FIXME: Document"""
         if not self.end:
-            return ''
-        return format_time.isoformat_tzinfo(self.end, sep=' ', timespec='seconds')
+            return ""
+        return format_time.isoformat_tzinfo(self.end, sep=" ", timespec="seconds")
 
     @property
     def end_fmt_local(self):
         """FIXME: Document"""
         if not self.end:
-            return ''
-        return format_time.isoformat_tzless(self.end, sep=' ', timespec='seconds')
+            return ""
+        return format_time.isoformat_tzless(self.end, sep=" ", timespec="seconds")
 
     @property
     def end_fmt_local_nowwed(self):
         """FIXME: Document"""
         if not self.end:
-            return '{} <now>'.format(self.end_fmt_local_or_now)
+            return "{} <now>".format(self.end_fmt_local_or_now)
         return self.end_fmt_local
 
     @property
     def end_fmt_local_or_now(self):
         if not self.end:
-            return '{}'.format(format_time.isoformat_tzless(
-                self.time_now, sep=' ', timespec='seconds',
-            ))
+            return "{}".format(
+                format_time.isoformat_tzless(
+                    self.time_now,
+                    sep=" ",
+                    timespec="seconds",
+                )
+            )
         return self.end_fmt_local
 
     # ***
@@ -420,7 +422,7 @@ class Fact(BaseItem):
 
         return end_time - self.start
 
-    def format_delta(self, style='%M', **kwargs):
+    def format_delta(self, style="%M", **kwargs):
         """
         Return a string representation of ``Fact().delta``.
 
@@ -450,9 +452,9 @@ class Fact(BaseItem):
     @property
     def time_of_day_midpoint(self):
         if not self.midpoint:
-            return ''
-        clock_sep = ' ◐ '
-        hamned = '{0}'.format(
+            return ""
+        clock_sep = " ◐ "
+        hamned = "{0}".format(
             self.midpoint.strftime("%a %d %b %Y{0}%I:%M %p").format(clock_sep),
             # FIXME: (lb): Add Colloquial TOD suffix, e.g., "morning".
         )
@@ -460,11 +462,12 @@ class Fact(BaseItem):
 
     def time_of_day_humanize(self, show_now=False):
         if not self.times_ok and not show_now:
-            return ''
-        clock_sep = ' ◐ '
+            return ""
+        clock_sep = " ◐ "
         wkd_day_mon_year = self.start.strftime("%a %d %b %Y")
         text = self.start.strftime("{0}{1}%I:%M %p").format(
-            wkd_day_mon_year, clock_sep,
+            wkd_day_mon_year,
+            clock_sep,
         )
         if self.end == self.start:
             return text
@@ -486,7 +489,7 @@ class Fact(BaseItem):
         try:
             return self.activity.name
         except AttributeError:
-            return ''
+            return ""
 
     # +++
 
@@ -501,7 +504,7 @@ class Fact(BaseItem):
         try:
             return self.activity.category.name
         except AttributeError:
-            return ''
+            return ""
 
     # +++
 
@@ -511,7 +514,7 @@ class Fact(BaseItem):
 
     @description.setter
     def description(self, description):
-        """"
+        """ "
         Normalize all descriptions that evaluate to ``False``.
         Store everything else as string.
         """
@@ -523,7 +526,7 @@ class Fact(BaseItem):
 
     @property
     def description_or_empty(self):
-        return self.description or ''
+        return self.description or ""
 
     # +++
 
@@ -571,7 +574,7 @@ class Fact(BaseItem):
 
     @property
     def tags_sorted(self):
-        return sorted(list(self.tags), key=attrgetter('name'))
+        return sorted(list(self.tags), key=attrgetter("name"))
 
     # ***
 
@@ -591,30 +594,28 @@ class Fact(BaseItem):
         if not self.activity_name:
             if not self.category_name:
                 if empty_actegory_placeholder is None:
-                    act_cat = '@'
+                    act_cat = "@"
                 else:
                     act_cat = empty_actegory_placeholder
             else:
-                act_cat = '@{}'.format(self.category_name)
+                act_cat = "@{}".format(self.category_name)
         else:
-            act_cat = (
-                '{}@{}'.format(
-                    self.activity_name,
-                    self.category_name,
-                )
+            act_cat = "{}@{}".format(
+                self.activity_name,
+                self.category_name,
             )
-        act_cat = self.oid_stylize('act@gory', act_cat)
+        act_cat = self.oid_stylize("act@gory", act_cat)
         act_cat = '"{}"'.format(act_cat) if act_cat and shellify else act_cat
         return act_cat
 
-    def oid_description(self, cut_width=None, sep=', '):
+    def oid_description(self, cut_width=None, sep=", "):
         description = self.description_or_empty
         if description:
             if cut_width is not None and cut_width > 0:
                 # Note: whether or not the description length is larger than
                 # cut_width, newlines will always be replaced by literal '\n'.
                 description = format_value_truncate(description, cut_width)
-            description = '{}{}'.format(sep, description)
+            description = "{}{}".format(sep, description)
         return description
 
     # (lb): People associate tags with pound signs -- like, #hashtag!
@@ -627,23 +628,23 @@ class Fact(BaseItem):
     # delimiting, and that the pound sign is fine.
     def oid_tags(
         self,
-        hashtag_token='#',
+        hashtag_token="#",
         quote_tokens=False,
     ):
         def format_tagname(tag):
-            tagged = '{}{}'.format(
-                self.oid_stylize('#', hashtag_token),
-                self.oid_stylize('tag', tag.name),
+            tagged = "{}{}".format(
+                self.oid_stylize("#", hashtag_token),
+                self.oid_stylize("tag", tag.name),
             )
-            tagged = self.oid_stylize('#tag', tagged)
+            tagged = self.oid_stylize("#tag", tagged)
             if quote_tokens:
                 tagged = '"{}"'.format(tagged)
             return tagged
 
         # NOTE: The returned string includes leading space if nonempty!
-        tagnames = ''
+        tagnames = ""
         if self.tags:
-            tagnames = ' '.join(self.tagnames_sorted_formatted(format_tagname))
+            tagnames = " ".join(self.tagnames_sorted_formatted(format_tagname))
         return tagnames
 
     # +++
@@ -651,8 +652,8 @@ class Fact(BaseItem):
     def friendly_str(
         self,
         shellify=False,
-        description_sep=': ',
-        tags_sep=': ',
+        description_sep=": ",
+        tags_sep=": ",
         localize=True,
         include_id=False,
         cut_width_complete=None,
@@ -663,6 +664,7 @@ class Fact(BaseItem):
         """
         Flexible Fact serializer.
         """
+
         def _friendly_str():
             was_localize = Fact.localize(localize)
             meta = assemble_parts()
@@ -678,10 +680,10 @@ class Fact(BaseItem):
                 get_times_string(),
                 self.oid_actegory(shellify, empty_actegory_placeholder),
             ]
-            parts_str = ' '.join(list(filter(None, parts)))
+            parts_str = " ".join(list(filter(None, parts)))
             tags = get_tags_string()
-            parts_str += tags_sep + tags if tags else ''
-            parts_str += _(" [del]") if self.deleted else ''
+            parts_str += tags_sep + tags if tags else ""
+            parts_str += _(" [del]") if self.deleted else ""
             return parts_str
 
         def append_description(meta):
@@ -696,17 +698,17 @@ class Fact(BaseItem):
 
         def get_id_string():
             if not include_id:
-                return ''
+                return ""
             # Format the 🏭 🆔 width to be consistent. Assume lifetime of facts?
             # [ [fact]ory ↑ ↑ ID ]
             # - 6 digits: 999,999 facts over 100 years would be ~27 facts per day.
             return self.oid_stylize(
-                'pk',
-                '(🏭 {})'.format(self.pk and '{:6d}'.format(self.pk) or 'None'),
+                "pk",
+                "(🏭 {})".format(self.pk and "{:6d}".format(self.pk) or "None"),
             )
 
         def get_times_string():
-            times = ''
+            times = ""
             times += get_times_string_start()
             times += get_times_string_end(times)
             times += get_times_duration()
@@ -714,38 +716,38 @@ class Fact(BaseItem):
 
         def get_times_string_start():
             if not self.start:
-                return ''
-            prefix = ''
+                return ""
+            prefix = ""
             if not self.end:
-                prefix = self.oid_stylize('at', '{} '.format(_('at')))
+                prefix = self.oid_stylize("at", "{} ".format(_("at")))
             if not Fact.localize():
                 start_time = self.start_fmt_utc
             else:
                 start_time = self.start_fmt_local
-            start_time = self.oid_stylize('start', start_time)
+            start_time = self.oid_stylize("start", start_time)
             return prefix + start_time
 
         def get_times_string_end(times):
             if not self.end:
                 # (lb): Rather than show, e.g., "2020-01-01 01:01 to <now> ...",
                 # show a parsable, Factoid-compatible time, "at 2020-01-01 01:01 ...".
-                prefix = ''
-                end_time = ''
+                prefix = ""
+                end_time = ""
             else:
                 # NOTE: The CLI's DATE_TO_DATE_SEPARATORS[0] is 'to'.
-                prefix = self.oid_stylize('to', ' {} '.format(_('to'))) if times else ''
+                prefix = self.oid_stylize("to", " {} ".format(_("to"))) if times else ""
                 if not Fact.localize():
                     end_time = self.end_fmt_utc
                 else:
                     end_time = self.end_fmt_local
-                end_time = self.oid_stylize('end', end_time)
+                end_time = self.oid_stylize("end", end_time)
             return prefix + end_time
 
         def get_times_duration():
             if not show_elapsed:
-                return ''
-            duration = ' [{}]'.format(self.format_delta(style=''))
-            return self.oid_stylize('duration', duration)
+                return ""
+            duration = " [{}]".format(self.format_delta(style=""))
+            return self.oid_stylize("duration", duration)
 
         def get_tags_string():
             # (lb): There are three ways to "shellify" a hashtag token:
@@ -819,7 +821,7 @@ class Fact(BaseItem):
     def create_from_factoid(
         cls,
         factoid,
-        time_hint='verify_none',
+        time_hint="verify_none",
         separators=None,
         lenient=False,
     ):
@@ -863,46 +865,36 @@ class Fact(BaseItem):
         )
 
         new_fact = cls.create_from_parsed_fact(
-            parsed_fact, lenient=lenient,
+            parsed_fact,
+            lenient=lenient,
         )
 
         return new_fact, err
 
     @classmethod
-    def create_from_parsed_fact(
-        cls,
-        parsed_fact,
-        lenient=False,
-        **kwargs
-    ):
-        start = parsed_fact['start']
-        end = parsed_fact['end']
+    def create_from_parsed_fact(cls, parsed_fact, lenient=False, **kwargs):
+        start = parsed_fact["start"]
+        end = parsed_fact["end"]
         # Verify that start > end, if neither are None or not a datetime.
         start, end = fact_time.must_not_start_after_end((start, end))
 
-        activity = ''
-        activity_name = parsed_fact['activity']
+        activity = ""
+        activity_name = parsed_fact["activity"]
         if activity_name:
             activity = Activity(activity_name)
         elif lenient:
-            activity = Activity(name='')
+            activity = Activity(name="")
         else:
-            raise ValueError(_('Unable to extract activity name'))
+            raise ValueError(_("Unable to extract activity name"))
 
-        category_name = parsed_fact['category']
+        category_name = parsed_fact["category"]
         if category_name:
             activity.category = Category(category_name)
 
-        description = parsed_fact['description']
+        description = parsed_fact["description"]
 
-        tags = parsed_fact['tags']
+        tags = parsed_fact["tags"]
 
         return cls(
-            activity,
-            start,
-            end=end,
-            description=description,
-            tags=tags,
-            **kwargs
+            activity, start, end=end, description=description, tags=tags, **kwargs
         )
-

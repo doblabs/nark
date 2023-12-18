@@ -25,4 +25,3 @@
 # (lb): Or something.
 #   Search: importlib.import_module
 from .storage import SQLAlchemyStore  # noqa: F401
-

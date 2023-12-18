@@ -29,7 +29,8 @@ from nark.items.activity import Activity
 # What's not tested by one of the derived classes should be covered here, albeit often
 # we use the Activity as the search class.
 
-class TestGatherBaseAlchemyManager():
+
+class TestGatherBaseAlchemyManager:
     """"""
 
     # MAYBE: Move five_report_facts_ctl from dob to nark, which is a session-scoped
@@ -76,7 +77,7 @@ class TestGatherBaseAlchemyManager():
         unclassed = GatherBaseAlchemyManager()
         unclassed._gather_query_alchemy_cls = mocker.MagicMock()
         unclassed.store = mocker.MagicMock()
-        mocker.patch.object(unclassed, '_gather_query_alchemy_cls')
+        mocker.patch.object(unclassed, "_gather_query_alchemy_cls")
         qt = QueryTerms(include_stats=True)
         # Test _gather_query_start_aggregate raises.
         with pytest.raises(NotImplementedError):
@@ -84,7 +85,7 @@ class TestGatherBaseAlchemyManager():
 
     def test_get_all_compute_stats_exclude(self, alchemy_store, set_of_alchemy_facts):
         """Test query_process_results._process_records_items_and_aggs_hydrate branch."""
-        results = alchemy_store.activities.get_all(sort_cols=['usage'])
+        results = alchemy_store.activities.get_all(sort_cols=["usage"])
         # Each fixture Fact was assigned a unique Activity.
         assert len(results) == len(set_of_alchemy_facts)
         # Each result is a hydrated Activity.
@@ -104,8 +105,7 @@ class TestGatherBaseAlchemyManager():
         assert len(results) == 1
 
     def test_get_all_query_prepared_trace(self, alchemy_store, mocker):
-        alchemy_store.config['dev.catch_errors'] = True
-        mocker.patch.object(alchemy_store.logger, 'warning')
+        alchemy_store.config["dev.catch_errors"] = True
+        mocker.patch.object(alchemy_store.logger, "warning")
         alchemy_store.activities.get_all()
         assert alchemy_store.logger.warning.called
-
