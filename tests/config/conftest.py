@@ -19,9 +19,8 @@
 
 """Fixtures that are of general use."""
 
-from configobj import ConfigObj
-
 import pytest
+from configobj import ConfigObj
 
 from nark.config.log_levels import LOG_LEVELS
 

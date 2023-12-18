@@ -17,9 +17,8 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-from gettext import gettext as _
-
 from collections import namedtuple
+from gettext import gettext as _
 
 from .category import Category
 from .item_base import BaseItem

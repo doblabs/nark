@@ -22,7 +22,7 @@ import os
 
 import pytest
 
-from nark.config import decorate_config, ConfigRoot
+from nark.config import ConfigRoot, decorate_config
 
 
 @pytest.fixture

@@ -15,9 +15,8 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-from gettext import gettext as _
-
 from collections import namedtuple
+from gettext import gettext as _
 
 from sqlalchemy import case, distinct, func, literal_column
 from sqlalchemy.sql.expression import or_

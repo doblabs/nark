@@ -34,7 +34,6 @@ from nark.items.category import Category
 from nark.items.fact import Fact
 from nark.items.tag import Tag
 
-
 # 2020-01-30: (lb): DRYing time: Here's a little history, because I made some
 # assumptions when I merged the two, not-so-DRY, factories.py from nark and dob.
 # - There were two sources of divergence:

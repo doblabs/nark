@@ -20,10 +20,11 @@
 import os
 
 import lazy_import
-from ....helpers.legacy_db import upgrade_legacy_db_hamster_applet
-from ....managers.migrate import BaseMigrationsManager
 
 from nark.backends.sqlalchemy import objects
+
+from ....helpers.legacy_db import upgrade_legacy_db_hamster_applet
+from ....managers.migrate import BaseMigrationsManager
 
 # Profiling: Loading `migrate` takes ~ 0.090 seconds.
 migrate_exceptions = lazy_import.lazy_module(
