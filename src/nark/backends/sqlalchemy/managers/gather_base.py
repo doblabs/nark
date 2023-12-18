@@ -21,7 +21,6 @@ from sqlalchemy import func
 from sqlalchemy.sql.expression import and_, or_
 
 from ..objects import AlchemyActivity, AlchemyCategory, AlchemyFact, AlchemyTag
-
 from . import (
     query_apply_limit_offset,
     query_prepare_datetime,

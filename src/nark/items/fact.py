@@ -17,15 +17,12 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
+from collections import Counter, namedtuple
+from datetime import datetime
 from gettext import gettext as _
+from operator import attrgetter
 
 from ansiwrap_hotoffthehamster import ansilen  # See also: click._compat.term_len
-
-
-from collections import namedtuple
-from collections import Counter
-from datetime import datetime
-from operator import attrgetter
 
 from ..helpers import fact_time, format_time
 from ..helpers.format_text import format_value_truncate

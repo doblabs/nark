@@ -19,10 +19,9 @@
 
 import logging
 import sys
+from unittest.mock import patch
 
 import pytest
-
-from unittest.mock import patch
 
 from nark.config.log_levels import (
     get_log_level_safe,

@@ -22,12 +22,11 @@
 import copy
 import datetime
 import os
+from unittest.mock import PropertyMock, patch
 
 import fauxfactory
 import pytest
 from pytest_factoryboy import register
-from unittest.mock import patch, PropertyMock
-
 from sqlalchemy import create_engine, event
 
 from nark.backends.sqlalchemy import objects
