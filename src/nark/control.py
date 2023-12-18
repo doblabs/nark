@@ -15,10 +15,9 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-from gettext import gettext as _
-
 import gettext
 import importlib
+from gettext import gettext as _
 
 from .config import REGISTERED_BACKENDS, decorate_config
 from .helpers import logging as logging_helpers

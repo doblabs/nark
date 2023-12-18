@@ -19,8 +19,8 @@
 
 from gettext import gettext as _
 
-from . import BaseManager
 from ..items.activity import Activity
+from . import BaseManager
 
 
 class BaseActivityManager(BaseManager):

@@ -21,6 +21,7 @@ import datetime
 
 import pytest
 from freezegun import freeze_time
+
 from nark.helpers import fact_time
 from nark.helpers.parse_errors import ParserInvalidDatetimeException
 from nark.helpers.parse_time import HamsterTimeSpec, parse_dated, parse_datetime_human
