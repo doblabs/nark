@@ -17,9 +17,8 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-from gettext import gettext as _
-
 from datetime import datetime
+from gettext import gettext as _
 
 from sqlalchemy import asc, desc, func
 from sqlalchemy.sql.expression import and_, or_

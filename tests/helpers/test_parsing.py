@@ -15,19 +15,18 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
-import pytest
 from unittest.mock import patch
 
+import pytest
 from freezegun import freeze_time
 
 from nark.helpers.parsing import (
-    parse_factoid,
     Parser,
     ParserMissingActivityException,
     ParserMissingDatetimeTwoException,
     ParserMissingSeparatorActivity,
+    parse_factoid,
 )
-
 from nark.tests.helpers.conftest import factoid_fixture
 
 # See also parser testing via Fact.create_from_factoid in tests/items/test_fact.py

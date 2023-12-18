@@ -19,8 +19,8 @@
 
 from gettext import gettext as _
 
-from . import BaseManager
 from ..items.tag import Tag
+from . import BaseManager
 
 
 class BaseTagManager(BaseManager):
