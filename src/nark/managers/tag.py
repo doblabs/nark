@@ -194,4 +194,3 @@ class BaseTagManager(BaseManager):
         Return a list of ``Tags`` matching given criteria.
         """
         raise NotImplementedError
-

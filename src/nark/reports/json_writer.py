@@ -21,9 +21,7 @@ import json
 
 from . import ReportWriter
 
-__all__ = (
-    'JSONWriter',
-)
+__all__ = ("JSONWriter",)
 
 
 class JSONWriter(ReportWriter):
@@ -33,12 +31,12 @@ class JSONWriter(ReportWriter):
 
     def fact_as_dict(self, fact):
         kvals = {
-            'start': fact.start_fmt(self.datetime_format),
-            'end': fact.end_fmt(self.datetime_format),
-            'activity': fact.activity_name,
-            'duration': fact.format_delta(style=self.duration_fmt),
-            'category': fact.category_name,
-            'description': fact.description_or_empty,
+            "start": fact.start_fmt(self.datetime_format),
+            "end": fact.end_fmt(self.datetime_format),
+            "activity": fact.activity_name,
+            "duration": fact.format_delta(style=self.duration_fmt),
+            "category": fact.category_name,
+            "description": fact.description_or_empty,
         }
         return kvals
 
@@ -70,4 +68,3 @@ class JSONWriter(ReportWriter):
     def _write_result(self, row, headers, tabulation=None):
         kvals = {header: value for header, value in zip(headers, row)}
         self.result_list.append(kvals)
-

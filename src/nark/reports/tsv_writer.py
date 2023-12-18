@@ -21,16 +21,13 @@
 
 from .plaintext_writer import PlaintextWriter
 
-__all__ = (
-    'TSVWriter',
-)
+__all__ = ("TSVWriter",)
 
 
 class TSVWriter(PlaintextWriter):
     def __init__(self, *args, **kwargs):
         super(TSVWriter, self).__init__(
             *args,
-            dialect='excel-tab',
+            dialect="excel-tab",
             **kwargs,
         )
-

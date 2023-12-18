@@ -125,7 +125,7 @@ class TestActivity(object):
         """
         other = copy.deepcopy(activity)
         other.pk = 1
-        other.name += 'foobar'
+        other.name += "foobar"
         assert activity.equal_fields(other) is False
 
     def test__eq__false(self, activity):
@@ -160,11 +160,12 @@ class TestActivity(object):
 
     def test__str__without_category(self, activity):
         activity.category = None
-        assert str(activity) == '{name}'.format(name=activity.name)
+        assert str(activity) == "{name}".format(name=activity.name)
 
     def test__str__with_category(self, activity):
-        assert str(activity) == '{name} ({category})'.format(
-            name=activity.name, category=activity.category.name)
+        assert str(activity) == "{name} ({category})".format(
+            name=activity.name, category=activity.category.name
+        )
 
     def test__repr__with_category(self, activity):
         """Make sure our debugging representation matches our expectations."""
@@ -180,4 +181,3 @@ class TestActivity(object):
         assert isinstance(result, str)
         expectation = TestActivity.as_repr(activity)
         assert result == expectation
-

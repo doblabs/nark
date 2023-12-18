@@ -27,13 +27,13 @@ from nark.manager import BaseStore
 
 
 class TestController:
-    @pytest.mark.parametrize('storetype', ['sqlalchemy'])
+    @pytest.mark.parametrize("storetype", ["sqlalchemy"])
     def test_get_store_valid(self, controller, storetype):
         """Make sure we receive a valid ``store`` instance."""
         # [TODO]
         # Once we got backend registration up and running this should be
         # improved to check actual store type for that backend.
-        controller.config['db']['orm'] = storetype
+        controller.config["db"]["orm"] = storetype
         assert isinstance(controller._get_store(), BaseStore)
 
     def test_get_store_invalid(self, controller):
@@ -42,11 +42,11 @@ class TestController:
         # you cannot set the config to bad values, i.e., the code
         # fails before we're able to call, says, controller._get_store().
         with pytest.raises(ValueError):
-            controller.config['db']['orm'] = None
+            controller.config["db"]["orm"] = None
 
     def test_update_config(self, controller, base_config, mocker):
         """Make sure we assign new config and get a new store."""
-        mocker.patch.object(controller, '_get_store')
+        mocker.patch.object(controller, "_get_store")
         controller.update_config(base_config)
         assert controller.config.as_dict() == base_config
         assert controller._get_store.called
@@ -55,7 +55,7 @@ class TestController:
         """Make sure we recieve a logger that maches our expectations."""
         logger = controller._get_logger()
         assert isinstance(logger, logging.Logger)
-        assert logger.name == 'nark.log'
+        assert logger.name == "nark.log"
         # [FIXME]
         # assert len(logger.handlers) == 1
         assert isinstance(logger.handlers[0], logging.NullHandler)
@@ -64,7 +64,7 @@ class TestController:
         """Make sure we recieve a logger that maches our expectations."""
         logger = controller._sql_logger()
         assert isinstance(logger, logging.Logger)
-        assert logger.name == 'nark.store'
+        assert logger.name == "nark.store"
         assert isinstance(logger.handlers[0], logging.NullHandler)
 
 
@@ -74,16 +74,15 @@ class TestNarkLib:
         # behaves differently if setuptools_scm is included or not,
         # and the version will often be a non-release version, e.g.,
         # '3.0.2.dev9+gfba2058.d20200401'. For now, just say not empty.
-        assert get_version() != ''
+        assert get_version() != ""
 
     def test_get_version_include_head_normal(self):
         result = get_version(include_head=True)
         # (lb): I'd rather not encode the version number anywhere in code
         # (that's why we use setuptools_scm!), but also don't expect to
         # upgrade to v.4 anytime soon.
-        assert result.startswith('3.')
+        assert result.startswith("3.")
         # The repo version is appended in (parentheses), which we'll test next;
         # this test is meant to provide coverage of _version_from_tags, but we
         # won't know what the local repo version is, or even if it's different
         # from the tagged version.
-

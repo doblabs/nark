@@ -54,13 +54,13 @@ class TestNarkConfigurableDb(object):
         # Note that if not already loaded, we'd need to import the package:
         #   import easy_as_pypi_appdirs  # noqa: F401
         # but pytest_plugins includes init_app_dirs, which imports it.
-        mocker.patch('easy_as_pypi_appdirs.appdirs.user_data_dir', return_value=path)
+        mocker.patch("easy_as_pypi_appdirs.appdirs.user_data_dir", return_value=path)
         # The ConfigRoot will already have been created without AppDirs setup,
         # so tell it to forget what it knows, and it'll scan defaults again.
         config_root = ConfigRoot
         config_root.forget_config_values()
-        db_path = config_root['db']['path']
-        assert db_path == os.path.join(path, 'dob.sqlite')
+        db_path = config_root["db"]["path"]
+        assert db_path == os.path.join(path, "dob.sqlite")
 
 
 class TestNarkConfigurableTime(object):
@@ -71,30 +71,29 @@ class TestNarkConfigurableTime(object):
     # These tests implicitly test nark.config._strptime_day_start.
 
     def test_day_start_empty_string(self, config_root):
-        config_root.asobj.time.day_start.value = ''
-        assert config_root['time']['day_start'] == datetime.time(0, 0, 0)
+        config_root.asobj.time.day_start.value = ""
+        assert config_root["time"]["day_start"] == datetime.time(0, 0, 0)
 
     def test_day_start_datetime_time(self, config_root):
         time = datetime.time(23, 59, 44)
         config_root.asobj.time.day_start.value = time
-        assert config_root['time']['day_start'] == time
+        assert config_root["time"]["day_start"] == time
 
     def test_day_start_from_text_valid(self, config_root):
-        time = '21:34:56'
+        time = "21:34:56"
         config_root.asobj.time.day_start.value = time
-        assert config_root['time']['day_start'] == datetime.time(21, 34, 56)
+        assert config_root["time"]["day_start"] == datetime.time(21, 34, 56)
 
     def test_day_start_from_text_invalid(self, config_root):
-        time = '25:66:67'
+        time = "25:66:67"
         with pytest.raises(ValueError) as excinfo:
             config_root.asobj.time.day_start.value = time
-        assert str(excinfo.value).startswith('Unrecognized value for setting')
+        assert str(excinfo.value).startswith("Unrecognized value for setting")
 
     # *** ephemeral settings
 
     def test_tz_aware_default(self, config_root):
-        assert config_root['time']['tz_aware'] is False
+        assert config_root["time"]["tz_aware"] is False
 
     def test_default_tzinfo_default(self, config_root):
-        assert config_root['time']['default_tzinfo'] == ''
-
+        assert config_root["time"]["default_tzinfo"] == ""

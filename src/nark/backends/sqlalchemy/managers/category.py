@@ -27,14 +27,12 @@ from ..objects import AlchemyCategory, AlchemyFact
 from . import query_apply_true_or_not
 from .manager_base import BaseAlchemyManager
 
-__all__ = (
-    'CategoryManager',
-)
+__all__ = ("CategoryManager",)
 
 
 class CategoryManager(BaseAlchemyManager, BaseCategoryManager):
-    """
-    """
+    """ """
+
     def __init__(self, *args, **kwargs):
         super(CategoryManager, self).__init__(*args, **kwargs)
 
@@ -93,7 +91,9 @@ class CategoryManager(BaseAlchemyManager, BaseCategoryManager):
         )
 
         result = self.add_and_commit(
-            alchemy_category, raw=raw, skip_commit=skip_commit,
+            alchemy_category,
+            raw=raw,
+            skip_commit=skip_commit,
         )
 
         return result
@@ -238,7 +238,9 @@ class CategoryManager(BaseAlchemyManager, BaseCategoryManager):
         self.store.logger.debug("Received name: ‘{}’ / raw: {}".format(name, raw))
 
         try:
-            result = self.store.session.query(AlchemyCategory).filter_by(name=name).one()
+            result = (
+                self.store.session.query(AlchemyCategory).filter_by(name=name).one()
+            )
         except NoResultFound:
             message = _("No Category named ‘{}’ was found.").format(name)
             self.store.logger.debug(message)
@@ -259,12 +261,12 @@ class CategoryManager(BaseAlchemyManager, BaseCategoryManager):
 
     @property
     def _gather_query_order_by_name_col(self):
-        return 'category'
+        return "category"
 
     def _gather_query_requires_fact(self, qt, compute_usage):
-        requires_fact_table = super(
-            CategoryManager, self
-        )._gather_query_requires_fact(qt, compute_usage)
+        requires_fact_table = super(CategoryManager, self)._gather_query_requires_fact(
+            qt, compute_usage
+        )
 
         # Ensure _gather_query_start_aggregate called -- and that we
         # select from Fact, joined Activity, joined Category -- if
@@ -272,7 +274,7 @@ class CategoryManager(BaseAlchemyManager, BaseCategoryManager):
         requires_fact_table = (
             requires_fact_table
             or qt.match_activities
-            or qt.sort_cols_has_any('activity')
+            or qt.sort_cols_has_any("activity")
         )
 
         return requires_fact_table
@@ -284,4 +286,3 @@ class CategoryManager(BaseAlchemyManager, BaseCategoryManager):
         return query
 
     # ***
-

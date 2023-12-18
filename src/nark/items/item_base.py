@@ -19,7 +19,7 @@
 
 """Base class for Nark item instances."""
 
-__all__ = ('BaseItem', )
+__all__ = ("BaseItem",)
 
 
 class BaseItem(object):
@@ -34,15 +34,13 @@ class BaseItem(object):
         for key in sorted(self.__dict__.keys()):
             if key in ignore:
                 continue
-            parts.append(
-                "{key}={val}".format(key=key, val=repr(getattr(self, key)))
-            )
+            parts.append("{key}={val}".format(key=key, val=repr(getattr(self, key))))
         repred = "{cls}({parts})".format(
-            cls=self.__class__.__name__, parts=', '.join(parts),
+            cls=self.__class__.__name__,
+            parts=", ".join(parts),
         )
         return repred
 
     @property
     def unstored(self):
         return (not self.pk) or (self.pk < 0)
-

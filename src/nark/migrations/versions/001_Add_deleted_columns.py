@@ -66,26 +66,29 @@ from sqlalchemy import Column, ForeignKey, Integer, MetaData, Table
 def upgrade(migrate_engine):
     meta = MetaData(bind=migrate_engine)
 
-    activities = Table('activities', meta, autoload=True)
-    categories = Table('categories', meta, autoload=True)
-    tags = Table('tags', meta, autoload=True)
-    facts = Table('facts', meta, autoload=True)
+    activities = Table("activities", meta, autoload=True)
+    categories = Table("categories", meta, autoload=True)
+    tags = Table("tags", meta, autoload=True)
+    facts = Table("facts", meta, autoload=True)
 
     # SKIP: Activity.deleted already exists.
-    upgrade_add_column_boolean(categories, 'deleted')
-    upgrade_add_column_boolean(tags, 'deleted')
-    upgrade_add_column_boolean(facts, 'deleted')
+    upgrade_add_column_boolean(categories, "deleted")
+    upgrade_add_column_boolean(tags, "deleted")
+    upgrade_add_column_boolean(facts, "deleted")
 
     # Make a column to store the split-from ID, for edited/split facts.
     # MAYBE: index=True ??
     split_from_id = Column(
-        'split_from_id', Integer, ForeignKey(facts.c.id), nullable=True,
+        "split_from_id",
+        Integer,
+        ForeignKey(facts.c.id),
+        nullable=True,
     )
     split_from_id.create(facts)
 
-    upgrade_add_column_boolean(activities, 'hidden')
-    upgrade_add_column_boolean(categories, 'hidden')
-    upgrade_add_column_boolean(tags, 'hidden')
+    upgrade_add_column_boolean(activities, "hidden")
+    upgrade_add_column_boolean(categories, "hidden")
+    upgrade_add_column_boolean(tags, "hidden")
     # SKIP: Facts.hidden probably does not compute.
     #       (Hidden is for auto-complete/MRU lists.)
 
@@ -93,10 +96,10 @@ def upgrade(migrate_engine):
 def downgrade(migrate_engine):
     meta = MetaData(bind=migrate_engine)
 
-    activities = Table('activities', meta, autoload=True)
-    categories = Table('categories', meta, autoload=True)
-    tags = Table('tags', meta, autoload=True)
-    facts = Table('facts', meta, autoload=True)
+    activities = Table("activities", meta, autoload=True)
+    categories = Table("categories", meta, autoload=True)
+    tags = Table("tags", meta, autoload=True)
+    facts = Table("facts", meta, autoload=True)
 
     facts.c.split_from_id.drop()
 
@@ -167,4 +170,3 @@ def upgrade_add_column_boolean(table, column):
     # Get rid of the DEFAULT=FALSE (used to set the cell values)
     # and set NOT NULL.
     deleted_c.alter(nullable=False)
-

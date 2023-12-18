@@ -47,8 +47,8 @@ from nark.manager import BaseStore
 from nark.tests.conftest import *  # noqa: F401, F403
 
 pytest_plugins = (
-    'tests.config.envvar_prefix',
-    'tests.config.init_app_dirs',
+    "tests.config.envvar_prefix",
+    "tests.config.init_app_dirs",
 )
 
 
@@ -67,4 +67,3 @@ def basestore(base_config):
     """Provide a generic ``storage.BaseStore`` instance using ``baseconfig``."""
     store = BaseStore(base_config)
     return store
-

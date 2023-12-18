@@ -24,6 +24,7 @@ import datetime
 import pytest
 
 from nark.tests import factories
+
 # Register the category_factory, etc.
 from nark.tests.item_factories import *  # noqa: F401, F403
 
@@ -32,10 +33,18 @@ from nark.tests.item_factories import *  # noqa: F401, F403
 
 # Fixtures for: tests/items/test_activity.py.
 
+
 # Categories
-@pytest.fixture(params=(None, True,))
+@pytest.fixture(
+    params=(
+        None,
+        True,
+    )
+)
 def category_valid_parametrized(
-    request, category_factory, name_string_valid_parametrized,
+    request,
+    category_factory,
+    name_string_valid_parametrized,
 ):
     """Provide a variety of valid category fixtures."""
     if request.param:
@@ -49,9 +58,12 @@ def category_valid_parametrized(
 
 # (lb): Unused.
 
+
 @pytest.fixture
 def category_valid_parametrized_without_none(
-    request, category_factory, name_string_valid_parametrized,
+    request,
+    category_factory,
+    name_string_valid_parametrized,
 ):
     """
     Provide a parametrized category fixture but not ``None``.
@@ -82,16 +94,19 @@ def activity_valid_parametrized(
 @pytest.fixture
 def new_activity_values(category):
     """Return garanteed modified values for a given activity."""
+
     def modify(activity):
         return {
-            'name': activity.name + 'foobar',
+            "name": activity.name + "foobar",
         }
+
     return modify
 
 
 # ***
 
 # Fixtures for: tests/items/test_fact.py.
+
 
 @pytest.fixture
 def fact():
@@ -101,7 +116,8 @@ def fact():
 
 # +++
 
-@pytest.fixture(params=('%M', '%H:%M', 'HHhMMm', ''))
+
+@pytest.fixture(params=("%M", "%H:%M", "HHhMMm", ""))
 def string_delta_style_parametrized(request):
     """Provide all possible format option for ``Fact().format_delta()``."""
     return request.param
@@ -110,6 +126,7 @@ def string_delta_style_parametrized(request):
 # ***
 
 # (lb): Unused.
+
 
 @pytest.fixture
 def today_fact(fact_factory):
@@ -137,4 +154,3 @@ def current_fact(fact_factory):
         start=datetime.datetime.utcnow().replace(microsecond=0),
         end=None,
     )
-

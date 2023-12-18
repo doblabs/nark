@@ -25,11 +25,14 @@ from freezegun import freeze_time
 from nark.backends.sqlalchemy.objects import AlchemyActivity, AlchemyFact, AlchemyTag
 
 
-class TestFactManager():
+class TestFactManager:
     """"""
 
     def test_add_fails_timeframe_available_existing_fact_overlaps_start_only(
-        self, alchemy_store, fact, alchemy_fact,
+        self,
+        alchemy_store,
+        fact,
+        alchemy_fact,
     ):
         """
         Make sure that passing a fact with only start overlapping an existing
@@ -41,7 +44,10 @@ class TestFactManager():
             alchemy_store.facts._add(fact)
 
     def test_add_fails_timeframe_available_existing_fact_overlaps_end_only(
-        self, alchemy_store, fact, alchemy_fact,
+        self,
+        alchemy_store,
+        fact,
+        alchemy_fact,
     ):
         """
         Make sure that passing a fact with only end overlapping an existing
@@ -54,7 +60,10 @@ class TestFactManager():
 
     # Testcase for Bug LIB-253
     def test_add_fails_timeframe_available_fact_within_existing_timeframe(
-        self, alchemy_store, fact, alchemy_fact,
+        self,
+        alchemy_store,
+        fact,
+        alchemy_fact,
     ):
         """
         Make sure that passing a fact that is completely within an existing
@@ -66,7 +75,10 @@ class TestFactManager():
             alchemy_store.facts._add(fact)
 
     def test_add_fails_timeframe_available_fact_spans_existing_timeframe(
-        self, alchemy_store, fact, alchemy_fact,
+        self,
+        alchemy_store,
+        fact,
+        alchemy_fact,
     ):
         """
         Make sure that passing a fact that completely spans an existing fact
@@ -101,7 +113,10 @@ class TestFactManager():
         assert db_instance.as_hamster(alchemy_store).equal_fields(fact)
 
     def test_add_new_valid_fact_existing_activity(
-        self, alchemy_store, fact, alchemy_activity,
+        self,
+        alchemy_store,
+        fact,
+        alchemy_activity,
     ):
         """
         Make sure that adding a new valid fact with an existing activity works
@@ -128,7 +143,7 @@ class TestFactManager():
         """Make sure that updating sets tags as expected."""
         fact = alchemy_fact.as_hamster(alchemy_store)
         new_values = new_fact_values(fact)
-        fact.tags = new_values['tags']
+        fact.tags = new_values["tags"]
         result = alchemy_store.facts._update(fact)
         # Because split_from, fact will have been marked deleted.
         assert fact.deleted
@@ -146,12 +161,14 @@ class TestFactManager():
         result.split_from = None
         assert result.equal_fields(fact)
 
-    def test_update_fails_pk_unknown(self, alchemy_store, alchemy_fact, new_fact_values):
+    def test_update_fails_pk_unknown(
+        self, alchemy_store, alchemy_fact, new_fact_values
+    ):
         """Make sure that trying to update a fact that does not exist raises error."""
         fact = alchemy_fact.as_hamster(alchemy_store)
         new_values = new_fact_values(fact)
-        fact.start = new_values['start']
-        fact.end = new_values['end']
+        fact.start = new_values["start"]
+        fact.end = new_values["end"]
         fact.pk += 100
         with pytest.raises(KeyError):
             alchemy_store.facts._update(fact)
@@ -160,8 +177,8 @@ class TestFactManager():
         """Make sure that trying to update a new fact ,e.g. one without a pk."""
         fact = alchemy_fact.as_hamster(alchemy_store)
         new_values = new_fact_values(fact)
-        fact.start = new_values['start']
-        fact.end = new_values['end']
+        fact.start = new_values["start"]
+        fact.end = new_values["end"]
         fact.pk = None
         with pytest.raises(ValueError):
             alchemy_store.facts._update(fact)
@@ -219,21 +236,25 @@ class TestFactManager():
         assert result == fact
 
     # Most of the get_all tests are in test_gather_fact, except this one.
-    @freeze_time('2015-12-12 18:00')
+    @freeze_time("2015-12-12 18:00")
     def test_get_all_since_until(
-        self, alchemy_store, mocker, fact, search_parameter_parametrized,
+        self,
+        alchemy_store,
+        mocker,
+        fact,
+        search_parameter_parametrized,
     ):
         """Ensure since and until are converted to datetime for backend function."""
         # See also: nark's test_get_all_various_since_and_until_times
         since, until, description, expectation = search_parameter_parametrized
-        mocker.patch.object(alchemy_store.facts, 'gather', return_value=[fact])
+        mocker.patch.object(alchemy_store.facts, "gather", return_value=[fact])
         # F841 local variable '_facts' is assigned to but never used
         _facts = alchemy_store.facts.get_all(since=since, until=until)  # noqa: F841
         assert alchemy_store.facts.gather.called
         # call_args is (args, kwargs), and QueryTerms is the first args arg.
         query_terms = alchemy_store.facts.gather.call_args[0][0]
-        assert query_terms.since == expectation['since']
-        assert query_terms.until == expectation['until']
+        assert query_terms.since == expectation["since"]
+        assert query_terms.until == expectation["until"]
 
     # ***
 
@@ -257,14 +278,14 @@ class TestFactManager():
 
     # ***
 
-    @pytest.mark.parametrize('send_fact', (False, 'closed', 'active'))
+    @pytest.mark.parametrize("send_fact", (False, "closed", "active"))
     def test_antecedent(self, alchemy_store, set_of_alchemy_facts_active, send_fact):
         """Verify FactManager.antecedent works with various reference input."""
         assert len(set_of_alchemy_facts_active) == 5
         # Depending on send_fact, either send the fact, or a datetime.
         if send_fact:
             ref_time = None
-            if send_fact == 'closed':
+            if send_fact == "closed":
                 fact = set_of_alchemy_facts_active[3]
                 expect = set_of_alchemy_facts_active[2]
             else:  # 'active'
@@ -279,7 +300,7 @@ class TestFactManager():
 
     # ***
 
-    @pytest.mark.parametrize('send_fact', (False, True))
+    @pytest.mark.parametrize("send_fact", (False, True))
     def test_subsequent(self, alchemy_store, set_of_alchemy_facts, send_fact):
         """Verify FactManager.subsequent works with various reference input."""
         assert len(set_of_alchemy_facts) == 5
@@ -300,7 +321,8 @@ class TestFactManager():
         assert len(set_of_alchemy_facts) == 5
         expect = set_of_alchemy_facts[1:2]
         results = alchemy_store.facts.strictly_during(
-            since=expect[0].start, until=expect[-1].end,
+            since=expect[0].start,
+            until=expect[-1].end,
         )
         assert results == expect
 
@@ -323,7 +345,9 @@ class TestFactManager():
         assert results[0] == any_fact
 
     def test_surrounding_inclusive_outer(
-        self, alchemy_store, set_of_alchemy_facts_contiguous,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts_contiguous,
     ):
         """Verify inclusive surrounding finds 2 Facts given time at end and start."""
         assert len(set_of_alchemy_facts_contiguous) == 5
@@ -353,4 +377,3 @@ class TestFactManager():
         assert results[0] == expect
 
     # ***
-

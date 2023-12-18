@@ -28,7 +28,7 @@ from nark.items.fact import Fact
 from nark.items.tag import Tag
 
 
-class TestGatherFactManager():
+class TestGatherFactManager:
     """"""
 
     def test_get_all_argless(self, set_of_alchemy_facts, alchemy_store):
@@ -47,11 +47,14 @@ class TestGatherFactManager():
         #   assert len(results) == alchemy_store.session.query(AlchemyFact).count()
         assert isinstance(results[0], AlchemyFact)
 
-    @pytest.mark.parametrize(('start_filter', 'end_filter'), (
-        (10, 12),
-        (10, None),
-        (None, -12),
-    ))
+    @pytest.mark.parametrize(
+        ("start_filter", "end_filter"),
+        (
+            (10, 12),
+            (10, None),
+            (None, -12),
+        ),
+    )
     def test_get_all_existing_facts_not_in_timerange(
         self,
         alchemy_store,
@@ -68,16 +71,21 @@ class TestGatherFactManager():
             until = alchemy_fact.start + datetime.timedelta(days=end_filter)
 
         results = alchemy_store.facts.get_all(
-            since=since, until=until, partial=bool_value_parametrized,
+            since=since,
+            until=until,
+            partial=bool_value_parametrized,
         )
         assert results == []
 
-    @pytest.mark.parametrize(('start_filter', 'end_filter'), (
-        (-1, 5),
-        (-1, None),
-        (None, 5),
-        (None, None),
-    ))
+    @pytest.mark.parametrize(
+        ("start_filter", "end_filter"),
+        (
+            (-1, 5),
+            (-1, None),
+            (None, 5),
+            (None, None),
+        ),
+    )
     def test_get_all_existing_fact_fully_in_timerange(
         self,
         alchemy_store,
@@ -94,7 +102,9 @@ class TestGatherFactManager():
             until = alchemy_fact.start + datetime.timedelta(days=end_filter)
 
         results = alchemy_store.facts.get_all(
-            since=since, until=until, partial=bool_value_parametrized,
+            since=since,
+            until=until,
+            partial=bool_value_parametrized,
         )
         # ANSWER/2018-05-05: (lb): This test is failing. When did it break?
         #                      assert results == [alchemy_fact]
@@ -102,14 +112,17 @@ class TestGatherFactManager():
         assert len(results) == 1
         assert str(results[0]) == str(alchemy_fact)
 
-    @pytest.mark.parametrize(('start_filter', 'end_filter'), (
-        # Fact.start is in time window.
-        (None, 2),
-        (-900, 2),
-        # Fact.end is in time window.
-        (5, None),
-        (5, 900),
-    ))
+    @pytest.mark.parametrize(
+        ("start_filter", "end_filter"),
+        (
+            # Fact.start is in time window.
+            (None, 2),
+            (-900, 2),
+            # Fact.end is in time window.
+            (5, None),
+            (5, 900),
+        ),
+    )
     def test_get_all_existing_fact_partialy_in_timerange(
         self,
         alchemy_store,
@@ -152,14 +165,17 @@ class TestGatherFactManager():
             assert results == []
 
     def test_get_all_search_matches_description(
-        self, alchemy_store, set_of_alchemy_facts,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts,
     ):
         """Make sure facts with ``Fact.activity.name`` matching the term are returned."""
         assert len(set_of_alchemy_facts) == 5
         search_terms = [set_of_alchemy_facts[1].description]
         # Use lazy_tags=True so Tag.pk are set, and results == [...] works.
         results = alchemy_store.facts.get_all(
-            search_terms=search_terms, lazy_tags=True,
+            search_terms=search_terms,
+            lazy_tags=True,
         )
         assert len(results) == 1
         assert str(results[0]) == str(set_of_alchemy_facts[1])
@@ -171,7 +187,9 @@ class TestGatherFactManager():
         search_terms = [set_of_alchemy_facts[1].activity.name]
         # Use lazy_tags=True so Tag.pk are set, and results == [...] works.
         results = alchemy_store.facts.get_all(
-            search_terms=search_terms, broad_match=True, lazy_tags=True,
+            search_terms=search_terms,
+            broad_match=True,
+            lazy_tags=True,
         )
         assert len(results) == 1
         assert str(results[0]) == str(set_of_alchemy_facts[1])
@@ -183,7 +201,9 @@ class TestGatherFactManager():
         search_terms = [set_of_alchemy_facts[1].category.name]
         # Use lazy_tags=True so Tag.pk are set, and results == [...] works.
         results = alchemy_store.facts.get_all(
-            search_terms=search_terms, broad_match=True, lazy_tags=True,
+            search_terms=search_terms,
+            broad_match=True,
+            lazy_tags=True,
         )
         assert len(results) == 1
         assert str(results[0]) == str(set_of_alchemy_facts[1])
@@ -191,7 +211,9 @@ class TestGatherFactManager():
 
     # ***
 
-    def test__get_all_no_query_terms_not_lazy(self, alchemy_store, set_of_alchemy_facts):
+    def test__get_all_no_query_terms_not_lazy(
+        self, alchemy_store, set_of_alchemy_facts
+    ):
         """Verify basic FactManager.get_all finds the whole store."""
         assert len(set_of_alchemy_facts) == 5
         results = alchemy_store.facts.get_all(lazy_tags=False)
@@ -207,7 +229,9 @@ class TestGatherFactManager():
         # etc.
 
     def test__get_all_no_query_terms_yes_lazy(
-        self, alchemy_store, set_of_alchemy_facts,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts,
     ):
         """Verify basic FactManager.get_all finds the whole store."""
         assert len(set_of_alchemy_facts) == 5
@@ -227,7 +251,9 @@ class TestGatherFactManager():
         assert results == 5
 
     def test__get_all_include_stats_return_raw(
-        self, alchemy_store, set_of_alchemy_facts,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts,
     ):
         """Verify basic FactManager.get_all finds the whole store."""
         assert len(set_of_alchemy_facts) == 5
@@ -240,7 +266,7 @@ class TestGatherFactManager():
         fact_0, *cols_0 = results[0]
         assert len(cols_0) == len(FactManager.RESULT_GRP_INDEX)
         # Duration is days, and set_of_alchemy_facts are 20 mins. each.
-        i_duration = FactManager.RESULT_GRP_INDEX['duration']
+        i_duration = FactManager.RESULT_GRP_INDEX["duration"]
         # Ensure that the duration calculation is correct. (For instance,
         # if the SUM() aggregate happened before tags are coalesced, if a
         # Fact had three tags, the duration calculation would be three times
@@ -250,7 +276,7 @@ class TestGatherFactManager():
         # faker seems to make it so all Activity, Category, and Tag names
         # are unique.)
         # FIXME/2020-05-25: Create Facts with the same Activity, and test aggregates.
-        i_group_count = FactManager.RESULT_GRP_INDEX['group_count']
+        i_group_count = FactManager.RESULT_GRP_INDEX["group_count"]
         assert cols_0[i_group_count] == 1
         # Because raw=True, the Tag objects were recreated, but without PKs.
         assert not fact_0.tags[0].pk
@@ -284,18 +310,21 @@ class TestGatherFactManager():
         #   which requires using and wiring the appropriate DBMS-specific aggregate
         #   functions.
         #   - For now, dob is at least nice enough to print an error message.
-        controller.store.config['db.engine'] += '_not'
+        controller.store.config["db.engine"] += "_not"
         with pytest.raises(NotImplementedError) as excinfo:
             results = alchemy_store.facts.get_all()  # noqa: F841 local variable...
             assert False  # Unreachable.
         # See: must_support_db_engine_funcs.
-        expect = 'This feature does not work with the current DBMS engine'
+        expect = "This feature does not work with the current DBMS engine"
         assert str(excinfo.value).startswith(expect)
 
     # ***
 
     def test_get_all_match_tags(
-        self, alchemy_store, set_of_alchemy_facts_active, alchemy_tag_factory,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts_active,
+        alchemy_tag_factory,
     ):
         """Test get_all argument: QueryTerms.match_activities."""
         tag_0_0 = set_of_alchemy_facts_active[0].tags[0]
@@ -326,14 +355,14 @@ class TestGatherFactManager():
     # ***
 
     @pytest.mark.parametrize(
-        ('group_activity', 'group_category', 'group_tags', 'group_days'),
+        ("group_activity", "group_category", "group_tags", "group_days"),
         (
             (True, False, False, False),
             (False, True, False, False),
             (True, True, False, False),
             (False, False, True, False),
             (False, False, False, True),
-        )
+        ),
     )
     def test_get_all_prepare_actg_cols(
         self,
@@ -370,11 +399,13 @@ class TestGatherFactManager():
             alchemy_store.facts.get_all(group_tags=True, lazy_tags=True)
 
     def test_get_all_group_by_actegories_nameless(
-        self, alchemy_store, alchemy_fact_factory,
+        self,
+        alchemy_store,
+        alchemy_fact_factory,
     ):
         alchemy_fact_1 = alchemy_fact_factory()
         alchemy_fact_2 = alchemy_fact_factory()
-        alchemy_fact_1.activity.name = ''
+        alchemy_fact_1.activity.name = ""
         alchemy_fact_2.activity = alchemy_fact_1.activity
         results = alchemy_store.facts.get_all(
             group_category=True,
@@ -383,7 +414,9 @@ class TestGatherFactManager():
         assert len(results) == 1
 
     def test_get_all_group_by_activities_nameless(
-        self, alchemy_store, alchemy_fact_factory,
+        self,
+        alchemy_store,
+        alchemy_fact_factory,
     ):
         # (lb): Just for one line of coverage in _process_record_reduce_aggregate_value:
         #           else:
@@ -391,8 +424,8 @@ class TestGatherFactManager():
         alchemy_fact_1 = alchemy_fact_factory()
         alchemy_fact_2 = alchemy_fact_factory()
         # Clear activity names so the `if encoded_value` is falsey (empty string).
-        alchemy_fact_1.activity.name = ''
-        alchemy_fact_2.activity.name = ''
+        alchemy_fact_1.activity.name = ""
+        alchemy_fact_2.activity.name = ""
         results = alchemy_store.facts.get_all(
             # Note that we group by category, not activity, so that the activity
             # names are group_concat'ed.
@@ -408,7 +441,9 @@ class TestGatherFactManager():
     # ***
 
     def test_get_all_exclude_ongoing(
-        self, alchemy_store, set_of_alchemy_facts_active,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts_active,
     ):
         results = alchemy_store.facts.get_all(exclude_ongoing=True)
         assert len(results) == len(set_of_alchemy_facts_active) - 1
@@ -416,25 +451,24 @@ class TestGatherFactManager():
     # ***
 
     @pytest.mark.parametrize(
-        ('sort_cols'),
+        ("sort_cols"),
         (
-            (['start']),
+            (["start"]),
             ([None]),
-            (['time']),
-            (['day']),
-            (['activity']),
-            (['category']),
-            (['tag']),
-            (['usage']),
-            (['name']),
-            (['fact']),
-        )
+            (["time"]),
+            (["day"]),
+            (["activity"]),
+            (["category"]),
+            (["tag"]),
+            (["usage"]),
+            (["name"]),
+            (["fact"]),
+        ),
     )
     def test_get_all_sort_cols(self, alchemy_store, sort_cols):
         alchemy_store.facts.get_all(sort_cols=sort_cols)
 
     def test_get_all_sort_cols_unknown(self, alchemy_store, mocker):
-        mocker.patch.object(alchemy_store.logger, 'warning')
-        alchemy_store.facts.get_all(sort_cols=['foo'])
+        mocker.patch.object(alchemy_store.logger, "warning")
+        alchemy_store.facts.get_all(sort_cols=["foo"])
         assert alchemy_store.logger.warning.called
-

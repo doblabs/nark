@@ -26,19 +26,20 @@ import re
 
 
 __all__ = (
-    'datetime_from_clock_prior',
-    'datetime_from_clock_after',
-    'day_end_datetime',
-    'day_end_time',
-    'must_be_datetime_or_relative',
-    'must_not_start_after_end',
-    'parse_clock_time',
-    'RE_PATTERN_RELATIVE_CLOCK',
-    'RE_PATTERN_RELATIVE_DELTA',
+    "datetime_from_clock_prior",
+    "datetime_from_clock_after",
+    "day_end_datetime",
+    "day_end_time",
+    "must_be_datetime_or_relative",
+    "must_not_start_after_end",
+    "parse_clock_time",
+    "RE_PATTERN_RELATIVE_CLOCK",
+    "RE_PATTERN_RELATIVE_DELTA",
 )
 
 
 # ***
+
 
 def datetime_from_clock_prior(dt_relative, clock_time):
     # FIXME/MEH/2018-05-21 11:32: (lb): I'm guessing this doesn't work
@@ -68,6 +69,7 @@ def datetime_from_clock_after(dt_relative, clock_time):
 
 
 # ***
+
 
 def day_end_datetime(end_date, start_time=None):
     """
@@ -127,7 +129,7 @@ def day_end_time(start_time):
 
 # ***
 
-RE_PATTERN_12H_PERIOD = 'a|am|A|AM|p|pm|P|PM'
+RE_PATTERN_12H_PERIOD = "a|am|A|AM|p|pm|P|PM"
 
 # (lb) See comment atop pattern_date in parse_time about allowing
 #   \d{4} (without :colon). Here's the stricter pattern:
@@ -138,16 +140,16 @@ RE_PATTERN_RELATIVE_CLOCK = re.compile(
     #  '^(?P<hours>\d{1,2}):?(?P<minutes>\d{2})(:(?P<seconds>\d{2}))?$'
     # To reject such a candidate string, but to keep the regex simple,
     # we'll capture the hours:minutes separator and look for it in post.
-    '^'
-    '(?P<hours>\d{1,2})(?P<hm_sep>:?)(?P<minutes>\d{2})(:(?P<seconds>\d{2}))?'
-    '(?P<period>' + RE_PATTERN_12H_PERIOD + ')?'
-    '$'
+    "^"
+    "(?P<hours>\d{1,2})(?P<hm_sep>:?)(?P<minutes>\d{2})(:(?P<seconds>\d{2}))?"
+    "(?P<period>" + RE_PATTERN_12H_PERIOD + ")?"
+    "$"
 )
 
 # HARDCODED: There's an 'h' and 'm' in this regex.
 # FIXME: (lb): The 'h' and 'm' are not part of i18n, not l10n-friendly.
 RE_PATTERN_RELATIVE_DELTA = re.compile(
-    '^(?P<signage>[-+])?((?P<hours>\d+)h)?((?P<minutes>\d+)m?)?$'
+    "^(?P<signage>[-+])?((?P<hours>\d+)h)?((?P<minutes>\d+)m?)?$"
 )
 
 
@@ -160,20 +162,20 @@ def must_be_datetime_or_relative(dt):
         #        figure out what's going on.
         return dt.replace(microsecond=0)
     elif not dt or isinstance(dt, str):
-        if (
-            dt and not (
-                # NOTE: re.match checks for a match only at the beginning of the string.
-                RE_PATTERN_RELATIVE_CLOCK.match(dt)
-                or RE_PATTERN_RELATIVE_DELTA.match(dt)
-            )
+        if dt and not (
+            # NOTE: re.match checks for a match only at the beginning of the string.
+            RE_PATTERN_RELATIVE_CLOCK.match(dt)
+            or RE_PATTERN_RELATIVE_DELTA.match(dt)
         ):
-            raise TypeError(_(
-                'Expected time entry to indicate relative time, not: {}'
-            ).format(dt))
+            raise TypeError(
+                _("Expected time entry to indicate relative time, not: {}").format(dt)
+            )
         return dt
-    raise TypeError(_(
-        "Time entry not `datetime`, relative string, or `None`, but: {}"
-    ).format(type(dt)))
+    raise TypeError(
+        _("Time entry not `datetime`, relative string, or `None`, but: {}").format(
+            type(dt)
+        )
+    )
 
 
 def must_not_start_after_end(range_tuple):
@@ -206,7 +208,6 @@ def must_not_start_after_end(range_tuple):
 
 
 def parse_clock_time(clock_time):
-
     def _parse_clock_time(clock_time):
         match = RE_PATTERN_RELATIVE_CLOCK.match(clock_time)
         if not match:
@@ -217,35 +218,34 @@ def parse_clock_time(clock_time):
     def split_and_verify_match(match):
         parts = match.groupdict()
 
-        if parts['seconds'] is not None and not parts['hm_sep']:
+        if parts["seconds"] is not None and not parts["hm_sep"]:
             # This is a false positive, e.g., '123:45' or '1234:56'.
             return None
 
         # Seconds is not required by the regex, so ensure not None.
-        parts['seconds'] = parts['seconds'] or 0
+        parts["seconds"] = parts["seconds"] or 0
 
         # SYNC_ME: RE_PATTERN_12H_PERIOD
-        if parts['period'] in ('p', 'pm', 'P', 'PM'):
+        if parts["period"] in ("p", "pm", "P", "PM"):
             # Add 12 hours to hours.
-            parts['hours'] = int(parts['hours']) + 12
+            parts["hours"] = int(parts["hours"]) + 12
 
         # Note that callers are not expecting integers, per se,
         # but are at least expecting int-coercible components.
         # At least historically this function returned strings;
         # now it returns integers, but callers don't mind either.
-        for component in ('hours', 'minutes', 'seconds'):
+        for component in ("hours", "minutes", "seconds"):
             parts[component] = int(parts[component])
 
         if (
-            (parts['hours'] < 0 or parts['hours'] > 24)
-            or (parts['minutes'] < 0 or parts['minutes'] > 59)
-            or (parts['seconds'] < 0 or parts['seconds'] > 59)
+            (parts["hours"] < 0 or parts["hours"] > 24)
+            or (parts["minutes"] < 0 or parts["minutes"] > 59)
+            or (parts["seconds"] < 0 or parts["seconds"] > 59)
         ):
             parsed_ct = None
         else:
-            parsed_ct = (parts['hours'], parts['minutes'], parts['seconds'])
+            parsed_ct = (parts["hours"], parts["minutes"], parts["seconds"])
 
         return parsed_ct
 
     return _parse_clock_time(clock_time)
-
