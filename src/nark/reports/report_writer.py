@@ -24,9 +24,7 @@
 
 import sys
 
-__all__ = (
-    'ReportWriter',
-)
+__all__ = ("ReportWriter",)
 
 
 class ReportWriter(object):
@@ -66,11 +64,11 @@ class ReportWriter(object):
 
         self.datetime_format = datetime_format
         if self.datetime_format is None:
-            self.datetime_format = '%Y-%m-%d %H:%M:%S'
+            self.datetime_format = "%Y-%m-%d %H:%M:%S"
 
         self.duration_fmt = duration_fmt
         if self.duration_fmt is None:
-            self.duration_fmt = '%H:%M'
+            self.duration_fmt = "%H:%M"
 
     def open_output_file(self, output_obj, output_b=False):
         # FIXME/2020-06-02: Revisit output_b=True, may be different in py3,
@@ -95,8 +93,8 @@ class ReportWriter(object):
     def open_file(self, path, output_b=False, newline=None):
         self.output_ours = True
         if not output_b:
-            return open(path, 'w', encoding='utf-8', newline=newline)
-        return open(path, 'wb')
+            return open(path, "w", encoding="utf-8", newline=newline)
+        return open(path, "wb")
 
     # ***
 
@@ -192,5 +190,5 @@ class ReportWriter(object):
         # Rather than clear the file handle, leave set, so caller can inspect.
         #  self.output_file = None
 
-# ***
 
+# ***

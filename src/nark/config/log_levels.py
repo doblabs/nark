@@ -23,9 +23,9 @@ import sys
 from gettext import gettext as _
 
 __all__ = (
-    'must_verify_log_level',
-    'get_log_level_safe',
-    'get_log_name_safe',
+    "must_verify_log_level",
+    "get_log_level_safe",
+    "get_log_name_safe",
     # Private:
     #  'LOG_LEVELS',
 )
@@ -40,11 +40,11 @@ this = sys.modules[__name__]
 
 # Subset (and lowercase) of logging._nameToLevel.
 this.LOG_LEVELS = {
-    'debug': logging.DEBUG,
-    'info': logging.INFO,
-    'warning': logging.WARNING,
-    'error': logging.ERROR,
-    'critical': logging.CRITICAL,
+    "debug": logging.DEBUG,
+    "info": logging.INFO,
+    "warning": logging.WARNING,
+    "error": logging.ERROR,
+    "critical": logging.CRITICAL,
 }
 
 
@@ -64,12 +64,12 @@ def must_verify_log_level(level_name):
     except AttributeError:
         msg = _(
             " (Unrecognized log level type in config: “{}”. Try a string from: {}.)"
-        ).format(level_name, ', '.join(this.LOG_LEVELS))
+        ).format(level_name, ", ".join(this.LOG_LEVELS))
         raise ValueError(msg)
     except KeyError:
         msg = _(
             " (Unrecognized log level value in config: “{}”. Try one of: ‘{}’.)"
-        ).format(level_name, '’, ‘'.join(this.LOG_LEVELS))
+        ).format(level_name, "’, ‘".join(this.LOG_LEVELS))
         raise ValueError(msg)
     return log_level
 
@@ -84,7 +84,7 @@ def get_log_level_safe(level_name):
     # (lb): A wee bit of a hack! Don't log during the dob-complete
     #   command, lest yuck!
     # MEH/2020-01-29: If logging to file, don't change level.
-    if (len(sys.argv) == 2) and (sys.argv[1] == 'complete'):
+    if (len(sys.argv) == 2) and (sys.argv[1] == "complete"):
         # Disable for dob-complete.
         return logging.CRITICAL + 1
     return log_level
@@ -92,4 +92,3 @@ def get_log_level_safe(level_name):
 
 def get_log_name_safe(level):
     return logging.getLevelName(level)
-

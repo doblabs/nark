@@ -18,4 +18,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Submodule to provide auxiliary helper functions to ease common operations."""
-

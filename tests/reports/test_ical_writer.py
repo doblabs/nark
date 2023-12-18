@@ -25,24 +25,25 @@ from icalendar import Calendar
 
 class TestICALWriter(object):
     """Make sure the iCal writer works as expected."""
+
     def test_ical_writer_init(self, ical_writer):
         """Make sure that init creates a new calendar instance to add events to."""
         assert ical_writer.calendar
 
     def test_ical_writer_write_facts_expected(self, ical_writer, fact, mocker):
         """Make sure that the fact attached to the calendar matches our expectations."""
-        mocker.patch.object(ical_writer.calendar, 'add_component')
+        mocker.patch.object(ical_writer.calendar, "add_component")
         ical_writer.write_facts([fact])
         # Retrieve the generated icalendar.Event.
         result = ical_writer.calendar.add_component.call_args[0][0]
-        assert result.get('dtstart').dt == fact.start
-        assert result.get('dtend').dt == fact.end + datetime.timedelta(seconds=1)
-        assert result.get('summary') == fact.activity_name
+        assert result.get("dtstart").dt == fact.start
+        assert result.get("dtend").dt == fact.end + datetime.timedelta(seconds=1)
+        assert result.get("summary") == fact.activity_name
         # Make lists of [vText] and [str], else comparison fails.
         #  NO: assert result.get('categories') == fact.category
-        assert list(result.get('categories').cats) == list([fact.category_name])
-        assert result.get('categories').cats[0] == fact.category_name
-        assert result.get('description') == fact.description_or_empty
+        assert list(result.get("categories").cats) == list([fact.category_name])
+        assert result.get("categories").cats[0] == fact.category_name
+        assert result.get("description") == fact.description_or_empty
 
     def test_ical_writer_write_report_not_implemented(self, ical_writer):
         with pytest.raises(NotImplementedError):
@@ -51,8 +52,7 @@ class TestICALWriter(object):
     def test_ical_writer_write_facts_written(self, ical_writer, fact, path):
         """Make sure the calendar is actually written to disk before file is closed."""
         ical_writer.write_facts([fact])
-        with open(path, 'r') as fobj:
+        with open(path, "r") as fobj:
             # Create an icalendar.cal.Calendar from the file contents.
             result = Calendar.from_ical(fobj.read())
             assert result.walk()
-

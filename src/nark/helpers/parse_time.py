@@ -31,21 +31,21 @@ from .fact_time import (
     RE_PATTERN_RELATIVE_CLOCK,
     RE_PATTERN_RELATIVE_DELTA,
     datetime_from_clock_prior,
-    parse_clock_time
+    parse_clock_time,
 )
 from .parse_errors import ParserInvalidDatetimeException
 
 # Profiling: `import dateparser` takes ~ 0.2 seconds.
-dateparser = lazy_import.lazy_module('dateparser')
+dateparser = lazy_import.lazy_module("dateparser")
 
 # Profiling: load iso8601: ~ 0.004 secs.
-iso8601 = lazy_import.lazy_module('iso8601')
+iso8601 = lazy_import.lazy_module("iso8601")
 
 __all__ = (
-    'HamsterTimeSpec',
-    'parse_dated',
-    'parse_datetime_iso8601',
-    'parse_relative_minutes',
+    "HamsterTimeSpec",
+    "parse_dated",
+    "parse_datetime_iso8601",
+    "parse_relative_minutes",
 )
 
 
@@ -103,8 +103,10 @@ __all__ = (
 #
 #   - You can specify days or months without leading 0s [(lb): but why?].
 
+
 class HamsterTimeSpec(object):
     """"""
+
     RE_HAMSTER_TIME = None
 
     def __init__(self):
@@ -129,21 +131,21 @@ class HamsterTimeSpec(object):
         match = HamsterTimeSpec.RE_HAMSTER_TIME.match(hamster_time)
         if match is not None:
             say_what = match.groupdict()
-            if say_what['relative']:
+            if say_what["relative"]:
                 assert dt is None
-                dt = say_what['relative']
-                type_dt = 'relative'
-            if say_what['clock_time']:
+                dt = say_what["relative"]
+                type_dt = "relative"
+            if say_what["clock_time"]:
                 assert dt is None
-                dt = say_what['clock_time']
-                type_dt = 'clock_time'
-            if say_what['datetime']:
+                dt = say_what["clock_time"]
+                type_dt = "clock_time"
+            if say_what["datetime"]:
                 assert dt is None
-                dt = say_what['datetime']
-                type_dt = 'datetime'
+                dt = say_what["datetime"]
+                type_dt = "datetime"
             assert dt is not None
-            sep = say_what['sep']
-            rest = say_what['rest']
+            sep = say_what["sep"]
+            rest = say_what["rest"]
 
         return dt, type_dt, sep, rest
 
@@ -160,9 +162,7 @@ class HamsterTimeSpec(object):
         #           RE_HAMSTER_TIME.match('2018-05-14 22:29:24.123x456+00:02')
 
         # Perhaps a lesser known feature: Hamster allows relative time!!
-        pattern_relative = (
-            '(?P<relative>([-+]?(\d+h)|[-+](\d+h)?\d+m?))'
-        )
+        pattern_relative = "(?P<relative>([-+]?(\d+h)|[-+](\d+h)?\d+m?))"
 
         # Reminder: (?:...) is a non-capturing group.
 
@@ -170,49 +170,43 @@ class HamsterTimeSpec(object):
         # - Whatever matches this, we'll re-parse with parse_clock_time, which
         #   does a more thorough match.
         pattern_just_clock = (
-            '(?P<clock_time>'
-            '(?:(\d{1,2}:\d{2}:\d{2}|\d{1,2}:?\d{2}))'
-            '(?:(a|am|A|AM|p|pm|P|PM)?)'
-            ')'
+            "(?P<clock_time>"
+            "(?:(\d{1,2}:\d{2}:\d{2}|\d{1,2}:?\d{2}))"
+            "(?:(a|am|A|AM|p|pm|P|PM)?)"
+            ")"
         )
 
         # (lb): Treat 4 digits as clock time, not year, i.e.,
         #   `2030` should be 10:30 PM, not Jan 01, 2030.
         # This steals colon-less clock times:
         #   '(?:(\d{8}|\d{4}|\d{4}-\d{1,2}(-\d{1,2})?))'
-        pattern_date = (
-            '(?:(\d{8}|\d{4}-\d{1,2}(-\d{1,2})?))'
-        )
+        pattern_date = "(?:(\d{8}|\d{4}-\d{1,2}(-\d{1,2})?))"
         # BEWARE: Does not verify hours and minutes in range 0..59.
         pattern_time = (
             # (lb): We could allow 3-digit times... but, no.
             #   '(?:\d{1,2})'
-            '(?:\d{2})'
-            '(?::?\d{2}'
-                '(?::?\d{2}'  # noqa: E131
-                    '(?:\.\d+)?'  # noqa: E131
-                ')?'
-            ')?'
+            "(?:\d{2})"
+            "(?::?\d{2}"
+            "(?::?\d{2}"  # noqa: E131
+            "(?:\.\d+)?"  # noqa: E131
+            ")?"
+            ")?"
         )
         pattern_zone = (
-            '(?:('
-                'Z'  # noqa: E131
-            '|'
-                '[+-]\d{2}(:?\d{2})?'
-            '))?'
+            "(?:("
+            "Z"  # noqa: E131
+            "|"
+            "[+-]\d{2}(:?\d{2})?"
+            "))?"
         )
-        pattern_datetime = (
-            '(?P<datetime>{}([ T]{}{})?)'
-            .format(pattern_date, pattern_time, pattern_zone)
+        pattern_datetime = "(?P<datetime>{}([ T]{}{})?)".format(
+            pattern_date, pattern_time, pattern_zone
         )
 
-        hamster_pattern = (
-            '(^|\s)({}|{}|{})(?P<sep>[,:]?)(?=\s|$)(?P<rest>.*)'
-            .format(
-                pattern_relative,
-                pattern_just_clock,
-                pattern_datetime,
-            )
+        hamster_pattern = "(^|\s)({}|{}|{})(?P<sep>[,:]?)(?=\s|$)(?P<rest>.*)".format(
+            pattern_relative,
+            pattern_just_clock,
+            pattern_datetime,
         )
 
         # Use re.DOTALL to match newlines, which might be part
@@ -222,7 +216,7 @@ class HamsterTimeSpec(object):
     @staticmethod
     def has_time_of_day(raw_dt):
         # Assuming format is year-mo-day separated from time of day by space or 'T'.
-        parts = re.split(r' |T', raw_dt)
+        parts = re.split(r" |T", raw_dt)
         if len(parts) != 2:
             return False
         # BEWARE: RE_PATTERN_RELATIVE_CLOCK does not validate range, e.g., 0..59.
@@ -233,19 +227,20 @@ class HamsterTimeSpec(object):
 
 # ***
 
+
 def parse_dated(dated, time_now, cruftless=False):
     """"""
+
     def _parse_dated():
         if not isinstance(dated, str):
             # Let BaseFactManager.get_all() process, if not already datetime.
             return dated
         dt, type_dt, sep, rest = HamsterTimeSpec.discern(dated)
         if cruftless and rest:
-            msg = _('Found more than datetime in')
-            plus_sep = sep and ' + ‘{}’'.format(sep) or ''
+            msg = _("Found more than datetime in")
+            plus_sep = sep and " + ‘{}’".format(sep) or ""
             raise ParserInvalidDatetimeException(
-                '{} “{}”: ‘{}’{} + ‘{}’'
-                .format(msg, dated, str(dt), plus_sep, rest)
+                "{} “{}”: ‘{}’{} + ‘{}’".format(msg, dated, str(dt), plus_sep, rest)
             )
         parsed_dt = None
         if dt is not None:
@@ -255,16 +250,16 @@ def parse_dated(dated, time_now, cruftless=False):
             parsed_dt = parse_datetime_human(dated, time_now, local_tz=None)
         if parsed_dt is None:
             raise ParserInvalidDatetimeException(
-                '{}: “{}”'.format(_('Unparseable datetime'), dated)
+                "{}: “{}”".format(_("Unparseable datetime"), dated)
             )
         return parsed_dt
 
     def datetime_from_discerned(dated, dt, type_dt):
-        if type_dt == 'datetime':
+        if type_dt == "datetime":
             # FIXME: (lb): Implement timezone/local_tz.
             dt_suss = parse_datetime_iso8601(dt, must=True, local_tz=None)
         # else, relative time, or clock time; let caller handle.
-        elif type_dt == 'clock_time':
+        elif type_dt == "clock_time":
             # Note that HamsterTimeSpec.discern is a little lazy and does
             # not verify the clock time is valid values, e.g., hours and
             # minutes between 0..59. But parse_clock_time cares.
@@ -279,7 +274,7 @@ def parse_dated(dated, time_now, cruftless=False):
 
             dt_suss = datetime_from_clock_prior(time_now, clock_time)
         else:
-            assert type_dt == 'relative'
+            assert type_dt == "relative"
             rel_mins, negative = parse_relative_minutes(dt)
             dt_suss = time_now + timedelta(minutes=rel_mins)
         return dt_suss
@@ -305,7 +300,7 @@ def parse_dated(dated, time_now, cruftless=False):
 # - So do an upfront check and skip the friendly parser if the input is
 #   only numbers, whitespace, and/or punctuation, but no alpha characters.
 
-RE_ONLY_09_WH_AND_PUNCT = re.compile(r'^[0-9\s{}]+$'.format(re.escape(punctuation)))
+RE_ONLY_09_WH_AND_PUNCT = re.compile(r"^[0-9\s{}]+$".format(re.escape(punctuation)))
 
 
 def parse_datetime_get_settings(time_now=None, local_tz=None):
@@ -351,15 +346,15 @@ def parse_datetime_get_settings(time_now=None, local_tz=None):
     #
     settings = {
         # Default to no time zone. We'll set True next, if local_tz.
-        'RETURN_AS_TIMEZONE_AWARE': False,
+        "RETURN_AS_TIMEZONE_AWARE": False,
         # So that, e.g., `dob list --since January` uses January 1st, and
         # not January whatever-today's-day-of-the-month-is, set DOM pref.
-        'PREFER_DAY_OF_MONTH': 'first',
+        "PREFER_DAY_OF_MONTH": "first",
         # Note that when STRICT_PARSING is False, it allows, e.g., `18 55`
         # to mean Datetime(2055, 12, 18, 0, 0), given a
         # today of Datetime(2015, 12, 10, 12, 30). But we
         # use RE_ONLY_09_WH_AND_PUNCT to avoid that.
-        'STRICT_PARSING': False,
+        "STRICT_PARSING": False,
         # 2020-06-21: (lb): Code does not currently know time zone, and dateparser
         # says 'TIMEZONE' defaults to 'UTC', but I find I have to still specify
         # this value here, otherwise, when testing locally (but does not affect
@@ -368,8 +363,7 @@ def parse_datetime_get_settings(time_now=None, local_tz=None):
         # get_date_data('yesterday') returns '2015-12-24 12:00', which is 1 day
         # ago, but adjusted another 6 hours for 'America/Chicago'. IDGI, but
         # apparently being explicit here fixes the issue.
-        'TIMEZONE': 'UTC',
-
+        "TIMEZONE": "UTC",
         # FEAT_REQ/2021-02-07: Should probably make date format configurable:
         # 'DATE_ORDER': 'MDY'|'DMY'|'YMD'|'YDM'
     }
@@ -378,12 +372,12 @@ def parse_datetime_get_settings(time_now=None, local_tz=None):
         # Using RELATIVE_BASE allows friendlies relative to other time, e.g.,
         # '1 hour ago', as in `dob from 1 hour ago to 2018-05-22 20:47` or
         # `dob list --since '1 hour ago'`, etc.
-        settings['RELATIVE_BASE'] = time_now
+        settings["RELATIVE_BASE"] = time_now
 
     if local_tz:
         # NOTE: Uses machine-local tz, unless TIMEZONE set.
-        settings['RETURN_AS_TIMEZONE_AWARE'] = True
-        settings['TIMEZONE'] = local_tz
+        settings["RETURN_AS_TIMEZONE_AWARE"] = True
+        settings["TIMEZONE"] = local_tz
 
     return settings
 
@@ -404,9 +398,10 @@ def parse_datetime_human(datepart, time_now=None, local_tz=None):
     # ddp is dict: 'date_obj' is None or the datetime;
     #              'period' is None or, e.g., 'day';
     #              'locale' is None or, e.g., 'en'.
-    parsed = ddp['date_obj']
+    parsed = ddp["date_obj"]
 
     return parsed
+
 
 # DateDataParser Notes
 # ====================
@@ -469,6 +464,7 @@ def parse_datetime_human(datepart, time_now=None, local_tz=None):
 
 # ***
 
+
 def parse_datetime_iso8601(datepart, must=False, local_tz=None):
     try:
         # NOTE: Defaults to datetime.timezone.utc.
@@ -477,14 +473,18 @@ def parse_datetime_iso8601(datepart, must=False, local_tz=None):
     except iso8601.iso8601.ParseError as err:
         parsed = None
         if must:
-            raise ParserInvalidDatetimeException(_(
-                'Unable to parse iso8601 datetime: {} [{}]'
-                .format(datepart, str(err))
-            ))
+            raise ParserInvalidDatetimeException(
+                _(
+                    "Unable to parse iso8601 datetime: {} [{}]".format(
+                        datepart, str(err)
+                    )
+                )
+            )
     return parsed
 
 
 # ***
+
 
 def parse_relative_minutes(rel_time):
     rel_mins = None
@@ -494,14 +494,13 @@ def parse_relative_minutes(rel_time):
     if match:
         parts = match.groupdict()
         rel_mins = 0
-        if parts['minutes']:
-            rel_mins += int(parts['minutes'])
-        if parts['hours']:
-            rel_mins += int(parts['hours']) * 60
-        if parts['signage'] == '-':
+        if parts["minutes"]:
+            rel_mins += int(parts["minutes"])
+        if parts["hours"]:
+            rel_mins += int(parts["hours"]) * 60
+        if parts["signage"] == "-":
             negative = True  # Because there's no such thang as "-0".
             rel_mins *= -1
         else:
             negative = False
     return rel_mins, negative
-

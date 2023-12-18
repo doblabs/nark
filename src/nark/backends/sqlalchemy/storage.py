@@ -26,6 +26,7 @@ import os.path
 # Profiling: load create_engine: ~ 0.100 secs.
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
+
 # Profiling: load sessionmaker: ~ 0.050 secs.
 from sqlalchemy.orm import sessionmaker
 
@@ -37,7 +38,7 @@ from .managers.fact import FactManager
 from .managers.migrate import MigrationsManager
 from .managers.tag import TagManager
 
-__all__ = ('SQLAlchemyStore', )
+__all__ = ("SQLAlchemyStore",)
 
 
 class SQLAlchemyStore(BaseStore):
@@ -68,8 +69,7 @@ class SQLAlchemyStore(BaseStore):
     """
 
     def __init__(self, config):
-        """
-        """
+        """ """
         super(SQLAlchemyStore, self).__init__(config)
         self.create_item_managers()
 
@@ -139,13 +139,13 @@ class SQLAlchemyStore(BaseStore):
         # The code generally uses dot-notation because that's how
         # the user sees it in `dob config dump` output; it's more
         # concise; and it's easier to bang out in a search command.
-        engine = self.config['db.engine']
-        host = self.config['db.host']
-        name = self.config['db.name']
-        path = self.config['db.path']
-        port = self.config['db.port']
-        user = self.config['db.user']
-        password = self.config['db.password']
+        engine = self.config["db.engine"]
+        host = self.config["db.host"]
+        name = self.config["db.name"]
+        path = self.config["db.path"]
+        port = self.config["db.port"]
+        user = self.config["db.user"]
+        password = self.config["db.password"]
 
         if not engine:
             message = _("No engine found in config!")
@@ -153,7 +153,7 @@ class SQLAlchemyStore(BaseStore):
             raise ValueError(message)
 
         # URL composition is slightly different for sqlite
-        if engine == 'sqlite':
+        if engine == "sqlite":
             if not path:
                 # We could have allowed for blank paths, which would make
                 # SQLAlchemy default to ``:memory:``. But explicit is better
@@ -162,10 +162,10 @@ class SQLAlchemyStore(BaseStore):
                 message = _("No 'db.path' found in config! Sqlite requires one.")
                 self.logger.error(message)
                 raise ValueError(message)
-            if path != ':memory:':
+            if path != ":memory:":
                 # Make sure we always use an absolute path.
                 path = os.path.abspath(path)
-            database_url = '{engine}:///{path}'.format(engine=engine, path=path)
+            database_url = "{engine}:///{path}".format(engine=engine, path=path)
         else:
             if not host:
                 message = _(
@@ -196,19 +196,16 @@ class SQLAlchemyStore(BaseStore):
                 self.logger.error(message)
                 raise ValueError(message)
             if port:
-                port = ':{}'.format(port)
-            database_url = (
-                '{engine}://{user}:{password}@{host}{port}/{name}'
-                .format(
-                    engine=engine,
-                    user=user,
-                    password=password,
-                    host=host,
-                    port=port,
-                    name=name,
-                )
+                port = ":{}".format(port)
+            database_url = "{engine}://{user}:{password}@{host}{port}/{name}".format(
+                engine=engine,
+                user=user,
+                password=password,
+                host=host,
+                port=port,
+                name=name,
             )
-        self.logger.debug(_('database_url: {}'.format(database_url)))
+        self.logger.debug(_("database_url: {}".format(database_url)))
         return database_url
 
     def create_storage_engine(self):
@@ -217,7 +214,7 @@ class SQLAlchemyStore(BaseStore):
         # if we receive a session. Should be require the session to bring
         # its own engine?
         engine = create_engine(self.db_url)
-        self.logger.debug(_('Engine created.'))
+        self.logger.debug(_("Engine created."))
         # NOTE: (lb): I succeeded at setting the ORM (Sqlite3) logger level,
         # but it didn't log anything (I was hoping to see all statements).
         #
@@ -265,7 +262,6 @@ class SQLAlchemyStore(BaseStore):
         self.categories = CategoryManager(self)
         self.activities = ActivityManager(self)
         self.tags = TagManager(self)
-        localize = not self.config['time.tz_aware']
+        localize = not self.config["time.tz_aware"]
         self.facts = FactManager(self, localize=localize)
         self.fact_cls = None
-

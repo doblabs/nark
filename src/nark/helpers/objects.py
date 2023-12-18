@@ -19,9 +19,7 @@
 
 """This module provides nark raw fact parsing-related functions."""
 
-__all__ = (
-    'resolve_attr_or_method',
-)
+__all__ = ("resolve_attr_or_method",)
 
 
 def resolve_attr_or_method(self, prop, **kwargs):
@@ -29,4 +27,3 @@ def resolve_attr_or_method(self, prop, **kwargs):
     if callable(self_val):
         self_val = self_val(**kwargs)
     return self_val
-

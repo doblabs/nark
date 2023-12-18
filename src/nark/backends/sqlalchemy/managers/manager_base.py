@@ -25,9 +25,7 @@ from sqlalchemy.exc import IntegrityError
 
 from .gather_base import GatherBaseAlchemyManager
 
-__all__ = (
-    'BaseAlchemyManager',
-)
+__all__ = ("BaseAlchemyManager",)
 
 
 class BaseAlchemyManager(GatherBaseAlchemyManager):
@@ -48,6 +46,7 @@ class BaseAlchemyManager(GatherBaseAlchemyManager):
         category, tags), so we delay committing until everything is
         added/updated.
         """
+
         def _add_and_commit():
             session_add()
             session_commit_maybe()
@@ -67,7 +66,8 @@ class BaseAlchemyManager(GatherBaseAlchemyManager):
                 message = _(
                     "An error occured! Are you sure that the {0}'s name "
                     "or ID is not already present? Error: '{1}'.".format(
-                        self.__class__.__name__, err,
+                        self.__class__.__name__,
+                        err,
                     )
                 )
                 self.store.logger.error(message)
@@ -95,7 +95,7 @@ class BaseAlchemyManager(GatherBaseAlchemyManager):
         if query_terms.include_stats is None:
             query_terms.include_stats = False
         if query_terms.sort_cols is None:
-            query_terms.sort_cols = ('name',)
+            query_terms.sort_cols = ("name",)
         return super(BaseAlchemyManager, self).get_all(query_terms, **kwargs)
 
     def get_all_by_usage(self, query_terms=None, **kwargs):
@@ -110,10 +110,10 @@ class BaseAlchemyManager(GatherBaseAlchemyManager):
         if query_terms.include_stats is None:
             query_terms.include_stats = True
         if query_terms.sort_cols is None:
-            query_terms.sort_cols = ('usage',)
+            query_terms.sort_cols = ("usage",)
         return super(BaseAlchemyManager, self).get_all(query_terms, **kwargs)
 
     # ***
 
-# ***
 
+# ***
