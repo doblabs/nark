@@ -24,11 +24,12 @@ from nark.backends.sqlalchemy.storage import SQLAlchemyStore
 from nark.config import decorate_config
 
 
-# The reason we see a great deal of count == 0 statements is to make sure that
-# db rollback works as expected. Once we are confident in our sqlalchemy/pytest
-# setup those are not really needed.
 class TestStore(object):
     """Tests to make sure our store/test setup behaves as expected."""
+
+    # The reason we see a great deal of count == 0 statements is to make sure that
+    # db rollback works as expected. Once we are confident in our sqlalchemy/pytest
+    # setup those are not really needed.
 
     def test_build_is_not_persistent(self, alchemy_store, alchemy_category_factory):
         """
