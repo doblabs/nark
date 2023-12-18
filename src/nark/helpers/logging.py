@@ -39,7 +39,7 @@ def formatter_basic_plain():
 
 
 def formatter_basic_color():
-    # MAYBE: (lb): Replace hardcoded #styling (styles.conf). (Less concerned about logs.)
+    # MAYBE: (lb): Replace hardcoded #styling (styles.conf) (Less concerned about logs)
     formatter = logging.Formatter(
         "{grey_54}[{underlined}{magenta}%(levelname)s{reset}{grey_54}]{reset} "
         "{yellow}%(asctime)s{reset} "

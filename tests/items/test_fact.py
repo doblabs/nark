@@ -175,8 +175,8 @@ class TestFact(object):
                     # multiple Factoids can be parsed, and then relative times can
                     # be determined with reference to surrounding Facts. Although in
                     # this example, because start is relative to end, we could add code
-                    # to resolve time relative to the Fact itself, but there's not a good
-                    # reason to do so, e.g., here, after resolution, you'd see:
+                    # to resolve time relative to the Fact itself, but there's not a
+                    # good reason to do so, e.g., here, after resolution, you'd see:
                     #   'start': datetime.datetime(2015, 5, 2, 18, 0, 0),
                     "start": "-7",
                     "end": None,
@@ -345,7 +345,7 @@ class TestFact(object):
                 # and then anything else is verify_both or verify_none?? hrmmmm...
                 # maybe the answer is a 2nd parse-factoid wrapper, i.e.,
                 #   one parser for verify_hint, and one parser for unknown-hint...
-                "2016-01-01 19:00:00 homework@school: #math #science: something clever ...",
+                "2016-01-01 19:00:00 homework@school: #math #science: something clever ...",  # noqa: E501
             ),
             (
                 {
