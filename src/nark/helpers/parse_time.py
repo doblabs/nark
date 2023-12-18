@@ -161,7 +161,7 @@ class HamsterTimeSpec(object):
         #           RE_HAMSTER_TIME.match('2018-05-14 22:29:24.123x456+00:02')
 
         # Perhaps a lesser known feature: Hamster allows relative time!!
-        pattern_relative = "(?P<relative>([-+]?(\d+h)|[-+](\d+h)?\d+m?))"
+        pattern_relative = r"(?P<relative>([-+]?(\d+h)|[-+](\d+h)?\d+m?))"
 
         # Reminder: (?:...) is a non-capturing group.
 
@@ -170,7 +170,7 @@ class HamsterTimeSpec(object):
         #   does a more thorough match.
         pattern_just_clock = (
             "(?P<clock_time>"
-            "(?:(\d{1,2}:\d{2}:\d{2}|\d{1,2}:?\d{2}))"
+            r"(?:(\d{1,2}:\d{2}:\d{2}|\d{1,2}:?\d{2}))"
             "(?:(a|am|A|AM|p|pm|P|PM)?)"
             ")"
         )
@@ -179,15 +179,15 @@ class HamsterTimeSpec(object):
         #   `2030` should be 10:30 PM, not Jan 01, 2030.
         # This steals colon-less clock times:
         #   '(?:(\d{8}|\d{4}|\d{4}-\d{1,2}(-\d{1,2})?))'
-        pattern_date = "(?:(\d{8}|\d{4}-\d{1,2}(-\d{1,2})?))"
+        pattern_date = r"(?:(\d{8}|\d{4}-\d{1,2}(-\d{1,2})?))"
         # BEWARE: Does not verify hours and minutes in range 0..59.
         pattern_time = (
             # (lb): We could allow 3-digit times... but, no.
             #   '(?:\d{1,2})'
-            "(?:\d{2})"
-            "(?::?\d{2}"
-            "(?::?\d{2}"  # noqa: E131
-            "(?:\.\d+)?"  # noqa: E131
+            r"(?:\d{2})"
+            r"(?::?\d{2}"
+            r"(?::?\d{2}"  # noqa: E131
+            r"(?:\.\d+)?"  # noqa: E131
             ")?"
             ")?"
         )
@@ -195,14 +195,14 @@ class HamsterTimeSpec(object):
             "(?:("
             "Z"  # noqa: E131
             "|"
-            "[+-]\d{2}(:?\d{2})?"
+            r"[+-]\d{2}(:?\d{2})?"
             "))?"
         )
         pattern_datetime = "(?P<datetime>{}([ T]{}{})?)".format(
             pattern_date, pattern_time, pattern_zone
         )
 
-        hamster_pattern = "(^|\s)({}|{}|{})(?P<sep>[,:]?)(?=\s|$)(?P<rest>.*)".format(
+        hamster_pattern = r"(^|\s)({}|{}|{})(?P<sep>[,:]?)(?=\s|$)(?P<rest>.*)".format(
             pattern_relative,
             pattern_just_clock,
             pattern_datetime,

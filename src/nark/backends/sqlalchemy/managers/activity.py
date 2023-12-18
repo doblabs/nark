@@ -177,7 +177,7 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
             # (lb): I think this path unreachable, because get_by_composite should
             # find it first. Or is it something else?
             message = _(
-                "There seems to already be an activity like this for the given category."
+                "There's already an activity like this for the given category."
                 " Cannot change this activity's values. Original exception: {}"
             ).format(str(err))
             self.store.logger.error(message)
