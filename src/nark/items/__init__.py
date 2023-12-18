@@ -24,5 +24,9 @@ from .category import Category
 from .fact import Fact
 from .tag import Tag
 
-__all__ = ('Activity', 'Category', 'Fact', 'Tag', )
-
+__all__ = (
+    "Activity",
+    "Category",
+    "Fact",
+    "Tag",
+)

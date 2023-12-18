@@ -18,4 +18,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Fixtures needed to test helper submodule."""
-

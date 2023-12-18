@@ -25,7 +25,7 @@ from nark.helpers.parsing import (
     Parser,
     ParserMissingActivityException,
     ParserMissingDatetimeTwoException,
-    ParserMissingSeparatorActivity
+    ParserMissingSeparatorActivity,
 )
 
 from nark.tests.helpers.conftest import factoid_fixture
@@ -40,9 +40,8 @@ def parser():
 
 
 class TestParser(object):
-
     def test_parser_to_str(self, parser):
-        assert str(parser).startswith('raw: ')
+        assert str(parser).startswith("raw: ")
 
     def test_parser_factoid_None(self, parser):
         """Test that Factoid parser fails if Activity not indicated."""
@@ -51,22 +50,22 @@ class TestParser(object):
             parser.dissect_raw_fact(factoid=None)
 
     def test_parser_factoid_list(self, parser):
-        parser.dissect_raw_fact(factoid=['01:00 to 03:00 act @'])
+        parser.dissect_raw_fact(factoid=["01:00 to 03:00 act @"])
 
     def test_parser_factoid_activity_with_sep(self, parser):
-        parser.dissect_raw_fact(factoid='yesterday until 03:00 act @')
+        parser.dissect_raw_fact(factoid="yesterday until 03:00 act @")
 
     def test_parser_factoid_activity_without_sep(self, parser):
         with pytest.raises(ParserMissingSeparatorActivity):
-            parser.dissect_raw_fact(factoid='yesterday: act', time_hint='verify_end')
+            parser.dissect_raw_fact(factoid="yesterday: act", time_hint="verify_end")
 
     # Test single entry DATE_TO_DATE_SEPARATORS__RAW.
-    @patch('nark.helpers.parsing.DATE_TO_DATE_SEPARATORS__RAW', ['to'])
+    @patch("nark.helpers.parsing.DATE_TO_DATE_SEPARATORS__RAW", ["to"])
     def test_parser_factoid_missing_two_single_sep(self, parser):
         with pytest.raises(ParserMissingDatetimeTwoException):
-            parser.dissect_raw_fact('13:00: foo@bar', 'verify_both')
+            parser.dissect_raw_fact("13:00: foo@bar", "verify_both")
 
-    @freeze_time('2015-12-25 18:00')
+    @freeze_time("2015-12-25 18:00")
     @pytest.mark.parametrize(*factoid_fixture)
     def test_helpers_parsing_parse_factoid(
         self,
@@ -77,16 +76,17 @@ class TestParser(object):
     ):
         """Make sure that a valid raw fact creates a proper Fact."""
         fact_dict, err = parse_factoid(
-            raw_fact, time_hint=time_hint, lenient=True,
+            raw_fact,
+            time_hint=time_hint,
+            lenient=True,
         )
-        if 'err' in expectation and expectation['err']:
-            assert str(err).startswith(expectation['err'])
+        if "err" in expectation and expectation["err"]:
+            assert str(err).startswith(expectation["err"])
         else:
-            assert fact_dict['start'] == expectation['start_raw']
-            assert fact_dict['end'] == expectation['end_raw']
-            assert fact_dict['activity'] == expectation['activity']
-            assert fact_dict['category'] == expectation['category']
-            assert fact_dict['tags'] == expectation['tags']
-            assert fact_dict['description'] == expectation['description']
-            assert fact_dict['warnings'] == expectation['warnings']
-
+            assert fact_dict["start"] == expectation["start_raw"]
+            assert fact_dict["end"] == expectation["end_raw"]
+            assert fact_dict["activity"] == expectation["activity"]
+            assert fact_dict["category"] == expectation["category"]
+            assert fact_dict["tags"] == expectation["tags"]
+            assert fact_dict["description"] == expectation["description"]
+            assert fact_dict["warnings"] == expectation["warnings"]

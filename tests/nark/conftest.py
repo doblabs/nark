@@ -26,6 +26,7 @@ import pytest
 
 # *** (lb): Unused.
 
+
 def convert_time_to_datetime(time_string):
     """
     Helper method.
@@ -36,22 +37,23 @@ def convert_time_to_datetime(time_string):
     return datetime.datetime.combine(
         # MAYBE: Use controller.store.now ?
         datetime.datetime.utcnow().date(),
-        datetime.datetime.strptime(time_string, "%H:%M").time()
+        datetime.datetime.strptime(time_string, "%H:%M").time(),
     )
 
 
 # *** (lb): Unused.
 
+
 @pytest.fixture
 def raw_fact_with_persistent_activity(persistent_activity):
     """A raw fact whichs 'activity' is already present in the db."""
     return (
-        '12:00-14:14 {a.name}@{a.category.name}'.format(a=persistent_activity), {
-            'start': convert_time_to_datetime('12:00'),
-            'end': convert_time_to_datetime('14:14'),
-            'activity': persistent_activity.name,
-            'category': persistent_activity.category.name,
-            'description': None,
+        "12:00-14:14 {a.name}@{a.category.name}".format(a=persistent_activity),
+        {
+            "start": convert_time_to_datetime("12:00"),
+            "end": convert_time_to_datetime("14:14"),
+            "activity": persistent_activity.name,
+            "category": persistent_activity.category.name,
+            "description": None,
         },
     )
-

@@ -16,4 +16,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Test infrastructure for SQLAlchemy storage backend."""
-

@@ -18,4 +18,3 @@
 """Factories for sqlalchemy models."""
 
 from nark.tests.backends.sqlalchemy.factories import *  # noqa: F401, F403
-

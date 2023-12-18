@@ -56,6 +56,7 @@ from nark.items.tag import Tag
 #   solution is to not use faker() (from `import faker`), but to use
 #   factory.Faker() (and also factory.LazyAttribute with fauxfactory).
 
+
 class CategoryFactory(factory.Factory):
     """Test fixture factory returns new ``Category`` with random attribute values."""
 
@@ -74,7 +75,7 @@ class CategoryFactory(factory.Factory):
     #   # ``LazyFunction`` seems sufficient it is not as we could not pass on the
     #   # string encoding. ``LazyAttribute`` allows us to specify a lambda that
     #   # circumvents this problem.
-    name = factory.LazyAttribute(lambda x: fauxfactory.gen_string('utf8'))
+    name = factory.LazyAttribute(lambda x: fauxfactory.gen_string("utf8"))
 
     class Meta:
         model = Category
@@ -84,7 +85,7 @@ class ActivityFactory(factory.Factory):
     """Test fixture factory returns new ``Activity`` with random attribute values."""
 
     pk = None
-    name = factory.Faker('word')
+    name = factory.Faker("word")
     category = factory.SubFactory(CategoryFactory)
     deleted = False
 
@@ -96,7 +97,7 @@ class TagFactory(factory.Factory):
     """Test fixture factory returns new ``Tag`` with random attribute values."""
 
     pk = None
-    name = factory.Faker('word')
+    name = factory.Faker("word")
 
     class Meta:
         model = Tag
@@ -121,9 +122,9 @@ class FactFactory(factory.Factory):
     #   start = faker.Faker().date_time()
     #   end = start + datetime.timedelta(hours=3)
     # and then hamster-lib (but not the -cli) was updated 2016-06-24 (c84f189a) thusly:
-    start = factory.Faker('date_time')
+    start = factory.Faker("date_time")
     end = factory.LazyAttribute(lambda o: o.start + datetime.timedelta(hours=3))
-    description = factory.Faker('paragraph')
+    description = factory.Faker("paragraph")
 
     class Meta:
         model = Fact
@@ -132,4 +133,3 @@ class FactFactory(factory.Factory):
     def tags(self, create, extracted, **kwargs):
         """Add new random tags after instance creation."""
         self.tags = set([TagFactory() for i in range(1)])
-

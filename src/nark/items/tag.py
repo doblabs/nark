@@ -24,7 +24,8 @@ from collections import namedtuple
 from .item_base import BaseItem
 
 TagTuple = namedtuple(
-    'TagTuple', ('pk', 'name', 'deleted', 'hidden'),
+    "TagTuple",
+    ("pk", "name", "deleted", "hidden"),
 )
 
 
@@ -53,7 +54,7 @@ class Tag(BaseItem):
     def name(self, name):
         if not name:
             # Disallow `None` and empty string.
-            raise ValueError(_('Tags must be named.'))
+            raise ValueError(_("Tags must be named."))
         self._name = str(name)
 
     def as_tuple(self, include_pk=True):
@@ -110,5 +111,4 @@ class Tag(BaseItem):
         return hash(self.as_tuple())
 
     def __str__(self):
-        return '{name}'.format(name=self.name)
-
+        return "{name}".format(name=self.name)

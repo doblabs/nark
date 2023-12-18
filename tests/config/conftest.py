@@ -26,13 +26,18 @@ import pytest
 from nark.config.log_levels import LOG_LEVELS
 
 
-@pytest.fixture(params=list(LOG_LEVELS.keys()) + [123, ])
+@pytest.fixture(
+    params=list(LOG_LEVELS.keys())
+    + [
+        123,
+    ]
+)
 def log_level_valid_parametrized(request):
     """Return each of the valid log level strings."""
     return request.param
 
 
-@pytest.fixture(params=(None, '123', 'abc', ''))
+@pytest.fixture(params=(None, "123", "abc", ""))
 def log_level_invalid_parametrized(request):
     """Return selection of invalid log level strings."""
     return request.param
@@ -43,46 +48,46 @@ def configobj_instance(request):
     """Provide a ``ConfigObj`` instance and its expected config dict."""
 
     config = ConfigObj()
-    config['db'] = {}
-    config['db']['orm'] = 'sqlalchemy'
-    config['db']['engine'] = 'sqlite'
-    config['db']['path'] = '/tmp/nark-tests-config.db'
-    config['db']['host'] = 'www.example.com'
-    config['db']['port'] = 22
-    config['db']['name'] = 'hamster'
-    config['db']['user'] = 'hamster'
-    config['db']['password'] = 'hamster'
-    config['dev'] = {}
-    config['dev']['catch_errors'] = False
-    config['dev']['lib_log_level'] = 'WARNING'
-    config['dev']['sql_log_level'] = 'debug'
-    config['time'] = {}
-    config['time']['allow_momentaneous'] = False
-    config['time']['day_start'] = '05:00:00'
-    config['time']['fact_min_delta'] = 60
+    config["db"] = {}
+    config["db"]["orm"] = "sqlalchemy"
+    config["db"]["engine"] = "sqlite"
+    config["db"]["path"] = "/tmp/nark-tests-config.db"
+    config["db"]["host"] = "www.example.com"
+    config["db"]["port"] = 22
+    config["db"]["name"] = "hamster"
+    config["db"]["user"] = "hamster"
+    config["db"]["password"] = "hamster"
+    config["dev"] = {}
+    config["dev"]["catch_errors"] = False
+    config["dev"]["lib_log_level"] = "WARNING"
+    config["dev"]["sql_log_level"] = "debug"
+    config["time"] = {}
+    config["time"]["allow_momentaneous"] = False
+    config["time"]["day_start"] = "05:00:00"
+    config["time"]["fact_min_delta"] = 60
 
     expectation = {
-        'db': {
-            'orm': 'sqlalchemy',
-            'engine': 'sqlite',
-            'path': '/tmp/nark-tests-config.db',
-            'host': 'www.example.com',
-            'port': '22',
-            'name': 'hamster',
-            'user': 'hamster',
-            'password': 'hamster',
+        "db": {
+            "orm": "sqlalchemy",
+            "engine": "sqlite",
+            "path": "/tmp/nark-tests-config.db",
+            "host": "www.example.com",
+            "port": "22",
+            "name": "hamster",
+            "user": "hamster",
+            "password": "hamster",
         },
-        'dev': {
+        "dev": {
             # Devmode catch_errors could be deadly under test, as it sets a trace trap.
-            'catch_errors': 'False',
-            'lib_log_level': 'WARNING',
-            'sql_log_level': 'debug',
+            "catch_errors": "False",
+            "lib_log_level": "WARNING",
+            "sql_log_level": "debug",
         },
-        'time': {
+        "time": {
             # allow_momentaneous is hidden, so won't show in as_dict, etc.
             #  'allow_momentaneous': 'False',
-            'day_start': '05:00:00',
-            'fact_min_delta': '60',
+            "day_start": "05:00:00",
+            "fact_min_delta": "60",
             # MAYBE: (lb): Consider fiddling with day_start and fact_min_delta
             # in specific tests and leaving them set to factory defaults here:
             #   'day_start': '',
@@ -91,4 +96,3 @@ def configobj_instance(request):
     }
 
     return config, expectation
-

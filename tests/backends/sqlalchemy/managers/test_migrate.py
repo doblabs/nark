@@ -16,4 +16,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Tests for nark.backends.sqlalchemy.managers.migrate.MigrationsManager."""
-

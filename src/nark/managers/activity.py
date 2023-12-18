@@ -27,6 +27,7 @@ class BaseActivityManager(BaseManager):
     """
     Base class defining the minimal API for a ActivityManager implementation.
     """
+
     def __init__(self, *args, **kwargs):
         super(BaseActivityManager, self).__init__(*args, **kwargs)
 
@@ -217,4 +218,3 @@ class BaseActivityManager(BaseManager):
         Return a list of ``Activities`` matching given criteria.
         """
         raise NotImplementedError
-

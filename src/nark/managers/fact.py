@@ -28,6 +28,7 @@ from ..items.fact import Fact
 
 class BaseFactManager(BaseManager):
     """Base class defining the minimal API for a FactManager implementation."""
+
     def __init__(self, *args, localize=False, **kwargs):
         super(BaseFactManager, self).__init__(*args, **kwargs)
         # All for one, and one for all, set class-wide behavior.
@@ -53,6 +54,7 @@ class BaseFactManager(BaseManager):
             ValueError: If ``fact.delta`` is smaller than
               ``self.config['time.fact_min_delta']``
         """
+
         def _save():
             enforce_fact_min_delta()
             return super(BaseFactManager, self).save(
@@ -67,7 +69,7 @@ class BaseFactManager(BaseManager):
                 # The ongoing, active fact.
                 return
 
-            fact_min_delta = int(self.config['time.fact_min_delta'])
+            fact_min_delta = int(self.config["time.fact_min_delta"])
             if not fact_min_delta:
                 # User has not enabled min-delta behavior.
                 return
@@ -201,14 +203,14 @@ class BaseFactManager(BaseManager):
         self.store.logger.debug(_("Returning today's facts"))
 
         today = self.store.now.date()
-        since = datetime.datetime.combine(today, self.config['time.day_start'])
+        since = datetime.datetime.combine(today, self.config["time.day_start"])
         until = self.day_end_datetime(today)
         return self.get_all(since=since, until=until)
 
     def day_end_datetime(self, end_date=None):
         if end_date is None:
             end_date = self.store.now.date()
-        start_time = self.config['time.day_start']
+        start_time = self.config["time.day_start"]
         return fact_time.day_end_datetime(end_date, start_time)
 
     # ***
@@ -247,10 +249,12 @@ class BaseFactManager(BaseManager):
             or isinstance(end_hint, datetime.datetime)
             or isinstance(end_hint, datetime.timedelta)
         ):
-            raise TypeError(_(
-                "The 'end_hint' you passed needs to be either a"
-                "'datetime.datetime' or 'datetime.timedelta' instance."
-            ))
+            raise TypeError(
+                _(
+                    "The 'end_hint' you passed needs to be either a"
+                    "'datetime.datetime' or 'datetime.timedelta' instance."
+                )
+            )
 
         if end_hint:
             if isinstance(end_hint, datetime.datetime):
@@ -264,10 +268,12 @@ class BaseFactManager(BaseManager):
         fact = self.get_current_fact()
 
         if fact.start > end:
-            raise ValueError(_(
-                'Cannot end the Fact before it started.'
-                ' Try editing the Fact instead.'
-            ))
+            raise ValueError(
+                _(
+                    "Cannot end the Fact before it started."
+                    " Try editing the Fact instead."
+                )
+            )
         else:
             fact.end = end
         new_fact = self.save(fact)
@@ -288,6 +294,7 @@ class BaseFactManager(BaseManager):
         Raises:
             KeyError: If no ongoing fact is present.
         """
+
         def _get_current_fact():
             self.store.logger.debug(_("Looking for the 'active fact'."))
             # See alternatively:
@@ -300,9 +307,9 @@ class BaseFactManager(BaseManager):
         def ensure_one_or_fewer_ongoing(facts):
             if len(facts) <= 1:
                 return
-            msg = '{} IDs: {}'.format(
-                _('More than 1 ongoing Fact found. Your database is whacked out!!'),
-                ', '.join([str(fact.pk) for fact in facts]),
+            msg = "{} IDs: {}".format(
+                _("More than 1 ongoing Fact found. Your database is whacked out!!"),
+                ", ".join([str(fact.pk) for fact in facts]),
             )
             self.store.logger.debug(msg)
             raise Exception(msg)
@@ -320,9 +327,12 @@ class BaseFactManager(BaseManager):
     # ***
 
     def find_latest_fact(self, restrict=None):
-        assert not restrict or restrict in ['ended', 'ongoing', ]
+        assert not restrict or restrict in [
+            "ended",
+            "ongoing",
+        ]
         fact = None
-        if not restrict or restrict == 'ongoing':
+        if not restrict or restrict == "ongoing":
             try:
                 fact = self.get_current_fact()
             except KeyError:
@@ -330,10 +340,10 @@ class BaseFactManager(BaseManager):
             except Exception:
                 # (lb): Unexpected! This could mean more than one ongoing Fact found!
                 raise
-        if fact is None and restrict != 'ongoing':
+        if fact is None and restrict != "ongoing":
             results = self.get_all(
-                sort_cols=('start',),
-                sort_orders=('desc',),
+                sort_cols=("start",),
+                sort_orders=("desc",),
                 limit=1,
                 exclude_ongoing=True,
                 # Just to be clear, we want just the Facts.
@@ -351,8 +361,8 @@ class BaseFactManager(BaseManager):
     def find_oldest_fact(self):
         fact = None
         results = self.get_all(
-            sort_cols=('start',),
-            sort_orders=('asc',),
+            sort_cols=("start",),
+            sort_orders=("asc",),
             limit=1,
         )
         if len(results) > 0:
@@ -511,4 +521,3 @@ class BaseFactManager(BaseManager):
             list: List of ``nark.Facts`` instances.
         """
         raise NotImplementedError
-
