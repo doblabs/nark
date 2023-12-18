@@ -402,7 +402,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             #   tags_subquery = tags_subquery.options(joinedload(AlchemyFact.tags))
             tags_subquery = tags_subquery.with_entities(AlchemyFact.pk, tags_col)
             tags_subquery = tags_subquery.subquery("tag_names")
-            query = query.join(tags_subquery, AlchemyFact.pk == tags_subquery.c.id)
+            query = query.join(tags_subquery, AlchemyFact.pk == tags_subquery.c.pk)
 
             return query, tags_subquery
 
