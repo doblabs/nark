@@ -25,20 +25,15 @@ from sqlalchemy import asc, desc, func
 from sqlalchemy.sql.expression import and_, or_
 
 from ..objects import AlchemyFact
-from . import (
-    query_apply_true_or_not,
-    query_prepare_datetime
-)
+from . import query_apply_true_or_not, query_prepare_datetime
 from .gather_fact import GatherFactManager
 
-__all__ = (
-    'FactManager',
-)
+__all__ = ("FactManager",)
 
 
 class FactManager(GatherFactManager):
-    """
-    """
+    """ """
+
     def __init__(self, *args, **kwargs):
         super(FactManager, self).__init__(*args, **kwargs)
 
@@ -87,7 +82,9 @@ class FactManager(GatherFactManager):
         alchemy_fact.tags = tags
 
         result = self.add_and_commit(
-            alchemy_fact, raw=raw, skip_commit=skip_commit,
+            alchemy_fact,
+            raw=raw,
+            skip_commit=skip_commit,
         )
 
         return result
@@ -131,17 +128,14 @@ class FactManager(GatherFactManager):
             raise KeyError(message)
 
         if alchemy_fact.deleted:
-            message = _('Cannot edit deleted Fact: ‘{!r}’.'.format(fact))
+            message = _("Cannot edit deleted Fact: ‘{!r}’.".format(fact))
             self.store.logger.error(message)
             raise ValueError(message)
 
         if (
-            (
-                (fact.deleted and (fact.end == alchemy_fact.end))
-                or (fact.end and not alchemy_fact.end)
-            )
-            and fact.equal_sans_end(alchemy_fact)
-        ):
+            (fact.deleted and (fact.end == alchemy_fact.end))
+            or (fact.end and not alchemy_fact.end)
+        ) and fact.equal_sans_end(alchemy_fact):
             # Don't bother with split_from entry.
             # MAYBE: (lb): Go full wiki and store edit times? Ug...
             new_fact = alchemy_fact
@@ -153,7 +147,9 @@ class FactManager(GatherFactManager):
             fact.split_from = alchemy_fact
             # Clear the ID so that a new ID is assigned.
             fact.pk = None
-            new_fact = self._add(fact, raw=True, skip_commit=True, ignore_pks=ignore_pks)
+            new_fact = self._add(
+                fact, raw=True, skip_commit=True, ignore_pks=ignore_pks
+            )
             # NOTE: _add() calls:
             #       self.store.session.commit()
             # The fact being split from is deleted/historic.
@@ -182,7 +178,7 @@ class FactManager(GatherFactManager):
 
     def must_validate_datetimes(self, fact, ignore_pks=[]):
         if not isinstance(fact.start, datetime):
-            raise TypeError(_('Missing start time for ‘{!r}’.').format(fact))
+            raise TypeError(_("Missing start time for ‘{!r}’.").format(fact))
 
         # Check for valid time range.
         invalid_range = False
@@ -191,24 +187,24 @@ class FactManager(GatherFactManager):
                 invalid_range = True
             else:
                 # EXPERIMENTAL: Sneaky, "hidden", vacant, timeless Facts.
-                allow_momentaneous = self.store.config['time.allow_momentaneous']
+                allow_momentaneous = self.store.config["time.allow_momentaneous"]
                 if not allow_momentaneous and fact.start >= fact.end:
                     invalid_range = True
 
         if invalid_range:
-            message = _('Invalid time range for “{!r}”.').format(fact)
+            message = _("Invalid time range for “{!r}”.").format(fact)
             if fact.start == fact.end:  # pragma: no cover
                 assert False  # (lb): Preserved in case we revert == policy.
-                message += _(' The start time cannot be the same as the end time.')
+                message += _(" The start time cannot be the same as the end time.")
             else:
-                message += _(' The start time cannot be after the end time.')
+                message += _(" The start time cannot be after the end time.")
             self.store.logger.error(message)
             raise ValueError(message)
 
         if not self._timeframe_available_for_fact(fact, ignore_pks):
             msg = _(
-                'One or more Facts already exist '
-                'between the indicated start and end times. '
+                "One or more Facts already exist "
+                "between the indicated start and end times. "
             )
             self.store.logger.error(msg)
             raise ValueError(msg)
@@ -309,7 +305,7 @@ class FactManager(GatherFactManager):
             self.store.logger.error(message)
             raise KeyError(message)
         if alchemy_fact.deleted:
-            message = _('The Fact is already marked deleted.')
+            message = _("The Fact is already marked deleted.")
             self.store.logger.error(message)
             # FIXME/2018-06-08: (lb): I think we need custom Exceptions...
             raise Exception(message)
@@ -317,7 +313,7 @@ class FactManager(GatherFactManager):
         if purge:
             self.store.session.delete(alchemy_fact)
         self.store.session.commit()
-        self.store.logger.debug('Deleted: {!r}'.format(fact))
+        self.store.logger.debug("Deleted: {!r}".format(fact))
 
     # ***
 
@@ -369,7 +365,7 @@ class FactManager(GatherFactManager):
     def get_all(self, query_terms=None, lazy_tags=False, **kwargs):
         query_terms, kwargs = self._gather_prepare_query_terms(query_terms, **kwargs)
         if query_terms.sort_cols is None:
-            query_terms.sort_cols = ('start',)
+            query_terms.sort_cols = ("start",)
         return super(FactManager, self).get_all(
             query_terms, lazy_tags=lazy_tags, **kwargs
         )
@@ -406,7 +402,7 @@ class FactManager(GatherFactManager):
         query = self.store.session.query(AlchemyFact)
 
         if fact.start is None:
-            raise ValueError('No `start` for starting_at(fact).')
+            raise ValueError("No `start` for starting_at(fact).")
 
         start_at = query_prepare_datetime(fact.start)
         condition = and_(func.datetime(AlchemyFact.start) == start_at)
@@ -419,12 +415,14 @@ class FactManager(GatherFactManager):
         # Order by (start time, end time, fact ID), ascending.
         query = self.query_order_by_start(query, asc)
 
-        self.store.logger.debug('fact: {} / query: {}'.format(fact, str(query)))
+        self.store.logger.debug("fact: {} / query: {}".format(fact, str(query)))
 
         n_facts = query.count()
         if n_facts > 1:
-            message = 'More than one fact found starting at "{}": {} facts found'.format(
-                fact.start, n_facts
+            message = (
+                'More than one fact found starting at "{}": {} facts found'.format(
+                    fact.start, n_facts
+                )
             )
             raise ValueError(message)
 
@@ -451,7 +449,7 @@ class FactManager(GatherFactManager):
         query = self.store.session.query(AlchemyFact)
 
         if fact.end is None:
-            raise ValueError('No `end` for ending_at(fact).')
+            raise ValueError("No `end` for ending_at(fact).")
 
         end_at = query_prepare_datetime(fact.end)
         condition = and_(func.datetime(AlchemyFact.end) == end_at)
@@ -464,12 +462,13 @@ class FactManager(GatherFactManager):
         # Order by (start time, end time, fact ID), descending.
         query = self.query_order_by_start(query, desc)
 
-        self.store.logger.debug('fact: {} / query: {}'.format(fact, str(query)))
+        self.store.logger.debug("fact: {} / query: {}".format(fact, str(query)))
 
         n_facts = query.count()
         if n_facts > 1:
             message = 'More than one fact found ending at "{}": {} facts found'.format(
-                fact.end, n_facts,
+                fact.end,
+                n_facts,
             )
             raise ValueError(message)
 
@@ -509,7 +508,7 @@ class FactManager(GatherFactManager):
             # This branch reachable from factoid_fixture tests. See:
             #   raw_fact: 'Monday-13:00: foo@bar', time_hint: 'verify_both'
             #   raw_fact: '2015-12-12 13:00 foo@bar', time_hint: 'verify_both'
-            raise ValueError(_('No reference time for antecedent(fact).'))
+            raise ValueError(_("No reference time for antecedent(fact)."))
 
         ref_time = query_prepare_datetime(ref_time)
 
@@ -565,10 +564,12 @@ class FactManager(GatherFactManager):
         # Next, include any Fact that ends at ref_time but is not momentaneous.
         # Given the previous example of three Facts, given the momentaneous
         # Fact at 12:00:00, this will find the earlier Fact from 11a to 12p.
-        or_criteria.append(and_(
-            func.datetime(AlchemyFact.end) == ref_time,
-            func.datetime(AlchemyFact.start) < ref_time,
-        ))
+        or_criteria.append(
+            and_(
+                func.datetime(AlchemyFact.end) == ref_time,
+                func.datetime(AlchemyFact.start) < ref_time,
+            )
+        )
         # Finally, include any momentaneous Fact that occupies the moment at
         # ref_time, but take into consideration the PK so that calling this
         # method, antecedent, with each momentaneous Fact will return them in
@@ -579,11 +580,13 @@ class FactManager(GatherFactManager):
             # first one to this method finds the second on, and then passing the
             # second one does not return the first one again. (Note that later
             # we call query_order_by_start to ensure the order is correct.)
-            or_criteria.append(and_(
-                func.datetime(AlchemyFact.end) == ref_time,
-                func.datetime(AlchemyFact.start) == ref_time,
-                AlchemyFact.pk < fact.pk,
-            ))
+            or_criteria.append(
+                and_(
+                    func.datetime(AlchemyFact.end) == ref_time,
+                    func.datetime(AlchemyFact.start) == ref_time,
+                    AlchemyFact.pk < fact.pk,
+                )
+            )
         before_closed_fact_end = and_(
             AlchemyFact.end != None,  # noqa: E711
             or_(*or_criteria),
@@ -605,8 +608,7 @@ class FactManager(GatherFactManager):
         query = query.limit(1)
 
         self.store.logger.debug(
-            'fact: {} / ref_time: {} / query: {}'
-            .format(fact, ref_time, str(query))
+            "fact: {} / ref_time: {} / query: {}".format(fact, ref_time, str(query))
         )
 
         found = query.one_or_none()
@@ -645,7 +647,7 @@ class FactManager(GatherFactManager):
                 #     py.test -x -s -k test_add_new_fact tests/
                 ref_time = fact.end
         if ref_time is None:
-            raise ValueError(_('No reference time for subsequent(fact).'))
+            raise ValueError(_("No reference time for subsequent(fact)."))
 
         ref_time = query_prepare_datetime(ref_time)
 
@@ -653,16 +655,20 @@ class FactManager(GatherFactManager):
         # the complementary logic, for searching backwards, not forward).
         or_criteria = []
         or_criteria.append(func.datetime(AlchemyFact.start) > ref_time)
-        or_criteria.append(and_(
-            func.datetime(AlchemyFact.start) == ref_time,
-            func.datetime(AlchemyFact.end) > ref_time,
-        ))
-        if fact is not None and fact.pk is not None:
-            or_criteria.append(and_(
+        or_criteria.append(
+            and_(
                 func.datetime(AlchemyFact.start) == ref_time,
-                func.datetime(AlchemyFact.end) == ref_time,
-                AlchemyFact.pk > fact.pk,
-            ))
+                func.datetime(AlchemyFact.end) > ref_time,
+            )
+        )
+        if fact is not None and fact.pk is not None:
+            or_criteria.append(
+                and_(
+                    func.datetime(AlchemyFact.start) == ref_time,
+                    func.datetime(AlchemyFact.end) == ref_time,
+                    AlchemyFact.pk > fact.pk,
+                )
+            )
         # Note that, by design, AlchemyFact.start should always be not None,
         # but we'll check anyway, for completeness and comparability to the
         # antecedent method (where AlchemyFact.end is not always not None).
@@ -682,8 +688,7 @@ class FactManager(GatherFactManager):
         query = query.limit(1)
 
         self.store.logger.debug(
-            'fact: {} / ref_time: {} / query: {}'
-            .format(fact, ref_time, str(query))
+            "fact: {} / ref_time: {} / query: {}".format(fact, ref_time, str(query))
         )
 
         found = query.one_or_none()
@@ -732,8 +737,7 @@ class FactManager(GatherFactManager):
         query = self.query_order_by_start(query, asc)
 
         self.store.logger.debug(
-            'since: {} / until: {} / query: {}'
-            .format(since, until, str(query))
+            "since: {} / until: {} / query: {}".format(since, until, str(query))
         )
 
         # LATER: (lb): We'll let the client ask for as many records as they
@@ -745,11 +749,10 @@ class FactManager(GatherFactManager):
         if during_count > result_limit:
             # (lb): hamster-lib would `raise OverflowError`,
             # but that seems drastic.
-            message = (_(
-                'This is your alert that lots of Facts were found between '
-                'the two dates specified: found {}.'
-                .factor(during_count)
-            ))
+            message = _(
+                "This is your alert that lots of Facts were found between "
+                "the two dates specified: found {}.".factor(during_count)
+            )
             self.store.logger.warning(message)
 
         facts = query.all()
@@ -804,8 +807,7 @@ class FactManager(GatherFactManager):
         query = self.query_order_by_start(query, asc)
 
         self.store.logger.debug(
-            'fact_time: {} / query: {}'
-            .format(fact_time, str(query))
+            "fact_time: {} / query: {}".format(fact_time, str(query))
         )
 
         if not inclusive:
@@ -836,12 +838,14 @@ class FactManager(GatherFactManager):
 
         # NOTE: (lb): Use ==/!=, not `is`/`not`, b/c SQLAlchemy
         #       overrides ==/!=, not `is`/`not`.
-        condition = or_(AlchemyFact.start == None, AlchemyFact.end == None)  # noqa: E711
+        condition = or_(
+            AlchemyFact.start == None, AlchemyFact.end == None
+        )  # noqa: E711
         condition = and_(condition, AlchemyFact.deleted == False)  # noqa: E712
 
         query = query.filter(condition)
 
-        self.store.logger.debug('query: {}'.format(str(query)))
+        self.store.logger.debug("query: {}".format(str(query)))
 
         facts = query.all()
         found_facts = [fact.as_hamster(self.store) for fact in facts]
@@ -849,5 +853,5 @@ class FactManager(GatherFactManager):
 
     # ***
 
-# ***
 
+# ***

@@ -27,14 +27,12 @@ from ..objects import AlchemyActivity, AlchemyCategory, AlchemyFact
 from . import query_apply_true_or_not
 from .manager_base import BaseAlchemyManager
 
-__all__ = (
-    'ActivityManager',
-)
+__all__ = ("ActivityManager",)
 
 
 class ActivityManager(BaseAlchemyManager, BaseActivityManager):
-    """
-    """
+    """ """
+
     def __init__(self, *args, **kwargs):
         super(ActivityManager, self).__init__(*args, **kwargs)
 
@@ -102,7 +100,8 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
         if activity.category:
             try:
                 category = self.store.categories.get_by_name(
-                    activity.category.name, raw=True)
+                    activity.category.name, raw=True
+                )
             except KeyError:
                 category = AlchemyCategory(
                     pk=None,
@@ -115,7 +114,9 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
         alchemy_activity.category = category
 
         result = self.add_and_commit(
-            alchemy_activity, raw=raw, skip_commit=skip_commit,
+            alchemy_activity,
+            raw=raw,
+            skip_commit=skip_commit,
         )
 
         return result
@@ -166,7 +167,8 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
             raise KeyError(message)
         alchemy_activity.name = activity.name
         alchemy_activity.category = self.store.categories.get_or_create(
-            activity.category, raw=True,
+            activity.category,
+            raw=True,
         )
         alchemy_activity.deleted = bool(activity.deleted)
         try:
@@ -175,7 +177,7 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
             # (lb): I think this path unreachable, because get_by_composite should
             # find it first. Or is it something else?
             message = _(
-                'There seems to already be an activity like this for the given category.'
+                "There seems to already be an activity like this for the given category."
                 " Cannot change this activity's values. Original exception: {}"
             ).format(str(err))
             self.store.logger.error(message)
@@ -305,8 +307,8 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
                 alchemy_category = self.store.categories.get_by_name(category, raw=True)
             except KeyError:
                 message = _(
-                    'The category passed ({}) does not exist in the backend. '
-                    'Consequently no related activity can be returned.'
+                    "The category passed ({}) does not exist in the backend. "
+                    "Consequently no related activity can be returned."
                 ).format(category)
                 # (lb): This was error, but shouldn't be; callers catch if they care.
                 self.store.logger.debug(message)
@@ -343,13 +345,13 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
 
     @property
     def _gather_query_order_by_name_col(self):
-        return 'activity'
+        return "activity"
 
     def _gather_query_start_timeless(self, qt, alchemy_cls):
         # Query on AlchemyActivity.
-        query = super(
-            ActivityManager, self
-        )._gather_query_start_timeless(qt, alchemy_cls)
+        query = super(ActivityManager, self)._gather_query_start_timeless(
+            qt, alchemy_cls
+        )
 
         query = self._gather_query_join_category(qt, query)
         return query
@@ -373,9 +375,7 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
         # - If sorting on Category, we'll need to join the table.
         # - If matching on Category, we'll need to join the table.
         requires_category_table = (
-            not qt.raw
-            or qt.match_categories
-            or qt.sort_cols_has_any('category')
+            not qt.raw or qt.match_categories or qt.sort_cols_has_any("category")
         )
         if requires_category_table:
             query = query.outerjoin(AlchemyCategory)
@@ -383,4 +383,3 @@ class ActivityManager(BaseAlchemyManager, BaseActivityManager):
         return query
 
     # ***
-

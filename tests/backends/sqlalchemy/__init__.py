@@ -18,4 +18,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Test for the SQLAlchemy storage backend."""
-

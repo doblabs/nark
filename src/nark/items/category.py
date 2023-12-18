@@ -24,7 +24,8 @@ from collections import namedtuple
 from .item_base import BaseItem
 
 CategoryTuple = namedtuple(
-    'CategoryTuple', ('pk', 'name', 'deleted', 'hidden'),
+    "CategoryTuple",
+    ("pk", "name", "deleted", "hidden"),
 )
 
 
@@ -51,7 +52,7 @@ class Category(BaseItem):
     @name.setter
     def name(self, name):
         if name is None:
-            raise ValueError(_('Category name must not be None.'))
+            raise ValueError(_("Category name must not be None."))
         self._name = str(name)
 
     def as_tuple(self, include_pk=True):
@@ -110,5 +111,4 @@ class Category(BaseItem):
         return hash(self.as_tuple())
 
     def __str__(self):
-        return '{name}'.format(name=self.name)
-
+        return "{name}".format(name=self.name)

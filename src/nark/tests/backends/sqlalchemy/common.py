@@ -31,4 +31,3 @@ from sqlalchemy import orm
 # This session is so the Alchemy item factories all deposit
 # their items in the same backend.
 Session = orm.scoped_session(orm.sessionmaker())
-

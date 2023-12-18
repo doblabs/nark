@@ -18,4 +18,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Tests for various storage backends."""
-

@@ -29,7 +29,7 @@ from .managers.category import BaseCategoryManager
 from .managers.fact import BaseFactManager
 from .managers.tag import BaseTagManager
 
-__all__ = ('BaseStore', )
+__all__ = ("BaseStore",)
 
 
 class BaseStore(object):
@@ -46,13 +46,13 @@ class BaseStore(object):
         self.add_pytest_managers()
 
     def add_pytest_managers(self):
-        if not os.environ.get('PYTEST_CURRENT_TEST', None):
+        if not os.environ.get("PYTEST_CURRENT_TEST", None):
             return
         # The following intermediate classes are solely used for testing!
         self.categories = BaseCategoryManager(self)
         self.activities = BaseActivityManager(self)
         self.tags = BaseTagManager(self)
-        localize = not self.config['time.tz_aware']
+        localize = not self.config["time.tz_aware"]
         self.facts = BaseFactManager(self, localize=localize)
 
     def standup(self):
@@ -70,40 +70,41 @@ class BaseStore(object):
         raise NotImplementedError
 
     def init_config(self):
-        self.config.setdefault('db.orm', 'sqlalchemy')
-        self.config.setdefault('db.engine', 'sqlite')
-        self.config.setdefault('db.path', self.default_db_path)
-        self.config.setdefault('db.host', '')
-        self.config.setdefault('db.port', '')
-        self.config.setdefault('db.name', '')
-        self.config.setdefault('db.user', '')
-        self.config.setdefault('db.password', '')
-        self.config.setdefault('time.allow_momentaneous', False)
-        self.config.setdefault('time.day_start', '')
-        self.config.setdefault('time.fact_min_delta', '0')
-        self.config.setdefault('dev.catch_errors', False)
-        self.config.setdefault('dev.lib_log_level', 'WARNING')
-        self.config.setdefault('dev.sql_log_level', 'WARNING')
-        self.config.setdefault('time.tz_aware', False)
-        self.config.setdefault('time.default_tzinfo', '')
+        self.config.setdefault("db.orm", "sqlalchemy")
+        self.config.setdefault("db.engine", "sqlite")
+        self.config.setdefault("db.path", self.default_db_path)
+        self.config.setdefault("db.host", "")
+        self.config.setdefault("db.port", "")
+        self.config.setdefault("db.name", "")
+        self.config.setdefault("db.user", "")
+        self.config.setdefault("db.password", "")
+        self.config.setdefault("time.allow_momentaneous", False)
+        self.config.setdefault("time.day_start", "")
+        self.config.setdefault("time.fact_min_delta", "0")
+        self.config.setdefault("dev.catch_errors", False)
+        self.config.setdefault("dev.lib_log_level", "WARNING")
+        self.config.setdefault("dev.sql_log_level", "WARNING")
+        self.config.setdefault("time.tz_aware", False)
+        self.config.setdefault("time.default_tzinfo", "")
 
     @property
     def default_db_path(self):
         if not AppDirs.is_ready:
-            return ''
+            return ""
         db_path = os.path.join(
             AppDirs().user_data_dir,
             # (lb): Whatever client is using the nark library
             # will generally setup db_path specially; this is
             # just a default filename for completeness.
-            'dob.sqlite',
+            "dob.sqlite",
         )
         return db_path
 
     def init_logger(self):
-        sql_log_level = self.config['dev.sql_log_level']
+        sql_log_level = self.config["dev.sql_log_level"]
         self.logger = logging_helpers.set_logger_level(
-            'nark.store', sql_log_level,
+            "nark.store",
+            sql_log_level,
         )
 
     @property
@@ -124,7 +125,7 @@ class BaseStore(object):
         return self.now
 
     def now_tz_aware(self):
-        if self.config['time.tz_aware']:
+        if self.config["time.tz_aware"]:
             # FIXME/2018-05-23: (lb): Tests use utcnow(). Should they honor tz_aware?
             #   (Though if Freezegun being used, now() == utcnow().)
             # Clear microseconds to avoid six digits of noise, e.g., 12:34:56.789012.
@@ -133,4 +134,3 @@ class BaseStore(object):
             return datetime.utcnow().replace(microsecond=0)
         else:
             return datetime.now().replace(microsecond=0)
-
