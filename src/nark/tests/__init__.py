@@ -16,4 +16,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """*Packaged* test modules for ``nark`` (i.e., included in the release!)."""
-

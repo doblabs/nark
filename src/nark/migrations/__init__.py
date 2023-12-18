@@ -17,4 +17,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """nark backend migration scripts."""
-

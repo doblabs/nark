@@ -22,7 +22,7 @@ import pytest
 from nark.backends.sqlalchemy.objects import AlchemyTag
 
 
-class TestTagManager():
+class TestTagManager:
     """"""
 
     def test_add_new(self, alchemy_store, alchemy_tag_factory):
@@ -59,7 +59,7 @@ class TestTagManager():
         an exception.
         """
         tag = alchemy_tag_factory().as_hamster(alchemy_store)
-        tag.name += 'foobar'
+        tag.name += "foobar"
         assert tag.pk
         with pytest.raises(ValueError):
             alchemy_store.tags._add(tag)
@@ -180,7 +180,7 @@ class TestTagManager():
         # QueryTerms.query_filter_by_tags option (because no obvious
         # use case). But QueryTerms still accepts it.
         results = alchemy_store.tags.get_all(
-            match_tags=['foo'],
+            match_tags=["foo"],
         )
         expect_all_tags = 0
         for fact in set_of_alchemy_facts_active:
@@ -190,22 +190,21 @@ class TestTagManager():
     # ***
 
     @pytest.mark.parametrize(
-        ('sort_cols'),
+        ("sort_cols"),
         (
-            (['start']),
+            (["start"]),
             ([None]),
-            (['usage']),
-            (['time']),
-            (['activity']),
-            (['category']),
-            (['tag']),
-        )
+            (["usage"]),
+            (["time"]),
+            (["activity"]),
+            (["category"]),
+            (["tag"]),
+        ),
     )
     def test_get_all_sort_cols(self, alchemy_store, sort_cols):
         alchemy_store.tags.get_all(sort_cols=sort_cols)
 
     def test_get_all_sort_cols_unknown(self, alchemy_store, mocker):
-        mocker.patch.object(alchemy_store.logger, 'warning')
-        alchemy_store.tags.get_all(sort_cols=['foo'])
+        mocker.patch.object(alchemy_store.logger, "warning")
+        alchemy_store.tags.get_all(sort_cols=["foo"])
         assert alchemy_store.logger.warning.called
-

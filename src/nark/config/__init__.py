@@ -32,9 +32,9 @@ from easy_as_pypi_appdirs import AppDirs
 from .log_levels import get_log_level_safe, get_log_name_safe, must_verify_log_level
 
 __all__ = (
-    'REGISTERED_BACKENDS',
-    'ConfigRoot',
-    'decorate_config',
+    "REGISTERED_BACKENDS",
+    "ConfigRoot",
+    "decorate_config",
     # PRIVATE:
     # 'NarkConfigurableDb',
     # 'NarkConfigurableDev',
@@ -42,13 +42,14 @@ __all__ = (
 )
 
 BackendRegistryEntry = namedtuple(
-    'BackendRegistryEntry', ('verbose_name', 'store_class'),
+    "BackendRegistryEntry",
+    ("verbose_name", "store_class"),
 )
 
 REGISTERED_BACKENDS = {
-    'sqlalchemy': BackendRegistryEntry(
-        'SQLAlchemy',
-        'nark.backends.sqlalchemy.SQLAlchemyStore',
+    "sqlalchemy": BackendRegistryEntry(
+        "SQLAlchemy",
+        "nark.backends.sqlalchemy.SQLAlchemyStore",
     ),
 }
 
@@ -56,6 +57,7 @@ REGISTERED_BACKENDS = {
 # ***
 # *** Top-level, root config object.
 # ***
+
 
 @section(None)
 class ConfigRoot(object):
@@ -67,7 +69,7 @@ class ConfigRoot(object):
 # ***
 
 
-@ConfigRoot.section('db')
+@ConfigRoot.section("db")
 class NarkConfigurableDb(object):
     """"""
 
@@ -87,7 +89,7 @@ class NarkConfigurableDb(object):
         # Just showing off: How to deliberately specify the setting name,
         # otherwise it defaults to the function name.
         # (lb): Was called 'store' in hamster-lib, but 'orm' descriptiver.
-        name='orm',  # I.e., instead if `def orm(self)`.
+        name="orm",  # I.e., instead if `def orm(self)`.
         choices=REGISTERED_BACKENDS,
     )
     def store_default(self):
@@ -95,17 +97,19 @@ class NarkConfigurableDb(object):
         """ORM used by dob to interface with the DBMS. Most likely ‘sqlalchemy’."""
         # HINT: The property return value is the default for the setting.
         # HINT: The type of this value determines the setting type, too.
-        return 'sqlalchemy'
+        return "sqlalchemy"
 
     # ***
 
     @property
     @ConfigRoot.setting(
-        _("Database management system used to manage your data."
-            " Most likely ‘sqlite’."),
+        _(
+            "Database management system used to manage your data."
+            " Most likely ‘sqlite’."
+        ),
     )
     def engine(self):
-        return 'sqlite'
+        return "sqlite"
 
     # ***
 
@@ -116,8 +120,7 @@ class NarkConfigurableDb(object):
         # who actually uses something other than SQLite, let's make the
         # documentation more precise, and specifically say applies to SQLite.
         # Also because I haven't tested anything other than SQLite.
-        _("Path to SQLite database file"
-            " (for ‘sqlite’ db.engine)."),
+        _("Path to SQLite database file" " (for ‘sqlite’ db.engine)."),
         # The db.path only applies for 'sqlite' DBMS.
         # But we won't set ephemeral or hidden, because user should still see in
         # config, so they more easily understand how to change DBMS settings.
@@ -125,14 +128,14 @@ class NarkConfigurableDb(object):
     def path(self):
         if not AppDirs.is_ready:
             # Just in case called before AppDirsWithMkdir() created.
-            return ''
+            return ""
 
         db_path = os.path.join(
             AppDirs().user_data_dir,
             # MAYBE: Rename? 'nark.sqlite'?? or 'hamster.sqlite'??
             # FIXME: Make this a package const rather than inline literal.
             #        (Maybe on Config refactor how to do so will be evident.)
-            'dob.sqlite',
+            "dob.sqlite",
         )
         return db_path
 
@@ -143,46 +146,50 @@ class NarkConfigurableDb(object):
 
     @property
     @ConfigRoot.setting(
-        _("Host name of the database server"
-            " (for non-‘sqlite’ db.engine)."),
+        _("Host name of the database server" " (for non-‘sqlite’ db.engine)."),
     )
     def host(self):
-        return ''
+        return ""
 
     @property
     @ConfigRoot.setting(
-        _("Port number on which the server is listening"
-            " (for non-‘sqlite’ db.engine)."),
+        _(
+            "Port number on which the server is listening"
+            " (for non-‘sqlite’ db.engine)."
+        ),
     )
     def port(self):
-        return ''
+        return ""
 
     @property
     @ConfigRoot.setting(
         _("The database name (for non-‘sqlite’ db.engine)."),
     )
     def name(self):
-        return ''
+        return ""
 
     @property
     @ConfigRoot.setting(
         _("The database user (for non-‘sqlite’ db.engine)."),
     )
     def user(self):
-        return ''
+        return ""
 
     @property
     @ConfigRoot.setting(
-        _("The database password (non-‘sqlite’)."
-            " WARNING: This setting is potentially unsafe!"),
+        _(
+            "The database password (non-‘sqlite’)."
+            " WARNING: This setting is potentially unsafe!"
+        ),
     )
     def password(self):
-        return ''
+        return ""
 
 
 # ***
 
-@ConfigRoot.section('dev')
+
+@ConfigRoot.section("dev")
 class NarkConfigurableDev(object):
     """"""
 
@@ -193,39 +200,45 @@ class NarkConfigurableDev(object):
 
     @property
     @ConfigRoot.setting(
-        _("If True, enables features for developing dob"
-          " (e.g., stop at REPL on affirm faults)."),
+        _(
+            "If True, enables features for developing dob"
+            " (e.g., stop at REPL on affirm faults)."
+        ),
     )
     def catch_errors(self):
         return False
 
     @property
     @ConfigRoot.setting(
-        _("The log level for library (nark) squaller"
-            " (using Python logging library levels)"),
+        _(
+            "The log level for library (nark) squaller"
+            " (using Python logging library levels)"
+        ),
         validate=must_verify_log_level,
         conform=get_log_level_safe,
         recover=get_log_name_safe,
     )
     def lib_log_level(self):
-        return 'WARNING'
+        return "WARNING"
 
     @property
     @ConfigRoot.setting(
-        _("The log level for database (SQL) squaller"
-            " (using Python logging library levels)"),
+        _(
+            "The log level for database (SQL) squaller"
+            " (using Python logging library levels)"
+        ),
         validate=must_verify_log_level,
         conform=get_log_level_safe,
         recover=get_log_name_safe,
     )
     def sql_log_level(self):
-        return 'WARNING'
+        return "WARNING"
 
 
 # ***
 
-def _strptime_day_start(day_start_text):
 
+def _strptime_day_start(day_start_text):
     def _parse_day_start():
         if isinstance(day_start_text, datetime.time):
             return day_start_text
@@ -236,17 +249,20 @@ def _strptime_day_start(day_start_text):
 
     def _must_parse_text():
         try:
-            return datetime.datetime.strptime(day_start_text, '%H:%M:%S').time()
+            return datetime.datetime.strptime(day_start_text, "%H:%M:%S").time()
         except ValueError:
             warn_invalid()
 
     def warn_invalid():
-        msg = _(" (Expected '%H:%M:%S'-formatted time of day, not ‘{}’.)".format(
-            day_start_text,
-        ))
+        msg = _(
+            " (Expected '%H:%M:%S'-formatted time of day, not ‘{}’.)".format(
+                day_start_text,
+            )
+        )
         raise ValueError(msg)
 
     return _parse_day_start()
+
 
 # See comment below: this function not needed. But kept for posterity.
 #
@@ -258,7 +274,8 @@ def _strptime_day_start(day_start_text):
 
 # ***
 
-@ConfigRoot.section('time')
+
+@ConfigRoot.section("time")
 class NarkConfigurableTime(object):
     """"""
 
@@ -276,8 +293,10 @@ class NarkConfigurableTime(object):
         #     Evanescent: "tending to vanish like vapor"
         #   Momentaneous: "characterizing action begun, terminated in an instant"
         #   See also:     Vacant, Fleeting, Transient.
-        _("If True, lets you save Facts that start and end"
-            " at the exact same time, i.e., zero-length Facts."),
+        _(
+            "If True, lets you save Facts that start and end"
+            " at the exact same time, i.e., zero-length Facts."
+        ),
         # FIXME/2019-11-18: (lb): Hidden for now. Still testing.
         # ! - Might be better to default True.
         hidden=True,
@@ -316,7 +335,7 @@ class NarkConfigurableTime(object):
     )
     def day_start(self):
         # Same default as in Legacy Hamster, midnight, a sextuple zed double colon.
-        return '00:00:00'
+        return "00:00:00"
 
     # ***
 
@@ -353,10 +372,11 @@ class NarkConfigurableTime(object):
         hidden=True,
     )
     def default_tzinfo(self):
-        return ''
+        return ""
 
 
 # ***
+
 
 def decorate_config(config):
     """Wraps or ensures the supplied config dict is a nark config decorator.
@@ -376,5 +396,5 @@ def decorate_config(config):
     config_root.update(config)
     return config_root
 
-# ***
 
+# ***

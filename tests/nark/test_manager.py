@@ -20,8 +20,7 @@
 import pytest
 
 
-class TestBaseStore():
+class TestBaseStore:
     def test_cleanup(self, basestore):
         with pytest.raises(NotImplementedError):
             basestore.cleanup()
-

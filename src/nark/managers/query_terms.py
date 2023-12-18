@@ -19,32 +19,35 @@
 
 from collections import namedtuple
 
-QueryTermsTuple = namedtuple('QueryTermsTuple', (
-    'raw',
-    'named_tuples',
-    'include_stats',
-    'count_results',
-    'key',
-    'since',
-    'until',
-    'endless',
-    'exclude_ongoing',
-    'partial',
-    'deleted',
-    'search_terms',
-    'broad_match',
-    'match_activities',
-    'match_categories',
-    'match_tags',
-    'group_activity',
-    'group_category',
-    'group_tags',
-    'group_days',
-    'sort_cols',
-    'sort_orders',
-    'limit',
-    'offset',
-))
+QueryTermsTuple = namedtuple(
+    "QueryTermsTuple",
+    (
+        "raw",
+        "named_tuples",
+        "include_stats",
+        "count_results",
+        "key",
+        "since",
+        "until",
+        "endless",
+        "exclude_ongoing",
+        "partial",
+        "deleted",
+        "search_terms",
+        "broad_match",
+        "match_activities",
+        "match_categories",
+        "match_tags",
+        "group_activity",
+        "group_category",
+        "group_tags",
+        "group_days",
+        "sort_cols",
+        "sort_orders",
+        "limit",
+        "offset",
+    ),
+)
 
 
 class QueryTerms(object):
@@ -58,60 +61,54 @@ class QueryTerms(object):
         self.setup_terms(**kwargs)
 
     def __str__(self):
-        return ' / '.join([
-            'raw?: {}'.format(self.raw),
-            'named?: {}'.format(self.named_tuples),
-            'stats?: {}'.format(self.include_stats),
-            'count?: {}'.format(self.count_results),
-            'key: {}'.format(self.key),
-            'since: {}'.format(self.since),
-            'until: {}'.format(self.until),
-            'endless: {}'.format(self.endless),
-            'excl-ongo?: {}'.format(self.exclude_ongoing),
-            'partial: {}'.format(self.partial),
-            'del?: {}'.format(self.deleted),
-            'terms: {}'.format(self.search_terms),
-            'broad: {}'.format(self.broad_match),
-            'acts: {}'.format(self.match_activities),
-            'cats: {}'.format(self.match_categories),
-            'tags: {}'.format(self.match_tags),
-            'grp-acts?: {}'.format(self.group_activity),
-            'grp-cats?: {}'.format(self.group_category),
-            'grp-tags?: {}'.format(self.group_tags),
-            'grp-days?: {}'.format(self.group_days),
-            'cols: {}'.format(self.sort_cols),
-            'ords: {}'.format(self.sort_orders),
-            'limit: {}'.format(self.limit),
-            'offset: {}'.format(self.offset),
-        ])
+        return " / ".join(
+            [
+                "raw?: {}".format(self.raw),
+                "named?: {}".format(self.named_tuples),
+                "stats?: {}".format(self.include_stats),
+                "count?: {}".format(self.count_results),
+                "key: {}".format(self.key),
+                "since: {}".format(self.since),
+                "until: {}".format(self.until),
+                "endless: {}".format(self.endless),
+                "excl-ongo?: {}".format(self.exclude_ongoing),
+                "partial: {}".format(self.partial),
+                "del?: {}".format(self.deleted),
+                "terms: {}".format(self.search_terms),
+                "broad: {}".format(self.broad_match),
+                "acts: {}".format(self.match_activities),
+                "cats: {}".format(self.match_categories),
+                "tags: {}".format(self.match_tags),
+                "grp-acts?: {}".format(self.group_activity),
+                "grp-cats?: {}".format(self.group_category),
+                "grp-tags?: {}".format(self.group_tags),
+                "grp-days?: {}".format(self.group_days),
+                "cols: {}".format(self.sort_cols),
+                "ords: {}".format(self.sort_orders),
+                "limit: {}".format(self.limit),
+                "offset: {}".format(self.offset),
+            ]
+        )
 
     def setup_terms(
         self,
-
         raw=False,
         named_tuples=False,
         include_stats=None,
-
         count_results=False,
-
         key=None,
         since=None,
         until=None,
-
         # - SPIKE: (lb): Are 'endless' and 'exclude_ongoing' just opposites?
         endless=False,
         # - Use exclude_ongoing to omit the final, active Fact, if any,
         #   from the results.
         exclude_ongoing=None,
-
         partial=False,
-
         # The `deleted` option only applies to Facts.
         deleted=False,
-
         search_terms=None,
         broad_match=False,
-
         # - Note that item name matching is strict -- case and exactness count.
         match_activities=[],
         match_categories=[],
@@ -119,13 +116,11 @@ class QueryTerms(object):
         # - MEH: (lb): For parity, could add a 'tags' option to restrict the
         #   search to Activities used on Facts with specific 'tags', but how
         #   complicated and useless does that sound.
-
         # - Use the group_* flags to GROUP BY specific attributes.
         group_activity=False,
         group_category=False,
         group_tags=False,
         group_days=False,
-
         # - (lb): I added grouping support to FactManager.get_all via the options:
         #     group_activity
         #     group_category
@@ -136,12 +131,10 @@ class QueryTerms(object):
         #   with that gap in support). (tl;dr, use `dob list fact` or `dob usage fact`
         #   to group query results, and use the --column option if you want to tweak
         #   the output report columns, e.g., to match this method's output.)
-
         sort_cols=None,
         sort_orders=None,
-
         limit=None,
-        offset=None
+        offset=None,
     ):
         """
         Configures query parameters for item.get_all() and item.get_all_by_usage().
@@ -328,5 +321,4 @@ class QueryTerms(object):
 
     @property
     def sorts_cols_has_stat(self):
-        return self.sort_cols_has_any('usage', 'time', 'day')
-
+        return self.sort_cols_has_any("usage", "time", "day")

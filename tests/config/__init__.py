@@ -18,4 +18,3 @@
 # or visit <http://www.gnu.org/licenses/>.
 
 """Test for our core library functionality."""
-

@@ -84,7 +84,7 @@ class TestCategory(object):
         """
         other_category = copy.deepcopy(category)
         other_category.pk = 1
-        other_category.name += 'foobar'
+        other_category.name += "foobar"
         assert category.equal_fields(other_category) is False
 
     def test__eq__false(self, category):
@@ -119,7 +119,7 @@ class TestCategory(object):
 
     def test__str__(self, category):
         """Test string representation."""
-        assert '{name}'.format(name=category.name) == str(category)
+        assert "{name}".format(name=category.name) == str(category)
 
     def test__repr__(self, category):
         """Test representation method."""
@@ -127,4 +127,3 @@ class TestCategory(object):
         assert isinstance(result, str)
         expectation = TestCategory.as_repr(category)
         assert result == expectation
-

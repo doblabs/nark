@@ -20,10 +20,10 @@
 import pytest
 
 
-class TestCategoryManager():
+class TestCategoryManager:
     def test_save_new(self, basestore, category, mocker):
         """Make sure that saving an new category calls ``__add``."""
-        mocker.patch.object(basestore.categories, '_add', return_value=category)
+        mocker.patch.object(basestore.categories, "_add", return_value=category)
         try:
             basestore.categories.save(category)
         except NotImplementedError:
@@ -32,7 +32,7 @@ class TestCategoryManager():
 
     def test_save_existing(self, basestore, category, mocker):
         category.pk = 0
-        mocker.patch.object(basestore.categories, '_update', return_value=category)
+        mocker.patch.object(basestore.categories, "_update", return_value=category)
         try:
             basestore.categories.save(category)
         except NotImplementedError:
@@ -45,8 +45,8 @@ class TestCategoryManager():
 
     def test_get_or_create_existing(self, basestore, category, mocker):
         """Make sure the category is beeing looked up and no new one is created."""
-        mocker.patch.object(basestore.categories, 'get_by_name', return_value=category)
-        mocker.patch.object(basestore.categories, '_add', return_value=category)
+        mocker.patch.object(basestore.categories, "get_by_name", return_value=category)
+        mocker.patch.object(basestore.categories, "_add", return_value=category)
         try:
             basestore.categories.get_or_create(category.name)
         except NotImplementedError:
@@ -56,8 +56,8 @@ class TestCategoryManager():
 
     def test_get_or_create_new_category(self, basestore, category, mocker):
         """Make sure the category is beeing looked up and new one is created."""
-        mocker.patch.object(basestore.categories, '_add', return_value=category)
-        mocker.patch.object(basestore.categories, 'get_by_name', side_effect=KeyError)
+        mocker.patch.object(basestore.categories, "_add", return_value=category)
+        mocker.patch.object(basestore.categories, "get_by_name", side_effect=KeyError)
         try:
             basestore.categories.get_or_create(category.name)
         except NotImplementedError:
@@ -83,7 +83,7 @@ class TestCategoryManager():
 
     def test_get_not_implemented_invalid_pk_type(self, basestore):
         with pytest.raises(NotImplementedError):
-            basestore.categories.get_by_name('fooo')
+            basestore.categories.get_by_name("fooo")
 
     def test_get_all_not_implemented(self, basestore):
         with pytest.raises(NotImplementedError):
@@ -96,4 +96,3 @@ class TestCategoryManager():
     def test_gather_not_implemented(self, basestore):
         with pytest.raises(NotImplementedError):
             basestore.categories.gather(query_terms=None)
-

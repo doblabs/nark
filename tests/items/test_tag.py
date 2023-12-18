@@ -32,8 +32,7 @@ class TestTag(object):
         repred = (
             "Tag("
             "_name={name}, deleted={deleted}, freq={freq}, hidden={hidden}, pk={pk}"
-            ")"
-            .format(
+            ")".format(
                 pk=repr(tag.pk),
                 name=repr(tag.name),
                 deleted=repr(tag.deleted),
@@ -43,7 +42,9 @@ class TestTag(object):
         )
         return repred
 
-    def test_init_valid(self, name_string_valid_parametrized_tag, pk_valid_parametrized):
+    def test_init_valid(
+        self, name_string_valid_parametrized_tag, pk_valid_parametrized
+    ):
         """Make sure that Tag constructor accepts all valid values."""
         tag = Tag(name_string_valid_parametrized_tag, pk_valid_parametrized)
         assert tag.name == name_string_valid_parametrized_tag
@@ -76,7 +77,7 @@ class TestTag(object):
         """Make sure that two tags that differ not only in their PK compare unequal."""
         other_tag = copy.deepcopy(tag)
         other_tag.pk = 1
-        other_tag.name += 'foobar'
+        other_tag.name += "foobar"
         assert tag.equal_fields(other_tag) is False
 
     def test__eq__false(self, tag):
@@ -111,7 +112,7 @@ class TestTag(object):
 
     def test__str__(self, tag):
         """Test string representation."""
-        assert '{name}'.format(name=tag.name) == str(tag)
+        assert "{name}".format(name=tag.name) == str(tag)
 
     def test__repr__(self, tag):
         """Test representation method."""
@@ -119,4 +120,3 @@ class TestTag(object):
         assert isinstance(result, str)
         expectation = TestTag.as_repr(tag)
         assert result == expectation
-
