@@ -242,8 +242,9 @@ class TestFactManager:
         Make sure we can stop an 'ongoing fact' and that it will have an end set.
 
         Please note that ever so often it may happen that the factory generates
-        a endless_fact with ``Fact.start`` after our mocked today-date. In order to avoid
-        confusion the easies fix is to make sure the mock-today is well in the future.
+        a endless_fact with ``Fact.start`` after our mocked today-date. In order
+        to avoid confusion the easies fix is to make sure the mock-today is well
+        in the future.
         """
         now = datetime.datetime.now()  # the freeze_time time, above.
         # (lb): The FactFactory sets start to faker.Faker().date_time(),

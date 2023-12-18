@@ -838,8 +838,9 @@ class FactManager(GatherFactManager):
         # NOTE: (lb): Use ==/!=, not `is`/`not`, b/c SQLAlchemy
         #       overrides ==/!=, not `is`/`not`.
         condition = or_(
-            AlchemyFact.start == None, AlchemyFact.end == None
-        )  # noqa: E711
+            AlchemyFact.start == None,  # noqa: E711
+            AlchemyFact.end == None,  # noqa: E711
+        )
         condition = and_(condition, AlchemyFact.deleted == False)  # noqa: E712
 
         query = query.filter(condition)
