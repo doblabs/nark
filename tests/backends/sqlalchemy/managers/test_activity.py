@@ -23,7 +23,7 @@ from nark.backends.sqlalchemy.objects import AlchemyActivity, AlchemyCategory
 from nark.items.activity import Activity
 
 
-class TestActivityManager():
+class TestActivityManager:
     """"""
 
     def test_get_or_create_get(self, alchemy_store, alchemy_activity):
@@ -71,7 +71,10 @@ class TestActivityManager():
         assert result.equal_fields(activity)
 
     def test_save_existing(
-        self, alchemy_store, alchemy_activity, alchemy_category_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_category_factory,
     ):
         """
         Make sure that saving an existing activity add no new persistent
@@ -109,7 +112,10 @@ class TestActivityManager():
         assert db_instance.as_hamster(alchemy_store).equal_fields(activity)
 
     def test_add_new_with_existing_category(
-        self, alchemy_store, activity, alchemy_category,
+        self,
+        alchemy_store,
+        activity,
+        alchemy_category,
     ):
         """
         Test that adding a new activity with existing category does not
@@ -125,7 +131,10 @@ class TestActivityManager():
         assert db_instance.as_hamster(alchemy_store).equal_fields(activity)
 
     def test_add_new_with_existing_name_and_alchemy_category(
-        self, alchemy_store, activity, alchemy_activity,
+        self,
+        alchemy_store,
+        activity,
+        alchemy_activity,
     ):
         """
         Test that adding a new alchemy_activity_with_existing_composite_key
@@ -152,10 +161,14 @@ class TestActivityManager():
         """Make sure that calling update without a PK raises exception."""
         with pytest.raises(ValueError) as excinfo:
             alchemy_store.activities._update(activity)
-        assert str(excinfo.value).startswith('The Activity passed')
+        assert str(excinfo.value).startswith("The Activity passed")
 
     def test_update_with_existing_name_and_new_category_name(
-        self, alchemy_store, activity, alchemy_activity, alchemy_category_factory,
+        self,
+        alchemy_store,
+        activity,
+        alchemy_activity,
+        alchemy_category_factory,
     ):
         """
         Make sure that calling update on existing composite key raises exception.
@@ -180,7 +193,11 @@ class TestActivityManager():
         assert result == activity
 
     def test_update_fails_on_existing_activity_category_conflict(
-        self, alchemy_store, activity, alchemy_activity, alchemy_category,
+        self,
+        alchemy_store,
+        activity,
+        alchemy_activity,
+        alchemy_category,
     ):
         """
         Make sure that calling update on existing composite key raises exception.
@@ -201,10 +218,13 @@ class TestActivityManager():
 
         with pytest.raises(ValueError) as excinfo:
             alchemy_store.activities._update(activity)
-        assert str(excinfo.value).startswith('The database already contains that')
+        assert str(excinfo.value).startswith("The database already contains that")
 
     def test_update_with_existing_category_name_conflict_again(
-        self, alchemy_store, alchemy_activity, alchemy_category_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_category_factory,
     ):
         activity = alchemy_activity.as_hamster(alchemy_store)
         category = alchemy_category_factory().as_hamster(alchemy_store)
@@ -213,17 +233,20 @@ class TestActivityManager():
         with pytest.raises(ValueError) as excinfo:
             # 2nd time's a no-go.
             alchemy_store.activities._update(activity)
-        assert excinfo.value.args[0].startswith('The database already contains that')
+        assert excinfo.value.args[0].startswith("The database already contains that")
 
     def test_update_with_invalid_pk(self, alchemy_store, activity, alchemy_activity):
         """Make sure that calling update without a PK raises exception."""
         activity.pk = alchemy_activity.pk + 1
         with pytest.raises(KeyError) as excinfo:
             alchemy_store.activities._update(activity)
-        assert excinfo.value.args[0].startswith('No Activity with PK')
+        assert excinfo.value.args[0].startswith("No Activity with PK")
 
     def test_update_with_existing_category(
-        self, alchemy_store, alchemy_activity, alchemy_category_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_category_factory,
     ):
         """
         Test that updateting an activity with existing category does not
@@ -242,7 +265,10 @@ class TestActivityManager():
         assert db_instance.as_hamster(alchemy_store).equal_fields(activity)
 
     def test_update_name(
-        self, alchemy_store, alchemy_activity, name_string_valid_parametrized,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        name_string_valid_parametrized,
     ):
         """Test updateing an activities name with a valid new string."""
         activity = alchemy_activity.as_hamster(alchemy_store)
@@ -320,7 +346,7 @@ class TestActivityManager():
         with pytest.raises(KeyError):
             alchemy_store.activities.get(4)
 
-    @pytest.mark.parametrize('raw', (True, False))
+    @pytest.mark.parametrize("raw", (True, False))
     def test_get_by_composite_valid(self, alchemy_store, alchemy_activity, raw):
         """Make sure that querying for a valid name/alchemy_category combo succeeds."""
         activity = alchemy_activity.as_hamster(alchemy_store)
@@ -337,7 +363,10 @@ class TestActivityManager():
             assert result is not alchemy_activity
 
     def test_get_by_composite_invalid_category(
-        self, alchemy_store, alchemy_activity, alchemy_category_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_category_factory,
     ):
         """Make sure that querying with an invalid category raises errror."""
         activity = alchemy_activity.as_hamster(alchemy_store)
@@ -346,11 +375,14 @@ class TestActivityManager():
             alchemy_store.activities.get_by_composite(activity.name, category)
 
     def test_get_by_composite_invalid_name(
-        self, alchemy_store, alchemy_activity, name_string_valid_parametrized,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        name_string_valid_parametrized,
     ):
         """Make sure that querying with an invalid alchemy_category raises errror."""
         activity = alchemy_activity.as_hamster(alchemy_store)
-        invalid_name = activity.name + 'foobar'
+        invalid_name = activity.name + "foobar"
         with pytest.raises(KeyError):
             alchemy_store.activities.get_by_composite(invalid_name, activity.category)
 
@@ -360,7 +392,10 @@ class TestActivityManager():
         assert len(results) == 1
 
     def test_get_all_with_category_none(
-        self, alchemy_store, alchemy_activity, alchemy_activity_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_activity_factory,
     ):
         """Make sure only activity without a category is returned."""
         activity_without_category = alchemy_activity_factory(category=None)
@@ -369,7 +404,10 @@ class TestActivityManager():
         assert results[0] == activity_without_category
 
     def test_get_all_with_category_named(
-        self, alchemy_store, alchemy_activity, alchemy_activity_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_activity_factory,
     ):
         """Make sure only activity matching the given alchemy_category is returned."""
         # Add Activity without Category to data store.
@@ -382,7 +420,10 @@ class TestActivityManager():
         assert results[0] == alchemy_activity
 
     def test_get_all_with_category_both_none_and_named(
-        self, alchemy_store, alchemy_activity, alchemy_activity_factory,
+        self,
+        alchemy_store,
+        alchemy_activity,
+        alchemy_activity_factory,
     ):
         """Make sure both activities with category name and with none are returned."""
         # Add Activity without Category to data store.
@@ -412,7 +453,7 @@ class TestActivityManager():
         """
         Make sure that activities matching the given alchemy_category are returned.
         """
-        results = alchemy_store.activities.get_all(match_categories=['miss'])
+        results = alchemy_store.activities.get_all(match_categories=["miss"])
         assert len(results) == 0
         assert alchemy_activity == alchemy_store.activities.get_all()[0]
 
@@ -423,7 +464,10 @@ class TestActivityManager():
         assert result == alchemy_activity
 
     def test_get_all_match_activities(
-        self, alchemy_store, set_of_alchemy_facts_active, alchemy_activity_factory,
+        self,
+        alchemy_store,
+        set_of_alchemy_facts_active,
+        alchemy_activity_factory,
     ):
         """Test get_all argument: QueryTerms.match_activities."""
         # Cover as many branches as possible within query_filter_by_activity
@@ -449,27 +493,26 @@ class TestActivityManager():
     # ***
 
     @pytest.mark.parametrize(
-        ('sort_cols'),
+        ("sort_cols"),
         (
-            (['start']),
+            (["start"]),
             ([None]),
-            (['usage']),
-            (['time']),
-            (['activity']),
-            (['category']),
-        )
+            (["usage"]),
+            (["time"]),
+            (["activity"]),
+            (["category"]),
+        ),
     )
     def test_get_all_sort_cols(self, alchemy_store, sort_cols):
         alchemy_store.activities.get_all(sort_cols=sort_cols)
 
     def test_get_all_sort_cols_tag_fails(self, alchemy_store, mocker):
         # The tag table is not joined for Activity query.
-        mocker.patch.object(alchemy_store.logger, 'warning')
-        alchemy_store.activities.get_all(sort_cols=['tag'])
+        mocker.patch.object(alchemy_store.logger, "warning")
+        alchemy_store.activities.get_all(sort_cols=["tag"])
         assert alchemy_store.logger.warning.called
 
     def test_get_all_sort_cols_unknown(self, alchemy_store, mocker):
-        mocker.patch.object(alchemy_store.logger, 'warning')
-        alchemy_store.activities.get_all(sort_cols=['foo'])
+        mocker.patch.object(alchemy_store.logger, "warning")
+        alchemy_store.activities.get_all(sort_cols=["foo"])
         assert alchemy_store.logger.warning.called
-

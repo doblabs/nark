@@ -45,7 +45,7 @@ from .helpers.dev.profiling import timefunc
 #           kwargs['unicode'] = True
 #       gettext.install('nark', **kwargs)
 #
-gettext.install('nark')
+gettext.install("nark")
 
 
 class NarkControl(object):
@@ -123,10 +123,10 @@ class NarkControl(object):
         instantiation as well as all additional configuration.
         """
 
-        backend = REGISTERED_BACKENDS.get(self.config['db.orm'])
+        backend = REGISTERED_BACKENDS.get(self.config["db.orm"])
         if not backend:
             raise KeyError(_("No or invalid storage specified."))
-        import_path, storeclass = tuple(backend.store_class.rsplit('.', 1))
+        import_path, storeclass = tuple(backend.store_class.rsplit(".", 1))
         # Profiling: importlib.import_module: ~ 0.265 secs.
         backend_module = importlib.import_module(import_path)
         # storeclass, typically 'SQLAlchemyStore'.
@@ -145,9 +145,10 @@ class NarkControl(object):
         itself.
         """
 
-        lib_log_level = self.config['dev.lib_log_level']
+        lib_log_level = self.config["dev.lib_log_level"]
         lib_logger = logging_helpers.set_logger_level(
-            'nark.log', lib_log_level,
+            "nark.log",
+            lib_log_level,
         )
         return lib_logger
 
@@ -160,4 +161,3 @@ class NarkControl(object):
         itself.
         """
         return self.store.logger
-

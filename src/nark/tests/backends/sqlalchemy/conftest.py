@@ -73,7 +73,7 @@ def implement_transactional_support_fully(engine):
 # (lb): Use 'session' scope so that the Session is only configured once
 # for all tests. (Note: I also tried `scope='module'`, which seemed to
 # work similarly, but 'session' is the intent, so use that scope.)
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def alchemy_runner(request):
     """
     Bind an in-memory mock-db to the session object.
@@ -87,7 +87,7 @@ def alchemy_runner(request):
       https://factoryboy.readthedocs.io/en/latest/orms.html#sqlalchemy
 
     """
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine("sqlite:///:memory:")
     implement_transactional_support_fully(engine)
     objects.metadata.bind = engine
     objects.metadata.create_all(engine)
@@ -156,14 +156,16 @@ def alchemy_session_ro(request):
     return _alchemy_session(request)
 
 
-@pytest.fixture(params=[
-    fauxfactory.gen_utf8(),
-    fauxfactory.gen_alphanumeric(),
-    ':memory:',
-])
+@pytest.fixture(
+    params=[
+        fauxfactory.gen_utf8(),
+        fauxfactory.gen_alphanumeric(),
+        ":memory:",
+    ]
+)
 def db_path_parametrized(request, tmpdir):
     """Parametrized database paths."""
-    if request.param == ':memory:':
+    if request.param == ":memory:":
         path = request.param
     else:
         path = os.path.join(tmpdir.strpath, request.param)
@@ -175,11 +177,13 @@ def _alchemy_config(request, base_config):
     config = copy.deepcopy(base_config)
     # MEH/2020-01-07: (lb): This changes nothing; already the base_config default...
     #                       was that the original intent?
-    config['db'].update({
-        'orm': 'sqlalchemy',
-        'engine': 'sqlite',
-        'path': ':memory:',
-    })
+    config["db"].update(
+        {
+            "orm": "sqlalchemy",
+            "engine": "sqlite",
+            "path": ":memory:",
+        }
+    )
     return config
 
 
@@ -198,24 +202,24 @@ def alchemy_config_ro(request, base_config_ro):
     params=(
         # SQLite
         {
-            'engine': 'sqlite',
-            'path': ':memory:',
+            "engine": "sqlite",
+            "path": ":memory:",
         },
         # Non-SQLite
         {
-            'engine': 'postgres',
-            'host': fauxfactory.gen_ipaddr(),
-            'port': fauxfactory.gen_integer(),
-            'name': fauxfactory.gen_utf8(),
-            'user': fauxfactory.gen_utf8(),
-            'password': fauxfactory.gen_utf8(),
+            "engine": "postgres",
+            "host": fauxfactory.gen_ipaddr(),
+            "port": fauxfactory.gen_integer(),
+            "name": fauxfactory.gen_utf8(),
+            "user": fauxfactory.gen_utf8(),
+            "password": fauxfactory.gen_utf8(),
         },
         {
-            'engine': 'postgres',
-            'host': fauxfactory.gen_ipaddr(),
-            'name': fauxfactory.gen_utf8(),
-            'user': fauxfactory.gen_utf8(),
-            'password': fauxfactory.gen_utf8(),
+            "engine": "postgres",
+            "host": fauxfactory.gen_ipaddr(),
+            "name": fauxfactory.gen_utf8(),
+            "user": fauxfactory.gen_utf8(),
+            "password": fauxfactory.gen_utf8(),
         },
     ),
 )
@@ -226,62 +230,70 @@ def alchemy_config_parametrized(request, alchemy_config):
     We need to build our expectation dynamically if we want to use faked config values.
     """
     config = copy.deepcopy(alchemy_config)
-    config['db'].update(request.param)
-    if request.param['engine'] == 'sqlite':
-        expectation = '{engine}:///{path}'.format(
-            engine=request.param['engine'], path=request.param['path'])
+    config["db"].update(request.param)
+    if request.param["engine"] == "sqlite":
+        expectation = "{engine}:///{path}".format(
+            engine=request.param["engine"], path=request.param["path"]
+        )
     else:
-        port = request.param.get('port', '')
+        port = request.param.get("port", "")
         if port:
-            port = ':{}'.format(port)
-        expectation = '{engine}://{user}:{password}@{host}{port}/{name}'.format(
-            engine=request.param['engine'],
-            user=request.param['user'],
-            password=request.param['password'],
-            host=request.param['host'],
+            port = ":{}".format(port)
+        expectation = "{engine}://{user}:{password}@{host}{port}/{name}".format(
+            engine=request.param["engine"],
+            user=request.param["user"],
+            password=request.param["password"],
+            host=request.param["host"],
             port=port,
-            name=request.param['name'],
+            name=request.param["name"],
         )
     return (config, expectation)
 
 
-@pytest.fixture(params=(
-    {'engine': None,
-     'path': None},
-    # sqlite
-    {'engine': 'sqlite',
-     'path': None},
-    {'engine': 'sqlite',
-     'path': ''},
-    # Non-sqlite
-    {'engine': 'postgres',
-     'host': None,
-     'name': fauxfactory.gen_utf8(),
-     'user': fauxfactory.gen_utf8(),
-     'password': fauxfactory.gen_alphanumeric()},
-    {'engine': 'postgres',
-     'host': fauxfactory.gen_ipaddr(),
-     'name': '',
-     'user': fauxfactory.gen_utf8(),
-     'password': fauxfactory.gen_alphanumeric()},
-    {'engine': 'postgres',
-     'host': fauxfactory.gen_ipaddr(),
-     'name': fauxfactory.gen_utf8(),
-     'user': '',
-     'password': fauxfactory.gen_alphanumeric()},
-    {'engine': 'postgres',
-     'host': fauxfactory.gen_ipaddr(),
-     'name': fauxfactory.gen_utf8(),
-     'user': fauxfactory.gen_utf8(),
-     'password': ''}
-))
+@pytest.fixture(
+    params=(
+        {"engine": None, "path": None},
+        # sqlite
+        {"engine": "sqlite", "path": None},
+        {"engine": "sqlite", "path": ""},
+        # Non-sqlite
+        {
+            "engine": "postgres",
+            "host": None,
+            "name": fauxfactory.gen_utf8(),
+            "user": fauxfactory.gen_utf8(),
+            "password": fauxfactory.gen_alphanumeric(),
+        },
+        {
+            "engine": "postgres",
+            "host": fauxfactory.gen_ipaddr(),
+            "name": "",
+            "user": fauxfactory.gen_utf8(),
+            "password": fauxfactory.gen_alphanumeric(),
+        },
+        {
+            "engine": "postgres",
+            "host": fauxfactory.gen_ipaddr(),
+            "name": fauxfactory.gen_utf8(),
+            "user": "",
+            "password": fauxfactory.gen_alphanumeric(),
+        },
+        {
+            "engine": "postgres",
+            "host": fauxfactory.gen_ipaddr(),
+            "name": fauxfactory.gen_utf8(),
+            "user": fauxfactory.gen_utf8(),
+            "password": "",
+        },
+    )
+)
 def alchemy_config_missing_store_config_parametrized(request, alchemy_config):
     """
     Provide an alchemy config containing invalid key/value pairs for
     store initialization.
     """
     config = copy.deepcopy(alchemy_config)
-    config['db'].update(request.param)
+    config["db"].update(request.param)
     return config
 
 
@@ -302,7 +314,7 @@ def _alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
     #   https://docs.pytest.org/en/latest/fixture.html#autouse-fixtures-xunit-setup-on-steroids
     store = SQLAlchemyStore(alchemy_config)
     with patch(
-        'sqlalchemy_migrate_hotoffthehamster.versioning.api.version',
+        "sqlalchemy_migrate_hotoffthehamster.versioning.api.version",
         new_callable=PropertyMock,
     ) as mock_version:
         # return_value does not matter so long as it's an int.
@@ -312,18 +324,26 @@ def _alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
 
 
 @pytest.fixture
-@patch('nark.backends.sqlalchemy.storage.create_engine',
-       lambda *args, **kwargs: None)
-@patch('nark.backends.sqlalchemy.objects.metadata.create_all',
-       lambda *args, **kwargs: None)
-@patch('sqlalchemy_migrate_hotoffthehamster.versioning.api.db_version',
-       lambda *args, **kwargs: None)
-@patch('sqlalchemy_migrate_hotoffthehamster.versioning.api.downgrade',
-       lambda *args, **kwargs: None)
-@patch('sqlalchemy_migrate_hotoffthehamster.versioning.api.upgrade',
-       lambda *args, **kwargs: None)
-@patch('sqlalchemy_migrate_hotoffthehamster.versioning.api.version_control',
-       lambda *args, **kwargs: None)
+@patch("nark.backends.sqlalchemy.storage.create_engine", lambda *args, **kwargs: None)
+@patch(
+    "nark.backends.sqlalchemy.objects.metadata.create_all", lambda *args, **kwargs: None
+)
+@patch(
+    "sqlalchemy_migrate_hotoffthehamster.versioning.api.db_version",
+    lambda *args, **kwargs: None,
+)
+@patch(
+    "sqlalchemy_migrate_hotoffthehamster.versioning.api.downgrade",
+    lambda *args, **kwargs: None,
+)
+@patch(
+    "sqlalchemy_migrate_hotoffthehamster.versioning.api.upgrade",
+    lambda *args, **kwargs: None,
+)
+@patch(
+    "sqlalchemy_migrate_hotoffthehamster.versioning.api.version_control",
+    lambda *args, **kwargs: None,
+)
 # (lb): 'sqlalchemy_migrate_hotoffthehamster.versioning.api.version'
 #       is more complicated; see with-patch, below.
 def alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
@@ -332,10 +352,13 @@ def alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
 
 @pytest.fixture(scope="session")
 def alchemy_store_ro(request, alchemy_config_ro, alchemy_runner, alchemy_session_ro):
-    return _alchemy_store(request, alchemy_config_ro, alchemy_runner, alchemy_session_ro)
+    return _alchemy_store(
+        request, alchemy_config_ro, alchemy_runner, alchemy_session_ro
+    )
 
 
 # ***
+
 
 @pytest.fixture
 def alchemy_activity_deleted(alchemy_activity_factory):
@@ -401,7 +424,10 @@ def set_of_alchemy_facts_active(start_datetime, alchemy_fact_factory):
 def set_of_alchemy_facts_contiguous(start_datetime_early_2am, alchemy_fact_factory):
     # Freeze time early via start_datetime_early_2am so five facts are on the same day.
     return _set_of_alchemy_facts(
-        start_datetime_early_2am, alchemy_fact_factory, endless=False, contiguous=True,
+        start_datetime_early_2am,
+        alchemy_fact_factory,
+        endless=False,
+        contiguous=True,
     )
 
 
@@ -412,19 +438,24 @@ def set_of_alchemy_facts_ro(start_datetime_ro):
     # just fine?
     alchemy_fact_factory_ro = factories.AlchemyFactFactory
     return _set_of_alchemy_facts(
-        start_datetime_ro, alchemy_fact_factory_ro, endless=False,
+        start_datetime_ro,
+        alchemy_fact_factory_ro,
+        endless=False,
     )
 
 
 # ***
+
 
 # Fallback nark object and factory fixtures. Unless we know how factories
 # interact.
 @pytest.fixture
 def category_factory(request, name):
     """Provide a ``nark.Category`` factory."""
+
     def generate():
         return Category(name, None)
+
     return generate
 
 
@@ -437,8 +468,10 @@ def category(request, category_factory):
 @pytest.fixture
 def tag_factory(request, name):
     """Provide a ``nark.Tag`` factory."""
+
     def generate():
         return Tag(name, None)
+
     return generate
 
 
@@ -457,9 +490,11 @@ def activity_factory(request, name, category_factory):
         * The returned activity will have a *new* category associated as well.
         * Values are randomized but *not parametrized*.
     """
+
     def generate():
         category = category_factory()
         return Activity(name, pk=None, category=category, deleted=False)
+
     return generate
 
 
@@ -471,7 +506,11 @@ def activity(request, activity_factory):
 
 @pytest.fixture
 def fact_factory(
-    request, activity_factory, tag_factory, start_end_datetimes, description,
+    request,
+    activity_factory,
+    tag_factory,
+    start_end_datetimes,
+    description,
 ):
     """
     Provide a ``nark.Fact`` factory.
@@ -481,12 +520,14 @@ def fact_factory(
           associated as well.
         * Values are randomized but *not parametrized*.
     """
+
     def generate():
         activity = activity_factory()
         tags = set([tag_factory() for i in range(1)])
         start, end = start_end_datetimes
         fact = Fact(activity, start, end, pk=None, description=description, tags=tags)
         return fact
+
     return generate
 
 
@@ -494,4 +535,3 @@ def fact_factory(
 def fact(request, fact_factory):
     """Return a randomized ``nark.Fact`` instance."""
     return fact_factory()
-

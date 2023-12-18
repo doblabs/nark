@@ -21,16 +21,13 @@
 
 from .plaintext_writer import PlaintextWriter
 
-__all__ = (
-    'CSVWriter',
-)
+__all__ = ("CSVWriter",)
 
 
 class CSVWriter(PlaintextWriter):
     def __init__(self, *args, **kwargs):
         super(CSVWriter, self).__init__(
             *args,
-            dialect='excel',
+            dialect="excel",
             **kwargs,
         )
-

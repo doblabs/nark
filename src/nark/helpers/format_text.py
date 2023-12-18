@@ -19,9 +19,7 @@
 
 from ansiwrap_hotoffthehamster import shorten
 
-__all__ = (
-    'format_value_truncate',
-)
+__all__ = ("format_value_truncate",)
 
 
 # (lb): Note that textwrap/ansiwrap.shorten only truncates on whitespace or hyphens,
@@ -38,11 +36,10 @@ __all__ = (
 def format_value_truncate(val, trunc_width=None):
     if not val:
         return val
-    val = '\\n'.join(str(val).splitlines())
+    val = "\\n".join(str(val).splitlines())
     if trunc_width is not None and trunc_width > 0:
         # textwrap3 raises ValueError if max shorter than placeholder.
-        ellipsis = '...'
+        ellipsis = "..."
         trunc_width = max(trunc_width, len(ellipsis))
         val = shorten(val, trunc_width, placeholder=ellipsis)
     return val
-

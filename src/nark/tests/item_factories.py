@@ -45,4 +45,3 @@ register(factories.FactFactory)
 #   def fact_factory():
 #       """Return a factory class that generates non-persisting Fact instances."""
 #       return factories.FactFactory.build
-

@@ -28,18 +28,12 @@ from ..objects import (
     AlchemyCategory,
     AlchemyFact,
     AlchemyTag,
-    fact_tags
+    fact_tags,
 )
-from . import (
-    query_apply_limit_offset,
-    query_apply_true_or_not,
-    query_prepare_datetime
-)
+from . import query_apply_limit_offset, query_apply_true_or_not, query_prepare_datetime
 from .manager_base import BaseAlchemyManager
 
-__all__ = (
-    'GatherFactManager',
-)
+__all__ = ("GatherFactManager",)
 
 
 class GatherFactManager(BaseAlchemyManager, BaseFactManager):
@@ -50,27 +44,30 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
     # ***
 
-    FactStatsTuple = namedtuple('FactStatsTuple', (
-        'fact',
-        'duration',
-        'group_count',
-        'first_start',
-        'final_end',
-        'activities',
-        'actegories',
-        'categories',
-        'start_date',
-    ))
+    FactStatsTuple = namedtuple(
+        "FactStatsTuple",
+        (
+            "fact",
+            "duration",
+            "group_count",
+            "first_start",
+            "final_end",
+            "activities",
+            "actegories",
+            "categories",
+            "start_date",
+        ),
+    )
 
     RESULT_GRP_INDEX = {
-        'duration': 0,
-        'group_count': 1,
-        'first_start': 2,
-        'final_end': 3,
-        'activities': 4,
-        'actegories': 5,
-        'categories': 6,
-        'start_date': 7,
+        "duration": 0,
+        "group_count": 1,
+        "first_start": 2,
+        "final_end": 3,
+        "activities": 4,
+        "actegories": 5,
+        "categories": 6,
+        "start_date": 7,
     }
 
     # ***
@@ -123,13 +120,9 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
         """
         qt = query_terms
 
-        magic_tag_sep = '%%%%,%%%%'
+        magic_tag_sep = "%%%%,%%%%"
 
-        add_aggregates = (
-            qt.include_stats
-            or qt.is_grouped
-            or qt.sorts_cols_has_stat
-        )
+        add_aggregates = qt.include_stats or qt.is_grouped or qt.sorts_cols_has_stat
         # Cannot request lazy_tags when grouping, just not how it works.
         # (If we did, then, say, if group_tags, we'd need to outerjoin
         # fact_tags and AlchemyFact, or we'd need to add the tags_subquery
@@ -137,7 +130,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
         # Fact's tags, which has no meaning on aggregate results, so nip
         # that now.)
         if add_aggregates and lazy_tags:
-            errmsg = _('Cannot request lazy_tags when grouping results.')
+            errmsg = _("Cannot request lazy_tags when grouping results.")
             raise Exception(errmsg)
 
         def _get_all_facts():
@@ -158,7 +151,11 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             query = _get_all_prepare_joins(query)
 
             query = self.query_filter_by_fact_times(
-                query, qt.since, qt.until, qt.endless, qt.partial,
+                query,
+                qt.since,
+                qt.until,
+                qt.endless,
+                qt.partial,
             )
 
             query = self.query_filter_by_activities(query, qt)
@@ -177,13 +174,22 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
             has_facts = True
             query = self.query_order_by_sort_cols(
-                query, qt, has_facts, span_cols, start_date, tags_subquery,
+                query,
+                qt,
+                has_facts,
+                span_cols,
+                start_date,
+                tags_subquery,
             )
 
             query = query_apply_limit_offset(query, qt.limit, qt.offset)
 
             query = query_select_with_entities(
-                query, span_cols, actg_cols, start_date, tags_subquery,
+                query,
+                span_cols,
+                actg_cols,
+                start_date,
+                tags_subquery,
             )
 
             self.query_prepared_trace(query)
@@ -200,14 +206,15 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
         # ***
 
         def must_support_db_engine_funcs():
-            if self.store.config['db.engine'] == 'sqlite':
+            if self.store.config["db.engine"] == "sqlite":
                 return
 
             errmsg = _(
-                'This feature does not work with the current DBMS engine: ‘{}’.'
-                ' (Please tell the maintainers if you want this supported!'
-                ' That, or switch to SQLite to use this feature.)'
-                .format(self.store.config['db.engine'])
+                "This feature does not work with the current DBMS engine: ‘{}’."
+                " (Please tell the maintainers if you want this supported!"
+                " That, or switch to SQLite to use this feature.)".format(
+                    self.store.config["db.engine"]
+                )
             )
             raise NotImplementedError(errmsg)
 
@@ -282,7 +289,9 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
                 # the results are aggregate, create a frequency distribution,
                 # or number of uses per tag (stored at tag.freq).
                 return fact.as_hamster(
-                    self.store, new_tags, set_freqs=qt.is_grouped,
+                    self.store,
+                    new_tags,
+                    set_freqs=qt.is_grouped,
                 )
 
             # Even if user wants raw results, still attach the tags.
@@ -312,15 +321,15 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             _process_record_reduce_aggregate_categories(cols)
 
         def _process_record_reduce_aggregate_activities(cols):
-            i_activities = GatherFactManager.RESULT_GRP_INDEX['activities']
+            i_activities = GatherFactManager.RESULT_GRP_INDEX["activities"]
             _process_record_reduce_aggregate_value(cols, i_activities)
 
         def _process_record_reduce_aggregate_actegories(cols):
-            i_actegories = GatherFactManager.RESULT_GRP_INDEX['actegories']
+            i_actegories = GatherFactManager.RESULT_GRP_INDEX["actegories"]
             _process_record_reduce_aggregate_value(cols, i_actegories)
 
         def _process_record_reduce_aggregate_categories(cols):
-            i_categories = GatherFactManager.RESULT_GRP_INDEX['categories']
+            i_categories = GatherFactManager.RESULT_GRP_INDEX["categories"]
             _process_record_reduce_aggregate_value(cols, i_categories)
 
         def _process_record_reduce_aggregate_value(cols, index):
@@ -333,7 +342,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
                 concated_values = encoded_value.split(magic_tag_sep)
                 unique_values = set(concated_values)
             else:
-                unique_values = ''
+                unique_values = ""
             cols[index] = unique_values
 
         # +++
@@ -361,7 +370,8 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             # As opposed to 0 seconds (rounded down) when preloading tags.
             # - Note earlier must_support_db_engine_funcs() b/c SQLite-specific.
             tags_col = func.group_concat(
-                AlchemyTag.name, magic_tag_sep,
+                AlchemyTag.name,
+                magic_tag_sep,
             ).label("facts_tags")
             tags_subquery = tags_subquery.add_columns(tags_col)
             # (lb): Leaving this breadcrumb for now; feel free to delete later.
@@ -373,7 +383,8 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             #   the only place I found code that needed fixing, but I would not
             #   be surprised to find more. Hence this note-to-self, for later.
             tags_subquery = tags_subquery.outerjoin(
-                fact_tags, AlchemyFact.pk == fact_tags.columns.fact_id,
+                fact_tags,
+                AlchemyFact.pk == fact_tags.columns.fact_id,
             )
             tags_subquery = tags_subquery.outerjoin(AlchemyTag)
 
@@ -391,7 +402,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             #   # 2019-01-22: Either did not need, or did not work, !remember which!
             #   tags_subquery = tags_subquery.options(joinedload(AlchemyFact.tags))
             tags_subquery = tags_subquery.with_entities(AlchemyFact.pk, tags_col)
-            tags_subquery = tags_subquery.subquery('tag_names')
+            tags_subquery = tags_subquery.subquery("tag_names")
             query = query.join(tags_subquery, AlchemyFact.pk == tags_subquery.c.id)
 
             return query, tags_subquery
@@ -432,9 +443,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
             span_col = _get_all_prepare_span_cols_group_span_dbms_specific(endornow_col)
 
-            group_span_col = func.sum(
-                span_col
-            ).label('duration')
+            group_span_col = func.sum(span_col).label("duration")
             query = query.add_columns(group_span_col)
             return query, group_span_col
 
@@ -446,36 +455,28 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             #   - (lb): But I like how easy julianday is. It works, and I personally
             #     have no stake in using another DBMS engine. We can add additional
             #     support as needed (i.e., as users' non-SQLite interests dictate).
-            if self.store.config['db.engine'] == 'sqlite':
+            if self.store.config["db.engine"] == "sqlite":
                 return _get_all_prepare_span_cols_group_span_sqlite(endornow_col)
             else:  # pragma: no cover
                 # See exception thrown by must_support_db_engine_funcs() if not SQLite.
                 assert False  # Not reachable.
 
         def _get_all_prepare_span_cols_group_span_sqlite(endornow_col):
-            span_col = (
-                func.julianday(endornow_col) - func.julianday(AlchemyFact.start)
-            )
+            span_col = func.julianday(endornow_col) - func.julianday(AlchemyFact.start)
             return span_col
 
         def _get_all_prepare_span_cols_group_count(query):
-            group_count_col = func.count(
-                distinct(AlchemyFact.pk)
-            ).label('group_count')
+            group_count_col = func.count(distinct(AlchemyFact.pk)).label("group_count")
             query = query.add_columns(group_count_col)
             return query, group_count_col
 
         def _get_all_prepare_span_cols_first_start(query):
-            first_start_col = func.min(
-                AlchemyFact.start
-            ).label('first_start')
+            first_start_col = func.min(AlchemyFact.start).label("first_start")
             query = query.add_columns(first_start_col)
             return query, first_start_col
 
         def _get_all_prepare_span_cols_final_end(query):
-            final_end_col = func.max(
-                AlchemyFact.end
-            ).label('final_end')
+            final_end_col = func.max(AlchemyFact.end).label("final_end")
             query = query.add_columns(final_end_col)
             return query, final_end_col
 
@@ -518,9 +519,9 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             #         SADeprecationWarning: Plain string expression passed to Query()
             #         should be explicitly declared using literal_column();
             #         automatic coercion of this value will be removed in SQLAlchemy 1.4
-            activities_col = literal_column('0')
-            actegories_col = literal_column('0')
-            categories_col = literal_column('0')
+            activities_col = literal_column("0")
+            actegories_col = literal_column("0")
+            categories_col = literal_column("0")
 
             if qt.group_activity and qt.group_category:
                 # The Activity@Category for each result is unique/not an aggregate.
@@ -541,7 +542,8 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
         def _get_all_prepare_actg_cols_activities(query):
             activities_col = func.group_concat(
-                AlchemyActivity.name, magic_tag_sep,
+                AlchemyActivity.name,
+                magic_tag_sep,
             ).label("facts_activities")
             query = query.add_columns(activities_col)
             return query, activities_col
@@ -550,20 +552,22 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             # SQLite supports column || concatenation, which is + in SQLAlchemy.
             # MAYBE/2020-05-18: Is there a config value that specs the '@' sep?
             # - I.e., replace the hardcoded '@' with a config value.
-            actegory_col = AlchemyActivity.name + '@' + AlchemyCategory.name
+            actegory_col = AlchemyActivity.name + "@" + AlchemyCategory.name
             # SKIP/Not necessary:
             #   actegory_col.label("actegory")
             #   query = query.add_columns(actegory_col)
             #   actg_cols.append(actegory_col)
             actegories_col = func.group_concat(
-                actegory_col, magic_tag_sep,
+                actegory_col,
+                magic_tag_sep,
             ).label("facts_actegories")
             query = query.add_columns(actegories_col)
             return query, actegories_col
 
         def _get_all_prepare_actg_cols_categories(query):
             categories_col = func.group_concat(
-                AlchemyCategory.name, magic_tag_sep,
+                AlchemyCategory.name,
+                magic_tag_sep,
             ).label("facts_categories")
             query = query.add_columns(categories_col)
             return query, categories_col
@@ -611,14 +615,10 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
                 qt.is_grouped  # b/c _get_all_prepare_actg_cols_categories
                 or qt.match_categories
                 or qt.search_terms
-                or qt.sort_cols_has_any('activity')
-                or qt.sort_cols_has_any('category')
+                or qt.sort_cols_has_any("activity")
+                or qt.sort_cols_has_any("category")
             )
-            if (
-                add_aggregates
-                or qt.match_activities
-                or join_category
-            ):
+            if add_aggregates or qt.match_activities or join_category:
                 # Equivalent: AlchemyFact.activity or AlchemyActivity.
                 query = query.outerjoin(AlchemyFact.activity)
             if join_category:
@@ -640,11 +640,11 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
             filters = []
             for term in qt.search_terms:
-                filters.append(AlchemyFact.description.ilike('%{}%'.format(term)))
+                filters.append(AlchemyFact.description.ilike("%{}%".format(term)))
                 if qt.broad_match:
-                    filters.append(AlchemyActivity.name.ilike('%{}%'.format(term)))
-                    filters.append(AlchemyCategory.name.ilike('%{}%'.format(term)))
-                    filters.append(AlchemyTag.name.ilike('%{}%'.format(term)))
+                    filters.append(AlchemyActivity.name.ilike("%{}%".format(term)))
+                    filters.append(AlchemyCategory.name.ilike("%{}%".format(term)))
+                    filters.append(AlchemyTag.name.ilike("%{}%".format(term)))
             query = query.filter(or_(*filters))
 
             return query
@@ -719,7 +719,11 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
         # ***
 
         def query_select_with_entities(
-            query, span_cols, actg_cols, start_date, tags_subquery,
+            query,
+            span_cols,
+            actg_cols,
+            start_date,
+            tags_subquery,
         ):
             # Even if grouping, we still want to fetch all columns. For one,
             # _process_results expects a Fact object as leading item in each
@@ -745,7 +749,8 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             if tags_subquery is not None:
                 assert not lazy_tags
                 outer_tags_col = func.group_concat(
-                    tags_subquery.c.facts_tags, magic_tag_sep,
+                    tags_subquery.c.facts_tags,
+                    magic_tag_sep,
                 ).label("facts_tags")
                 columns.append(outer_tags_col)
 
@@ -775,15 +780,15 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
         assert has_facts
 
-        if sort_col == 'start' or not sort_col:
+        if sort_col == "start" or not sort_col:
             query = self.query_order_by_start(query, direction)
-        elif sort_col == 'time':
-            i_duration = GatherFactManager.RESULT_GRP_INDEX['duration']
+        elif sort_col == "time":
+            i_duration = GatherFactManager.RESULT_GRP_INDEX["duration"]
             query = query.order_by(direction(span_cols[i_duration]))
-        elif sort_col == 'day':
+        elif sort_col == "day":
             assert start_date is not None
             query = query.order_by(direction(start_date))
-        elif sort_col == 'activity':
+        elif sort_col == "activity":
             # If grouping by only category, this sort does not work: The
             # activity names are group_concat'enated into the 'activities'
             # column, which must be post-processed -- split on magic_tag_sep,
@@ -798,7 +803,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
                 or not qt.group_category
             ):
                 query = query.order_by(direction(AlchemyActivity.name))
-        elif sort_col == 'category':
+        elif sort_col == "category":
             # If sorting by category but grouping by activity (or tags), the
             # caller must sort during post-processing, after transforming the
             # categories aggregate (which get_all returns as a set) into an
@@ -811,7 +816,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
                 or not qt.group_activity
             ):
                 query = query.order_by(direction(AlchemyCategory.name))
-        elif sort_col == 'tag' and tags_subquery is not None:
+        elif sort_col == "tag" and tags_subquery is not None:
             # Don't sort by the aggregate column, because tags aren't
             # sorted in the aggregate (they're not even unique, it's
             # just a long string built from all the tags).
@@ -823,10 +828,10 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             # sort won't stick, so skip it in that case.
             if not qt.group_activity and not qt.group_category:
                 query = query.order_by(direction(tags_subquery.c.facts_tags))
-        elif sort_col == 'usage' and span_cols is not None:
-            i_group_count = GatherFactManager.RESULT_GRP_INDEX['group_count']
+        elif sort_col == "usage" and span_cols is not None:
+            i_group_count = GatherFactManager.RESULT_GRP_INDEX["group_count"]
             query = query.order_by(direction(span_cols[i_group_count]))
-        elif sort_col == 'name':
+        elif sort_col == "name":
             # It makes sense to sort Activities, Categories, and Tags by their
             # names, but a Fact does not have a name. So what does `--sort name`
             # mean to a Fact? 2020-05-19: This code had been ignoring --sort name
@@ -837,7 +842,7 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
             # maybe to group Facts without a description. So we might as well wire
             # sorting by name to sorting be description, rather than ignoring it.
             query = query.order_by(direction(AlchemyFact.description))
-        elif sort_col == 'fact':
+        elif sort_col == "fact":
             # (lb): There is (or at least should be) no meaning with Fact IDs,
             # i.e., you should think of them as UUID values, and not having any
             # relationship to one another, other than as an indicator of identity.
@@ -856,5 +861,5 @@ class GatherFactManager(BaseAlchemyManager, BaseFactManager):
 
     # ***
 
-# ***
 
+# ***

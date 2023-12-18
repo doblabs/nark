@@ -53,7 +53,7 @@ from sqlalchemy import (
     Table,
     Unicode,
     UnicodeText,
-    UniqueConstraint
+    UniqueConstraint,
 )
 from sqlalchemy.orm import mapper, relationship
 
@@ -150,7 +150,7 @@ class AlchemyTag(Tag):
     def __repr__(self):
         # Don't print Tag.facts, otherwise printing a Fact creates a huge
         # string block because circular recursion.
-        return super(AlchemyTag, self).__repr__(ignore=set(['facts']))
+        return super(AlchemyTag, self).__repr__(ignore=set(["facts"]))
 
 
 class AlchemyFact(Fact):
@@ -219,72 +219,81 @@ class AlchemyFact(Fact):
 metadata = MetaData()
 
 categories = Table(
-    'categories', metadata,
-    Column('id', Integer, primary_key=True),
-
+    "categories",
+    metadata,
+    Column("id", Integer, primary_key=True),
     # FIXME/2018-05-20: (lb): Why the hard limit? And why isn't it documented?
-    Column('name', Unicode(DEFAULT_STRING_LENGTH), unique=True),
-
-    Column('deleted', Boolean),
-    Column('hidden', Boolean),
+    Column("name", Unicode(DEFAULT_STRING_LENGTH), unique=True),
+    Column("deleted", Boolean),
+    Column("hidden", Boolean),
 )
 
 # (lb): This code uses SQLAlchemy Classical Mappings, and not Declarative Mappings.
 #   http://docs.sqlalchemy.org/en/latest/orm/mapping_styles.html
 
-mapper(AlchemyCategory, categories, properties={
-    'pk': categories.c.id,
-})
+mapper(
+    AlchemyCategory,
+    categories,
+    properties={
+        "pk": categories.c.id,
+    },
+)
 
 activities = Table(
-    'activities', metadata,
-    Column('id', Integer, primary_key=True),
-
+    "activities",
+    metadata,
+    Column("id", Integer, primary_key=True),
     # FIXME/2018-05-20: (lb): Why the hard limit? And why isn't it documented?
     # And why isn't this DEFAULT_STRING_LENGTH instead of 500?
-    Column('name', Unicode(500)),
-
-    Column('deleted', Boolean),
-    Column('hidden', Boolean),
-    Column('category_id', Integer, ForeignKey(categories.c.id)),
-    UniqueConstraint('name', 'category_id'),
+    Column("name", Unicode(500)),
+    Column("deleted", Boolean),
+    Column("hidden", Boolean),
+    Column("category_id", Integer, ForeignKey(categories.c.id)),
+    UniqueConstraint("name", "category_id"),
 )
 
-mapper(AlchemyActivity, activities, properties={
-    'pk': activities.c.id,
-    'category': relationship(AlchemyCategory, backref='activities'),
-})
+mapper(
+    AlchemyActivity,
+    activities,
+    properties={
+        "pk": activities.c.id,
+        "category": relationship(AlchemyCategory, backref="activities"),
+    },
+)
 
 tags = Table(
-    'tags', metadata,
-    Column('id', Integer, primary_key=True),
-
+    "tags",
+    metadata,
+    Column("id", Integer, primary_key=True),
     # FIXME/2018-05-20: (lb): Why the hard limit? And why isn't it documented?
-    Column('name', Unicode(DEFAULT_STRING_LENGTH), unique=True),
-
-    Column('deleted', Boolean),
-    Column('hidden', Boolean),
+    Column("name", Unicode(DEFAULT_STRING_LENGTH), unique=True),
+    Column("deleted", Boolean),
+    Column("hidden", Boolean),
 )
 
-mapper(AlchemyTag, tags, properties={
-    'pk': tags.c.id,
-})
+mapper(
+    AlchemyTag,
+    tags,
+    properties={
+        "pk": tags.c.id,
+    },
+)
 
 facts = Table(
-    'facts', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('deleted', Boolean),
-    Column('split_from_id', Integer, ForeignKey('facts.id'), nullable=True),
+    "facts",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("deleted", Boolean),
+    Column("split_from_id", Integer, ForeignKey("facts.id"), nullable=True),
     # SKIP: Column('hidden', Boolean),
     # NOTE/2018-04-22: Old Timey Hamster uses SQLite 'timestamp' data type.
     # In ProjectHamster Hamster, the data type shows as DATETIME. The type
     # is more of a suggestion in SQLite, which stores both types as strings,
     # and the strings are your typical datetime (iso8601 without the 'T',
     # and with a timezone), "YYYY-MM-DD HH:MM:SS".
-    Column('start_time', DateTime),
-    Column('end_time', DateTime),
-    Column('activity_id', Integer, ForeignKey(activities.c.id)),
-
+    Column("start_time", DateTime),
+    Column("end_time", DateTime),
+    Column("activity_id", Integer, ForeignKey(activities.c.id)),
     # FIXME/2018-05-20: (lb): Why the hard limit? And why isn't it documented?
     # ALSO: seriously, only 500 chars for "description"??
     #    Column('description', Unicode(500)),
@@ -292,32 +301,36 @@ facts = Table(
     #  but it probably matters in other databases]...
     # FIXME/2018-06-09: (lb): Remove this comment after verifying against
     #   another store, e.g., Postgres.
-    Column('description', UnicodeText()),
+    Column("description", UnicodeText()),
 )
 
-mapper(AlchemyFact, facts, properties={
-    'pk': facts.c.id,
-    'activity': relationship(AlchemyActivity, backref='facts'),
-    'tags': relationship(AlchemyTag, backref='facts', secondary=lambda: fact_tags),
-
-    # 2018-04-22: (lb): I'm not sure if there's a migration script or not,
-    # but I could not find one, and for some reason ProjectHamster renamed
-    # the facts' start and end columns to start_time and end_time, respectively.
-    # FIXME: (lb): Remove this comment (and newlines) after verifying it's eh-okay.
-    'start': facts.c.start_time,
-    'end': facts.c.end_time,
-
-    'split_from': relationship(
-        lambda: AlchemyFact, remote_side=facts.c.id, backref='sub_facts',
-    )
-})
+mapper(
+    AlchemyFact,
+    facts,
+    properties={
+        "pk": facts.c.id,
+        "activity": relationship(AlchemyActivity, backref="facts"),
+        "tags": relationship(AlchemyTag, backref="facts", secondary=lambda: fact_tags),
+        # 2018-04-22: (lb): I'm not sure if there's a migration script or not,
+        # but I could not find one, and for some reason ProjectHamster renamed
+        # the facts' start and end columns to start_time and end_time, respectively.
+        # FIXME: (lb): Remove this comment (and newlines) after verifying it's eh-okay.
+        "start": facts.c.start_time,
+        "end": facts.c.end_time,
+        "split_from": relationship(
+            lambda: AlchemyFact,
+            remote_side=facts.c.id,
+            backref="sub_facts",
+        ),
+    },
+)
 
 # 2018-04-22: (lb): ProjectHamster renamed fact_tags to facttags. But
 # that term isn't used in the code other than in this Table mapping
 # (which no other code uses; though maybe SQLAlchemy uses it internally?).
 fact_tags = Table(
-    'fact_tags', metadata,
-    Column('fact_id', Integer, ForeignKey(facts.c.id)),
-    Column('tag_id', Integer, ForeignKey(tags.c.id)),
+    "fact_tags",
+    metadata,
+    Column("fact_id", Integer, ForeignKey(facts.c.id)),
+    Column("tag_id", Integer, ForeignKey(tags.c.id)),
 )
-

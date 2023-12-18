@@ -28,19 +28,17 @@ from ..objects import (
     AlchemyCategory,
     AlchemyFact,
     AlchemyTag,
-    fact_tags
+    fact_tags,
 )
 from . import query_apply_true_or_not
 from .manager_base import BaseAlchemyManager
 
-__all__ = (
-    'TagManager',
-)
+__all__ = ("TagManager",)
 
 
 class TagManager(BaseAlchemyManager, BaseTagManager):
-    """
-    """
+    """ """
+
     def __init__(self, *args, **kwargs):
         super(TagManager, self).__init__(*args, **kwargs)
 
@@ -98,7 +96,9 @@ class TagManager(BaseAlchemyManager, BaseTagManager):
         )
 
         result = self.add_and_commit(
-            alchemy_tag, raw=raw, skip_commit=skip_commit,
+            alchemy_tag,
+            raw=raw,
+            skip_commit=skip_commit,
         )
 
         return result
@@ -262,19 +262,19 @@ class TagManager(BaseAlchemyManager, BaseTagManager):
 
     @property
     def _gather_query_order_by_name_col(self):
-        return 'tag'
+        return "tag"
 
     def _gather_query_requires_fact(self, qt, compute_usage):
-        requires_fact_table = super(
-            TagManager, self
-        )._gather_query_requires_fact(qt, compute_usage)
+        requires_fact_table = super(TagManager, self)._gather_query_requires_fact(
+            qt, compute_usage
+        )
 
         # (lb): I'm not sure the utility of querying Tag and sorting by
         # Activity, but we can easily support it.
         requires_fact_table = (
             requires_fact_table
-            or qt.sort_cols_has_any('activity')
-            or qt.sort_cols_has_any('category')
+            or qt.sort_cols_has_any("activity")
+            or qt.sort_cols_has_any("category")
         )
 
         return requires_fact_table
@@ -296,18 +296,20 @@ class TagManager(BaseAlchemyManager, BaseTagManager):
         #         don't need one here.
         query = self.store.session.query(AlchemyTag, *agg_cols)
         query = query.join(
-            fact_tags, AlchemyTag.pk == fact_tags.columns.tag_id,
+            fact_tags,
+            AlchemyTag.pk == fact_tags.columns.tag_id,
         )
         query = query.join(AlchemyFact)
         return query
 
     def query_criteria_filter_by_activities(self, query, qt):
         query, criteria = super(
-            TagManager, self,
+            TagManager,
+            self,
         ).query_criteria_filter_by_activities(query, qt)
         # (lb): I'm not sure the utility of querying Tag and sorting by
         # Activity, but we can easily support it.
-        join_activity = bool(criteria) or qt.sort_cols_has_any('activity')
+        join_activity = bool(criteria) or qt.sort_cols_has_any("activity")
         if join_activity:
             query = query.join(AlchemyActivity)
         # (lb): I'm not sure if there's a way to check the query to see
@@ -319,11 +321,12 @@ class TagManager(BaseAlchemyManager, BaseTagManager):
 
     def query_criteria_filter_by_categories(self, query, qt):
         query, criteria = super(
-            TagManager, self,
+            TagManager,
+            self,
         ).query_criteria_filter_by_categories(query, qt)
         # (lb): I'm not sure the utility of querying Tag and sorting by
         # Category, but we can easily support it.
-        join_category = bool(criteria) or qt.sort_cols_has_any('category')
+        join_category = bool(criteria) or qt.sort_cols_has_any("category")
         if join_category:
             if not qt.joined_activity:
                 query = query.join(AlchemyActivity)
@@ -331,4 +334,3 @@ class TagManager(BaseAlchemyManager, BaseTagManager):
         return query, criteria
 
     # ***
-

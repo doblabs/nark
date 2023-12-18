@@ -27,6 +27,7 @@ from nark.managers.query_terms import QueryTerms
 
 # ***
 
+
 class TestFactManager:
     def test_save_fact_endless_active(self, basestore, fact, mocker):
         """
@@ -34,7 +35,7 @@ class TestFactManager:
         active fact') triggers the correct method.
         """
         magic_fact = {}
-        mocker.patch.object(basestore.facts, '_add', return_value=magic_fact)
+        mocker.patch.object(basestore.facts, "_add", return_value=magic_fact)
         fact.end = None
         new_fact = basestore.facts.save(fact)
         assert basestore.facts._add.called
@@ -42,7 +43,9 @@ class TestFactManager:
 
     def test_save_fact_too_brief_value_error(self, basestore, fact):
         """Ensure that a fact with too small of a time delta raises an exception."""
-        delta = datetime.timedelta(seconds=(basestore.config['time.fact_min_delta'] - 1))
+        delta = datetime.timedelta(
+            seconds=(basestore.config["time.fact_min_delta"] - 1)
+        )
         fact.end = fact.start + delta
         with pytest.raises(ValueError):
             basestore.facts.save(fact)
@@ -50,9 +53,9 @@ class TestFactManager:
     def test_save_fact_no_fact_min_delta(self, basestore, fact, mocker):
         """Ensure that a fact with too small of a time delta raises an exception."""
         magic_fact = {}
-        mocker.patch.object(basestore.facts, '_add', return_value=magic_fact)
+        mocker.patch.object(basestore.facts, "_add", return_value=magic_fact)
         # Note that out config defined the type as int, so use 0, not None.
-        basestore.config['time.fact_min_delta'] = 0
+        basestore.config["time.fact_min_delta"] = 0
         fact.end = fact.start
         new_fact = basestore.facts.save(fact)
         assert basestore.facts._add.called
@@ -96,50 +99,71 @@ class TestFactManager:
     # for these to be complicated. The code has been refactored so much that
     # these tests do a lot of work for not much code or unique branch coverage.
 
-    @pytest.mark.parametrize(('since', 'until', 'expectation'), [
-        (None, None, {
-            'since': None,
-            'until': None}),
-        # Various since info.
-        (datetime.date(2014, 4, 1), None, {
-            'since': datetime.datetime(2014, 4, 1, 5, 30, 0),
-            'until': None}),
-        (datetime.time(13, 40, 25), None, {
-            'since': datetime.datetime(2015, 4, 1, 13, 40, 25),
-            'until': None}),
-        (datetime.datetime(2014, 4, 1, 13, 40, 25), None, {
-            'since': datetime.datetime(2014, 4, 1, 13, 40, 25),
-            'until': None}),
-        # Various until info.
-        (None, datetime.date(2014, 2, 1), {
-            'since': None,
-            'until': datetime.datetime(2014, 2, 2, 5, 29, 59)}),
-        (None, datetime.time(13, 40, 25), {
-            'since': None,
-            'until': datetime.datetime(2015, 4, 1, 13, 40, 25)}),
-        (None, datetime.datetime(2014, 4, 1, 13, 40, 25), {
-            'since': None,
-            'until': datetime.datetime(2014, 4, 1, 13, 40, 25)}),
-    ])
-    @freeze_time('2015-04-01 18:00')
+    @pytest.mark.parametrize(
+        ("since", "until", "expectation"),
+        [
+            (None, None, {"since": None, "until": None}),
+            # Various since info.
+            (
+                datetime.date(2014, 4, 1),
+                None,
+                {"since": datetime.datetime(2014, 4, 1, 5, 30, 0), "until": None},
+            ),
+            (
+                datetime.time(13, 40, 25),
+                None,
+                {"since": datetime.datetime(2015, 4, 1, 13, 40, 25), "until": None},
+            ),
+            (
+                datetime.datetime(2014, 4, 1, 13, 40, 25),
+                None,
+                {"since": datetime.datetime(2014, 4, 1, 13, 40, 25), "until": None},
+            ),
+            # Various until info.
+            (
+                None,
+                datetime.date(2014, 2, 1),
+                {"since": None, "until": datetime.datetime(2014, 2, 2, 5, 29, 59)},
+            ),
+            (
+                None,
+                datetime.time(13, 40, 25),
+                {"since": None, "until": datetime.datetime(2015, 4, 1, 13, 40, 25)},
+            ),
+            (
+                None,
+                datetime.datetime(2014, 4, 1, 13, 40, 25),
+                {"since": None, "until": datetime.datetime(2014, 4, 1, 13, 40, 25)},
+            ),
+        ],
+    )
+    @freeze_time("2015-04-01 18:00")
     def test_get_all_various_since_and_until_times(
-        self, basestore, mocker, since, until, expectation,
+        self,
+        basestore,
+        mocker,
+        since,
+        until,
+        expectation,
     ):
         """Test that time conversion matches expectations."""
-        mocker.patch.object(basestore.facts, 'gather', )
+        mocker.patch.object(
+            basestore.facts,
+            "gather",
+        )
         query_terms = QueryTerms(since=since, until=until)
         # MAYBE/2020-05-25: (lb): I don't quite like that get_all mutates query_terms.
         basestore.facts.get_all(query_terms)
         assert basestore.facts.gather.called
         actual_qt = basestore.facts.gather.call_args[0][0]
         expect_qt = QueryTerms(
-            since=expectation['since'],
-            until=expectation['until'],
+            since=expectation["since"],
+            until=expectation["until"],
         )
         assert actual_qt == expect_qt
 
     @pytest.mark.parametrize(
-        ('since', 'until'),
+        ("since", "until"),
         [
             (
                 datetime.date(2015, 4, 5),
@@ -156,15 +180,18 @@ class TestFactManager:
         with pytest.raises(ValueError):
             basestore.facts.get_all(since=since, until=until)
 
-    @pytest.mark.parametrize(('since', 'until'), [
-        # (lb): This test used to cause TypeError, because get_all used to not
-        # parse the input, but expected datetime objects instead. So the string
-        # values in the parameters here would trigger TypeError. But now the
-        # parsing is part of get_all (because DRY), so now we test ValueError.
-        # - Note that since > until here, so ValueError, and tests mixed types.
-        (datetime.date(2015, 4, 5), '2012-03-04'),
-        ('2015-04-05 18:00:00', '2012-03-04 19:00:00'),
-    ])
+    @pytest.mark.parametrize(
+        ("since", "until"),
+        [
+            # (lb): This test used to cause TypeError, because get_all used to not
+            # parse the input, but expected datetime objects instead. So the string
+            # values in the parameters here would trigger TypeError. But now the
+            # parsing is part of get_all (because DRY), so now we test ValueError.
+            # - Note that since > until here, so ValueError, and tests mixed types.
+            (datetime.date(2015, 4, 5), "2012-03-04"),
+            ("2015-04-05 18:00:00", "2012-03-04 19:00:00"),
+        ],
+    )
     def test_get_all_invalid_date_types(self, basestore, mocker, since, until):
         """Test that we throw an exception if we receive invalid date/time objects."""
         with pytest.raises(ValueError):
@@ -172,39 +199,45 @@ class TestFactManager:
 
     # ***
 
-    @freeze_time('2015-10-03 14:45')
+    @freeze_time("2015-10-03 14:45")
     def test_get_today(self, basestore, mocker):
         """Make sure that method uses appropriate timeframe."""
-        mocker.patch.object(basestore.facts, 'get_all', return_value=[])
+        mocker.patch.object(basestore.facts, "get_all", return_value=[])
         results = basestore.facts.get_today()
         assert results == []
-        assert (
-            basestore.facts.get_all.call_args[1] == {
-                'since': datetime.datetime(2015, 10, 3, 5, 30, 0),
-                'until': datetime.datetime(2015, 10, 4, 5, 29, 59),
-            }
-        )
+        assert basestore.facts.get_all.call_args[1] == {
+            "since": datetime.datetime(2015, 10, 3, 5, 30, 0),
+            "until": datetime.datetime(2015, 10, 4, 5, 29, 59),
+        }
 
-    @freeze_time('2015-10-03 14:45')
+    @freeze_time("2015-10-03 14:45")
     def test_day_end_datetime_no_end_date(self, basestore):
         """Make sure that method uses appropriate timeframe."""
-        basestore.config['time.day_start'] = datetime.time(5, 30)
+        basestore.config["time.day_start"] = datetime.time(5, 30)
         until = basestore.facts.day_end_datetime(end_date=None)
         assert until == datetime.datetime(2015, 10, 4, 5, 29, 59)
 
     # *** stop_current_fact tests.
 
-    @freeze_time('2019-02-01 18:00')
-    @pytest.mark.parametrize('hint', (
-        None,
-        datetime.timedelta(minutes=10),
-        datetime.timedelta(minutes=300),
-        datetime.timedelta(seconds=-10),
-        datetime.timedelta(minutes=-10),
-        datetime.datetime(2019, 2, 1, 19),
-    ))
+    @freeze_time("2019-02-01 18:00")
+    @pytest.mark.parametrize(
+        "hint",
+        (
+            None,
+            datetime.timedelta(minutes=10),
+            datetime.timedelta(minutes=300),
+            datetime.timedelta(seconds=-10),
+            datetime.timedelta(minutes=-10),
+            datetime.datetime(2019, 2, 1, 19),
+        ),
+    )
     def test_stop_current_fact_with_hint(
-        self, basestore, base_config, endless_fact, hint, mocker,
+        self,
+        basestore,
+        base_config,
+        endless_fact,
+        hint,
+        mocker,
     ):
         """
         Make sure we can stop an 'ongoing fact' and that it will have an end set.
@@ -227,7 +260,7 @@ class TestFactManager:
         # to a fake time worth it if we have to possibly change it anyway?
         # - Start with the fact_min_delta padding, which will also cause a
         #   complaint, if end isn't far enough ahead of start.
-        max_delta_secs = base_config['time']['fact_min_delta']
+        max_delta_secs = base_config["time"]["fact_min_delta"]
         if hint and isinstance(hint, datetime.timedelta) and hint.total_seconds() < 0:
             # Subtract hint's seconds, which is a negative value, so really,
             # increase the max_delta_secs, because hint will be subtracted
@@ -249,8 +282,11 @@ class TestFactManager:
         else:
             # NOTE: Because freeze_time, datetime.now() === datetime.utcnow().
             expected_end = datetime.datetime.now().replace(microsecond=0)
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
-        mocker.patch.object(basestore.facts, '_add', )
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
+        mocker.patch.object(
+            basestore.facts,
+            "_add",
+        )
         basestore.facts.stop_current_fact(hint)
         assert basestore.facts.endless.called
         assert basestore.facts._add.called
@@ -259,33 +295,42 @@ class TestFactManager:
         fact_to_be_added.end = None
         assert fact_to_be_added == endless_fact
 
-    @freeze_time('2019-02-01 18:00')
-    @pytest.mark.parametrize('hint', (
-        datetime.datetime(2019, 2, 1, 17, 59),
-    ))
+    @freeze_time("2019-02-01 18:00")
+    @pytest.mark.parametrize("hint", (datetime.datetime(2019, 2, 1, 17, 59),))
     def test_stop_current_fact_with_end_in_the_past(
-        self, basestore, base_config, endless_fact, hint, mocker,
+        self,
+        basestore,
+        base_config,
+        endless_fact,
+        hint,
+        mocker,
     ):
         """
         Make sure that stopping an 'ongoing fact' with end before start raises.
         """
         # Set start to the freeze_time time, above.
         endless_fact.start = datetime.datetime.now()
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
-        mocker.patch.object(basestore.facts, '_add', )
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
+        mocker.patch.object(
+            basestore.facts,
+            "_add",
+        )
         with pytest.raises(ValueError):
             basestore.facts.stop_current_fact(hint)
         assert basestore.facts.endless.called
         assert not basestore.facts._add.called
 
     def test_stop_current_fact_invalid_offset_hint(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """
         Make sure that stopping with an offset hint that results in end > start
         raises an error.
         """
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
         now = datetime.datetime.now().replace(microsecond=0)
         offset = (now - endless_fact.start).total_seconds() + 100
         offset = datetime.timedelta(seconds=-1 * offset)
@@ -293,23 +338,29 @@ class TestFactManager:
             basestore.facts.stop_current_fact(offset)
 
     def test_stop_current_fact_invalid_datetime_hint(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """
         Make sure that stopping with a datetime hint that results in end > start
         raises an error.
         """
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
         with pytest.raises(ValueError):
             basestore.facts.stop_current_fact(
                 endless_fact.start - datetime.timedelta(minutes=30),
             )
 
     def test_stop_current_fact_invalid_hint_type(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """Make sure that passing an invalid hint type raises an error."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
         with pytest.raises(TypeError):
             basestore.facts.stop_current_fact(str())
 
@@ -319,85 +370,110 @@ class TestFactManager:
     # stop_current_fact(), as well as find_latest_fact().
 
     def test_get_current_fact_datebase_integrity_issue_multiple_active_facts(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """Make sure that if 2 Facts are Active, get_current_fact fails."""
         two_endless = [endless_fact, endless_fact]
-        mocker.patch.object(basestore.facts, 'endless', return_value=two_endless)
+        mocker.patch.object(basestore.facts, "endless", return_value=two_endless)
         with pytest.raises(Exception):
             basestore.facts.get_current_fact()
 
     # *** find_latest_fact
 
     def test_find_latest_fact_finds_fact_ongoing_exists(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """Ensure find_latest_fact finds 'ongoing' Fact."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
-        restrict = 'ongoing'
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
+        restrict = "ongoing"
         found = basestore.facts.find_latest_fact(restrict=restrict)
         assert found is endless_fact
 
     def test_find_latest_fact_finds_fact_ongoing_not_found(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """Ensure find_latest_fact returns None when no 'ongoing' Fact."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[])
-        restrict = 'ongoing'
+        mocker.patch.object(basestore.facts, "endless", return_value=[])
+        restrict = "ongoing"
         found = basestore.facts.find_latest_fact(restrict=restrict)
         assert found is None
 
     def test_find_latest_fact_finds_fact_ongoing_too_many(
-        self, basestore, endless_fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        mocker,
     ):
         """Ensure find_latest_fact raises when there is more than 1 'ongoing' Fact."""
         two_endless = [endless_fact, endless_fact]
-        mocker.patch.object(basestore.facts, 'endless', return_value=two_endless)
-        restrict = 'ongoing'
+        mocker.patch.object(basestore.facts, "endless", return_value=two_endless)
+        restrict = "ongoing"
         with pytest.raises(Exception):
             basestore.facts.find_latest_fact(restrict=restrict)
 
     def test_find_latest_fact_finds_fact_ended(
-        self, basestore, fact, mocker,
+        self,
+        basestore,
+        fact,
+        mocker,
     ):
         """Ensure find_latest_fact find an 'ended' Fact."""
-        mocker.patch.object(basestore.facts, 'get_all', return_value=[fact])
-        restrict = 'ended'
+        mocker.patch.object(basestore.facts, "get_all", return_value=[fact])
+        restrict = "ended"
         found = basestore.facts.find_latest_fact(restrict=restrict)
         assert found is fact
 
     # *** find_oldest_fact
 
     def test_find_oldest_fact_found(
-        self, basestore, fact, mocker,
+        self,
+        basestore,
+        fact,
+        mocker,
     ):
         """Ensure find_oldest_fact find a fact when get_all returns one."""
-        mocker.patch.object(basestore.facts, 'get_all', return_value=[fact])
+        mocker.patch.object(basestore.facts, "get_all", return_value=[fact])
         found = basestore.facts.find_oldest_fact()
         assert found is fact
 
     def test_find_oldest_fact_not_found(
-        self, basestore, fact, mocker,
+        self,
+        basestore,
+        fact,
+        mocker,
     ):
         """Ensure find_oldest_fact find a fact when get_all returns none."""
-        mocker.patch.object(basestore.facts, 'get_all', return_value=[])
+        mocker.patch.object(basestore.facts, "get_all", return_value=[])
         found = basestore.facts.find_oldest_fact()
         assert found is None
 
     # *** endless
 
     def test_get_endless_fact_with_ongoing_fact(
-        self, basestore, endless_fact, fact, mocker,
+        self,
+        basestore,
+        endless_fact,
+        fact,
+        mocker,
     ):
         """Make sure we return the 'ongoing_fact'."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
         fact = basestore.facts.endless()
         assert fact == fact
         assert fact is fact
 
     def test_get_endless_fact_without_ongoing_fact(self, basestore, mocker):
         """Make sure that we raise a KeyError if there is no 'ongoing fact'."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[])
+        mocker.patch.object(basestore.facts, "endless", return_value=[])
         fact = basestore.facts.endless()
         assert fact == []
 
@@ -405,8 +481,11 @@ class TestFactManager:
 
     def test_cancel_current_fact(self, basestore, endless_fact, fact, mocker):
         """Make sure we return the 'ongoing_fact'."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[endless_fact])
-        mocker.patch.object(basestore.facts, 'remove', )
+        mocker.patch.object(basestore.facts, "endless", return_value=[endless_fact])
+        mocker.patch.object(
+            basestore.facts,
+            "remove",
+        )
         result = basestore.facts.cancel_current_fact()
         assert basestore.facts.endless.called
         assert basestore.facts.remove.called
@@ -415,7 +494,7 @@ class TestFactManager:
 
     def test_cancel_current_fact_without_endless_fact(self, basestore, mocker):
         """Make sure that we raise a KeyError if there is no 'ongoing fact'."""
-        mocker.patch.object(basestore.facts, 'endless', return_value=[])
+        mocker.patch.object(basestore.facts, "endless", return_value=[])
         with pytest.raises(KeyError):
             basestore.facts.cancel_current_fact()
         assert basestore.facts.endless.called
@@ -449,4 +528,3 @@ class TestFactManager:
     def test_endless_not_implemented(self, basestore):
         with pytest.raises(NotImplementedError):
             basestore.facts.endless()
-
