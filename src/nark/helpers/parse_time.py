@@ -19,10 +19,9 @@
 
 """This module provides nark raw fact parsing-related functions."""
 
-from gettext import gettext as _
-
 import re
 from datetime import timedelta
+from gettext import gettext as _
 from string import punctuation
 
 import lazy_import
