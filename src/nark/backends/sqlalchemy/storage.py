@@ -19,9 +19,8 @@
 
 """``nark`` object store."""
 
-from gettext import gettext as _
-
 import os.path
+from gettext import gettext as _
 
 # Profiling: load create_engine: ~ 0.100 secs.
 from sqlalchemy import create_engine
@@ -30,8 +29,8 @@ from sqlalchemy.exc import OperationalError
 # Profiling: load sessionmaker: ~ 0.050 secs.
 from sqlalchemy.orm import sessionmaker
 
-from . import objects
 from ...manager import BaseStore
+from . import objects
 from .managers.activity import ActivityManager
 from .managers.category import CategoryManager
 from .managers.fact import FactManager
