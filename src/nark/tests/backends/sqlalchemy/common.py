@@ -24,10 +24,10 @@ This way it can be referencecd by fixtures and factories.
 [Details](http://factoryboy.readthedocs.org/en/latest/orms.html#sqlalchemy)
 """
 
-from sqlalchemy import orm
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 # (lb): Haha, here's what factoryboi says about this global:
 #   "A global (test-only?) file holds the scoped_session"
 # This session is so the Alchemy item factories all deposit
 # their items in the same backend.
-Session = orm.scoped_session(orm.sessionmaker())
+Session = scoped_session(sessionmaker())
