@@ -21,9 +21,9 @@ import datetime
 
 import pytest
 
-from nark.backends.sqlalchemy.objects import AlchemyFact
 from nark.backends.sqlalchemy.managers.fact import FactManager
 from nark.backends.sqlalchemy.managers.gather_fact import GatherFactManager
+from nark.backends.sqlalchemy.objects import AlchemyFact
 from nark.items.fact import Fact
 from nark.items.tag import Tag
 

@@ -21,9 +21,8 @@ import pytest
 
 from nark.backends.sqlalchemy.managers.gather_base import GatherBaseAlchemyManager
 from nark.backends.sqlalchemy.objects import AlchemyActivity
-from nark.managers.query_terms import QueryTerms
 from nark.items.activity import Activity
-
+from nark.managers.query_terms import QueryTerms
 
 # (lb): You'll find much of GatherBaseAlchemyManager tested by derived classes' tests.
 # What's not tested by one of the derived classes should be covered here, albeit often

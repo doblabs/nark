@@ -26,13 +26,11 @@ Note:
       to test them once and our actual backends focus on the CRUD implementation.
 """
 
+import datetime
 from gettext import gettext as _
 
-import datetime
-
-from ..items.item_base import BaseItem
 from ..helpers.parse_time import parse_dated
-
+from ..items.item_base import BaseItem
 from .query_terms import QueryTerms
 
 __all__ = ("BaseManager",)
