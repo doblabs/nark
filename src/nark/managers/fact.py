@@ -17,13 +17,12 @@
 # You can find the GNU General Public License reprinted in the file titled 'LICENSE',
 # or visit <http://www.gnu.org/licenses/>.
 
+import datetime
 from gettext import gettext as _
 
-import datetime
-
-from . import BaseManager
 from ..helpers import fact_time
 from ..items.fact import Fact
+from . import BaseManager
 
 
 class BaseFactManager(BaseManager):

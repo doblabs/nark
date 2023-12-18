@@ -30,7 +30,6 @@ from nark.config import decorate_config
 # Register the fact_factory, etc.
 from nark.tests.item_factories import *  # noqa: F401, F403
 
-
 # This fixture is used by ``test_helpers`` and ``test_storage``.
 @pytest.fixture
 def endless_fact(fact_factory):

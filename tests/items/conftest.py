@@ -28,7 +28,6 @@ from nark.tests import factories
 # Register the category_factory, etc.
 from nark.tests.item_factories import *  # noqa: F401, F403
 
-
 # ***
 
 # Fixtures for: tests/items/test_activity.py.
