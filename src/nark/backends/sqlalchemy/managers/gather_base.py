@@ -306,7 +306,8 @@ class GatherBaseAlchemyManager(object):
 
     def query_filter_by_activities(self, query, qt):
         query, criteria = self.query_criteria_filter_by_activities(query, qt)
-        query = query.filter(or_(*criteria))
+        if criteria:
+            query = query.filter(or_(*criteria))
         return query
 
     def query_criteria_filter_by_activities(self, query, qt):
@@ -359,7 +360,8 @@ class GatherBaseAlchemyManager(object):
 
     def query_filter_by_categories(self, query, qt):
         query, criteria = self.query_criteria_filter_by_categories(query, qt)
-        query = query.filter(or_(*criteria))
+        if criteria:
+            query = query.filter(or_(*criteria))
         return query
 
     def query_criteria_filter_by_categories(self, query, qt):
