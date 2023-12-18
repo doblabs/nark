@@ -32,7 +32,8 @@ class TestXMLWriter(object):
         assert xml_writer.fact_list.tagName == ename
 
     def test_xml_writer__write_fact(self, xml_writer, fact, mocker):
-        """Make sure that the attributes attached to the fact matche our expectations."""
+        """Make sure that the attributes attached to the fact matche our
+        expectations."""
         # (lb): I tried patching the Class method so we could call write_facts, e.g.,
         #   from xml.dom.minidom import Node
         #   mocker.patch.object(Node, 'appendChild')
