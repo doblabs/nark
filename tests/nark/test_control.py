@@ -21,7 +21,6 @@ import logging
 
 import pytest
 
-import nark
 from nark import get_version
 from nark.manager import BaseStore
 
