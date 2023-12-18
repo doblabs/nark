@@ -323,9 +323,13 @@ def _alchemy_store(request, alchemy_config, alchemy_runner, alchemy_session):
 
 
 @pytest.fixture
-@patch("nark.backends.sqlalchemy.storage.create_engine", lambda *args, **kwargs: None)
 @patch(
-    "nark.backends.sqlalchemy.objects.metadata.create_all", lambda *args, **kwargs: None
+    "nark.backends.sqlalchemy.storage.create_engine",
+    lambda *args, **kwargs: None,
+)
+@patch(
+    "nark.backends.sqlalchemy.objects.metadata.create_all",
+    lambda *args, **kwargs: None,
 )
 @patch(
     "sqlalchemy_migrate_hotoffthehamster.versioning.api.db_version",
