@@ -66,7 +66,7 @@ class TestXMLWriter(object):
     def test_xml_writer_write_facts__close(self, xml_writer, fact, path):
         """Make sure the calendar is actually written do disk before file is closed."""
         xml_writer.write_facts([fact])
-        with open(path, "r") as fobj:
+        with open(path, "r", encoding="utf8") as fobj:
             result = xml.dom.minidom.parse(fobj)
             assert result.toxml()
 
