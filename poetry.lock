@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "ansi-escape-room"
-version = "1.5.1"
+version = "1.5.2"
 description = "Simple library for color and formatting to terminal"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansi_escape_room-1.5.1-py3-none-any.whl", hash = "sha256:fb5a316a46f0e3fcd33d318553f391590b2d951a66a44381bec150b468e5c924"},
-    {file = "ansi_escape_room-1.5.1.tar.gz", hash = "sha256:5cfefff962d6d299909221e6731f0f07512adc7a04dd4f64afd7efa7affa737b"},
+    {file = "ansi_escape_room-1.5.2-py3-none-any.whl", hash = "sha256:20658dc2c0411161971c69b65492874003f518ff53eb42ceca58f493f186071d"},
+    {file = "ansi_escape_room-1.5.2.tar.gz", hash = "sha256:9bc0050e083d3ee3dba5f767a1448c8f7ba9d4fc23920480a0329ff5e42a6c16"},
 ]
 
 [package.extras]
@@ -397,13 +397,13 @@ files = [
 
 [[package]]
 name = "config-decorator"
-version = "2.0.15"
+version = "2.0.16"
 description = "Class @decorator for defining exquisite settings configurations"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "config_decorator-2.0.15-py3-none-any.whl", hash = "sha256:d5173ddf78ed15f7c383c68bb781041fe2e4e4c3eb11680f7149b4bb0fb85696"},
-    {file = "config_decorator-2.0.15.tar.gz", hash = "sha256:e3bcdc0fc31895bd718ad545a79fae78ba9afc7583ad301f47ce0b6fdd9ac946"},
+    {file = "config_decorator-2.0.16-py3-none-any.whl", hash = "sha256:1d36f17272ca6a36d46364dba1868728093467624bc27ce3dd7fd7c2f08b6771"},
+    {file = "config_decorator-2.0.16.tar.gz", hash = "sha256:a13573484ac51f0b9c54e8ac0c142afcd227136fa3a78fa85ecf8f94b36fd211"},
 ]
 
 [package.extras]
@@ -914,13 +914,13 @@ tests = ["flake8 (>=3.0.0)", "pytest (>=4.4.1)", "responses (>=0.5.0)"]
 
 [[package]]
 name = "human-friendly-pedantic-timedelta"
-version = "2.0.12"
+version = "2.0.13"
 description = "Human-friendly Pedantic `timedelta`"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "human_friendly_pedantic_timedelta-2.0.12-py3-none-any.whl", hash = "sha256:dc51f53b1c5f63a253065634d0d13f11dc63fbfbd2a5d161dc56e81066064e8c"},
-    {file = "human_friendly_pedantic_timedelta-2.0.12.tar.gz", hash = "sha256:89a57952798eac6da4bb678f3f34d4a1b5d132b5d1d4275295be9ff45b502517"},
+    {file = "human_friendly_pedantic_timedelta-2.0.13-py3-none-any.whl", hash = "sha256:30134567b1c92825554acb5a56cd5bb0286a5aad92d27fef92af0e18910fa02c"},
+    {file = "human_friendly_pedantic_timedelta-2.0.13.tar.gz", hash = "sha256:e25ae5959eaa5c2d85987e757bea0fe69d2679f756edf8c4e76e4b1d49d06182"},
 ]
 
 [package.dependencies]
@@ -2365,13 +2365,13 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-migrate-hotoffthehamster"
-version = "0.14.1"
+version = "0.14.2"
 description = "Database schema migration for SQLAlchemy"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.1-py3-none-any.whl", hash = "sha256:8b5b3959aaeed04d93d1b7eef7ade518c8dd82bbc207a08b4259c3481a45d99f"},
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.1.tar.gz", hash = "sha256:8de7e717a5f3c4c8f454208ad9fe00ff179110a154eedf1754506e743e5350c3"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.2-py3-none-any.whl", hash = "sha256:ca6d8985a135b76661c0c60e1876b0306f5c1fba9206e560da810cf5ba9b6076"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.2.tar.gz", hash = "sha256:e526bf023da83e7b2cea525cbb34869893609f85a6a34348b25f43980f819787"},
 ]
 
 [package.dependencies]
@@ -2416,13 +2416,13 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "tempita-hotoffthehamster"
-version = "1.0.1"
+version = "1.0.2"
 description = "A very small text templating language"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "tempita_hotoffthehamster-1.0.1-py3-none-any.whl", hash = "sha256:fa96bd8474b8598ecbef6adea6d47b4cd3ff2eaa74bff544256df3e096d772d8"},
-    {file = "tempita_hotoffthehamster-1.0.1.tar.gz", hash = "sha256:7d8d07ce23848cac3b8e2d28e98120ff641ea6b44e831fd11150cf5177b6cfe3"},
+    {file = "tempita_hotoffthehamster-1.0.2-py3-none-any.whl", hash = "sha256:06a3a08b858d06364b26ea8fa56dee44a13d7c1e2f96d14603f46a8db061bf97"},
+    {file = "tempita_hotoffthehamster-1.0.2.tar.gz", hash = "sha256:d4dbb16d695a85fc1b5b147e658e59dfa83b1152832c41bac465d6f17961a41b"},
 ]
 
 [package.extras]
