@@ -49,11 +49,11 @@ UPDEPS_FAKE_UPDATE="${UPDEPS_FAKE_UPDATE:-false}"
 # DEVXX: Use this (or similar) to test locally (but note PR self-approve fails
 #        unless you set USER_TOKEN and GBOT_TOKEN to different users' tokens):
 __UPDEPS__CPYST__="
-  UPDEPS_FAKE_UPDATE=true \
+  UPDEPS_FAKE_UPDATE=false \
   UPDEPS_CASCADE_INHIBIT=true \
   UPDEPS_CASCADE_UPDATEDEPS=skip \
   UPDEPS_CASCADE_VERSIONING=skip \
-  UPDEPS_INCLUDE_PRERELEASE=false \
+  UPDEPS_INCLUDE_PRERELEASE=true \
   UPDEPS_SKIP_PR=false \
     ./.github/bin/update-poetry
 "
@@ -484,6 +484,7 @@ resume_old_branch_and_cleanup () {
   # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
   if ! ${CI:-false}; then
     if ! ${UPDEPS_SKIP_PR:-false}; then
+      print_prog "git branch -q -D ${branch_name}\n"
       # Ignore stderr message that -q doesn't inhibit:
       #   warning: deleting branch 'foo' that has been merged to
       #            'refs/remotes/origin/foo', but not yet merged to HEAD.
@@ -851,6 +852,10 @@ gh_pr_set_auto_merge_delete_rebase () {
 
   print_prog "gh pr merge \"${pr_ref}\" --auto --delete-branch --rebase\n"
 
+  # SAVVY/2023-12-18: If there are no branch protection rules and
+  # mandatory checks, this'll actually merge immediately, and it'll
+  # delete the local branch. (And that's why `git checkout -` later
+  # fails.)
   GH_TOKEN=${USER_TOKEN} \
   gh pr merge "${pr_ref}" --auto --delete-branch --rebase 1>&2
 }
