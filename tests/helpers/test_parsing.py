@@ -79,7 +79,14 @@ class TestParser(object):
             time_hint=time_hint,
             lenient=True,
         )
-        if "err" in expectation and expectation["err"]:
+        if (
+            "err" in expectation
+            and expectation["err"]
+            and (
+                "err_scope_inclusive" not in expectation
+                or not expectation["err_scope_inclusive"]
+            )
+        ):
             assert str(err).startswith(expectation["err"])
         else:
             assert fact_dict["start"] == expectation["start_raw"]
