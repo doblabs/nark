@@ -73,15 +73,22 @@ factoid_fixture = (
                 "warnings": [],
             },
         ),
-        # MAYBE/2020-07-03: Note that "clock-clock" works (no spaces around dash)
-        # but that "friendly-clock", "clock-friendly", etc., does not.
-        # - For consistency, perhaps this should be fixed... or at least documented
-        #   that it doesn't.
+        # 2020-12-22: Note that "datish-datish" works (no spaces around dash)
+        # if there's only a single dash in the datetime portion being parsed.
+        # Note freeze_time("2015-12-25 18:00") is Friday, so 2020-12-21 start.
         (
             "Monday-13:00: foo@bar",
             "verify_both",
             {
-                "err": "Expected to find the two datetimes separated by one of: ",
+                "start_raw": datetime.datetime(2015, 12, 21, 0, 0, 0),
+                "end_raw": "13:00",
+                "start": datetime.datetime(2015, 12, 21, 0, 0, 0),
+                "end": datetime.datetime(2015, 12, 21, 13, 0, 0),
+                "activity": "foo",
+                "category": "bar",
+                "tags": [],
+                "description": "",
+                "warnings": [],
             },
         ),
         (
@@ -328,15 +335,17 @@ factoid_fixture = (
             "2015-12-12 13:00: #baz: bat",
             "verify_start",
             {
-                "start_raw": datetime.datetime(2015, 12, 12, 13, 0, 0),
-                "end_raw": None,
-                "start": datetime.datetime(2015, 12, 12, 13, 0, 0),
-                "end": None,
-                "activity": "",
-                "category": "",
-                "tags": ["baz"],
-                "description": "bat",
-                "warnings": [],
+                "err": "Expected to find an Activity name.",
+                # If lenient=True:
+                #  "start_raw": datetime.datetime(2015, 12, 12, 13, 0, 0),
+                #  "end_raw": None,
+                #  "start": datetime.datetime(2015, 12, 12, 13, 0, 0),
+                #  "end": None,
+                #  "activity": "",
+                #  "category": "",
+                #  "tags": ["baz"],
+                #  "description": "bat",
+                #  "warnings": [],
             },
         ),
         # (lb): This one... may or may be making the best decision:
@@ -448,6 +457,7 @@ factoid_fixture = (
                 "start_raw": None,
                 "end_raw": "-90",
                 "start": None,
+                # 90 mins. before 6p Xmas 2015.
                 "end": datetime.datetime(2015, 12, 25, 16, 30, 0),
                 "activity": "foo",
                 "category": "bar",
@@ -466,6 +476,23 @@ factoid_fixture = (
                 "end_raw": datetime.datetime(1990, 12, 25, 0, 0, 0),
                 "start": None,
                 "end": datetime.datetime(1990, 12, 25, 0, 0, 0),
+                "activity": "foo",
+                "category": "bar",
+                "tags": [],
+                "description": "",
+                "warnings": [],
+            },
+        ),
+        # Test must_parse_datetimes_known `not self.raw_datetime1` if-branch.
+        (
+            "-120 to -90: foo@bar",
+            "verify_both",
+            {
+                "start_raw": "-120",
+                "end_raw": "-90",
+                #  I.e., 120 and 90 minutes before now.
+                "start": datetime.datetime(2015, 12, 25, 16, 0, 0),
+                "end": datetime.datetime(2015, 12, 25, 16, 30, 0),
                 "activity": "foo",
                 "category": "bar",
                 "tags": [],
@@ -530,16 +557,35 @@ factoid_fixture = (
                 "err": "",
             },
         ),
-        # Obscure Factoid covers last branch in `must_parse_datetime_from_rest`.
         (
             "+10m to @",
             "verify_start",
             {
                 "start_raw": "+10m",
                 "end_raw": None,
-                "start": datetime.datetime(2015, 12, 25, 18, 0, 0),
+                "start": datetime.datetime(2015, 12, 25, 18, 10, 0),
                 "end": None,
                 "activity": "to",
+                "category": "",
+                "tags": [],
+                "description": "",
+                "warnings": [],
+            },
+        ),
+        # Obscure Factoid covers last branch in `must_parse_datetime_from_rest`.
+        # Note that start=+ time makes sense in context on import, where there
+        # will be a previous Fact to reference, but in this fixture, this Fact
+        # stands alone, so supply relative end to avoid default end = now.
+        (
+            "+10m to +20m foo@",
+            "verify_both",
+            {
+                "start_raw": "+10m",
+                "end_raw": "+20m",
+                "start": datetime.datetime(2015, 12, 25, 18, 10, 0),
+                # Note the +20m is relative to start, not now (which was used on start).
+                "end": datetime.datetime(2015, 12, 25, 18, 30, 0),
+                "activity": "foo",
                 "category": "",
                 "tags": [],
                 "description": "",
@@ -573,16 +619,36 @@ factoid_fixture = (
                 "err": "Expected to find a datetime.",
             },
         ),
+        (
+            "Tuesday foo@bar",
+            "verify_start",
+            {
+                # Raises ParserMissingDatetimeOneException.
+                "err": "Expected to find a datetime.",
+                # Otherwise:
+                #  'start_raw': 'Tuesday',
+                #  'end_raw': None,
+                #  # 'start': datetime.datetime(2015, 12, 24, 18, 0, 0),
+                #  'start': datetime.datetime(2015, 12, 25, 18, 0, 0),
+                #  'end': None,
+                #  'activity': 'foo',
+                #  'category': 'bar',
+                #  'tags': [],
+                #  'description': '',
+                #  'warnings': [],
+            },
+        ),
         # Cover final line in must_parse_datetimes_magic.
         (
-            "Tuesday to 12:00 @",
+            "Tuesday to 12:00: foo@",
             "verify_start",
             {
                 "start_raw": datetime.datetime(2015, 12, 22, 0, 0, 0),
                 "end_raw": "12:00",
+                # freeze_time is 2015-12-25 18:00 Friday; Dec. 22 is Tuesday.
                 "start": datetime.datetime(2015, 12, 22, 0, 0, 0),
-                "end": "12:00",
-                "activity": "",
+                "end": datetime.datetime(2015, 12, 22, 12, 0, 0),
+                "activity": "foo",
                 "category": "",
                 "tags": [],
                 "description": "",
