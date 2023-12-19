@@ -52,7 +52,7 @@ class TestICALWriter(object):
     def test_ical_writer_write_facts_written(self, ical_writer, fact, path):
         """Make sure the calendar is actually written to disk before file is closed."""
         ical_writer.write_facts([fact])
-        with open(path, "r") as fobj:
+        with open(path, "r", encoding="utf8") as fobj:
             # Create an icalendar.cal.Calendar from the file contents.
             result = Calendar.from_ical(fobj.read())
             assert result.walk()

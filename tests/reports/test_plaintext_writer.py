@@ -68,7 +68,7 @@ class TestPlaintextWriter(object):
         fact_tuple = plaintext_writer.fact_as_tuple(fact)
         plaintext_writer._write_fact(idx=0, fact=fact)
         plaintext_writer._close()
-        with open(plaintext_writer.output_file.name, "r") as fobj:
+        with open(plaintext_writer.output_file.name, "r", encoding="utf8") as fobj:
             reader = csv.reader(fobj, dialect=plaintext_writer.dialect)
             # If we had called write_facts, would need to ignore headers,
             # e.g.,
