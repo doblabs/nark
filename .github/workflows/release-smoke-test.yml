@@ -107,9 +107,13 @@ jobs:
           echo "MODULE_NAME=${module_name}" >> "$GITHUB_ENV"
         shell: bash
 
-      - name: Load it!
+      - name: Check version
         run: |
           python -c "import $MODULE_NAME; print($MODULE_NAME.__version__)"
+
+          [ "${VERSION}" = \
+            "$(python -c "import $MODULE_NAME; print($MODULE_NAME.__version__)")" ] \
+            || exit 1
         shell: bash
 
   # ***

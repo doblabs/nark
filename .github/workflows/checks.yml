@@ -247,6 +247,7 @@ jobs:
           virtualenvs-in-project: true
 
       - name: Install poetry-dynamic-versioning
+        if: ${{ steps.check-disablement.outputs.inhibit_test == 'false' }}
         run: poetry self add "poetry-dynamic-versioning[plugin]"
 
       # 2022-10-04: Cache the virtualenv, avoid re-installing packages.
