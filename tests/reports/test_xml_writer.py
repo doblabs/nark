@@ -60,6 +60,9 @@ class TestXMLWriter(object):
         mocker.patch.object(xml_writer.fact_list, "appendChild")
         xml_writer._write_result(row, headers)
         result = xml_writer.fact_list.appendChild.call_args[0][0]
+        # DUNNO/2023-12-19: CI: Sometimes fails (or at least has failed once).
+        # - E.g., AssertionError: assert 'special' == 'interview'
+        # - Looking at _write_result, I'm not sure how this could happen.
         for idx, col in enumerate(headers):
             assert result.getAttribute(col) == row[idx]
 
