@@ -68,7 +68,6 @@ class TestParser(object):
     @pytest.mark.parametrize(*factoid_fixture)
     def test_helpers_parsing_parse_factoid(
         self,
-        parser,
         raw_fact,
         time_hint,
         expectation,
