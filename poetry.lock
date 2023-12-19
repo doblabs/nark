@@ -2365,22 +2365,24 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-migrate-hotoffthehamster"
-version = "0.13.0"
+version = "0.14.1"
 description = "Database schema migration for SQLAlchemy"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "sqlalchemy-migrate-hotoffthehamster-0.13.0.tar.gz", hash = "sha256:78201cdd657391c99a1548d8ead7910853e4b69a989d778c863a8560b7da3274"},
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.13.0-py3-none-any.whl", hash = "sha256:ce5c9552214ec05fbead5ee3bccb225ba82594cdc760994bdb24a4ff883e7a69"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.1-py3-none-any.whl", hash = "sha256:8b5b3959aaeed04d93d1b7eef7ade518c8dd82bbc207a08b4259c3481a45d99f"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.1.tar.gz", hash = "sha256:8de7e717a5f3c4c8f454208ad9fe00ff179110a154eedf1754506e743e5350c3"},
 ]
 
 [package.dependencies]
-decorator = "*"
-pbr = ">=1.8"
+decorator = ">=5.1.1"
 six = ">=1.7.0"
-SQLAlchemy = ">=0.9.6"
-sqlparse = "*"
-Tempita = ">=0.4"
+sqlalchemy = ">=1.4.50,<1.5.0"
+sqlparse = ">=0.4.4,<0.5.0"
+tempita-hotoffthehamster = ">0"
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [[package]]
 name = "sqlparse"
@@ -2413,15 +2415,18 @@ files = [
 pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
-name = "tempita"
-version = "0.5.2"
+name = "tempita-hotoffthehamster"
+version = "1.0.1"
 description = "A very small text templating language"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "Tempita-0.5.2-py3-none-any.whl", hash = "sha256:f4554840cb59c6b4a5df4fad27eea4e3cb47ca7089bfeefb5890ff1bb8af2117"},
-    {file = "Tempita-0.5.2.tar.gz", hash = "sha256:cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"},
+    {file = "tempita_hotoffthehamster-1.0.1-py3-none-any.whl", hash = "sha256:fa96bd8474b8598ecbef6adea6d47b4cd3ff2eaa74bff544256df3e096d772d8"},
+    {file = "tempita_hotoffthehamster-1.0.1.tar.gz", hash = "sha256:7d8d07ce23848cac3b8e2d28e98120ff641ea6b44e831fd11150cf5177b6cfe3"},
 ]
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [[package]]
 name = "textwrap3"
