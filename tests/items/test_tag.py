@@ -108,7 +108,14 @@ class TestTag(object):
         This is actually unneeded as we are merely testing the builtin ``hash``
         function and ``Tag.as_tuple`` but for reassurance we test it anyway.
         """
-        assert hash(tag_factory()) != hash(tag_factory())
+        # 2023-12-19: Huh, this failed once on CI, but not reproducible.
+        # - I wonder what the odds are that tag_factory() returns the
+        #   same-named tag twice in a row...
+        try:
+            assert hash(tag_factory()) != hash(tag_factory())
+        except AssertionError:
+            # Per comment above, try again.
+            assert hash(tag_factory()) != hash(tag_factory())
 
     def test__str__(self, tag):
         """Test string representation."""
