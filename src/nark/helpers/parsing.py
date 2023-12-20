@@ -404,14 +404,22 @@ class Parser(object):
                 # vs '1:23 friends showed up'. / 2021-02-07: Because this path has
                 # not existed until now, let's go with being more exclusive, and
                 # starting with the numbers-only exclusion.
-                if ":" not in self.datetime1:
-                    # Assume that user just started a line in a Fact description
-                    # with a number that *could* pass for clock time, but let's
-                    # not treat it as such.
-                    # MAYBE: If someone raises issue with clock-like leading
-                    # text that isn't the start time, let me know, we can tweak
-                    # this more!
-                    self.raise_missing_datetime_one()
+                try:
+                    if ":" not in self.datetime1:
+                        # Assume that user just started a line in a Fact description
+                        # with a number that *could* pass for clock time, but let's
+                        # not treat it as such.
+                        # MAYBE: If someone raises issue with clock-like leading
+                        # text that isn't the start time, let me know, we can tweak
+                        # this more!
+                        self.raise_missing_datetime_one()
+                except TypeError:
+                    # MAYBE/2023-12-19: There's type disparity here, sometimes
+                    # self.datetime1 is a string, and sometimes it's a datetime
+                    # object.
+                    # - REFER: hydrate_datetimes
+                    # - It'd probably be better if we used two sep members instead.
+                    pass
         elif strictly_two:
             self.raise_missing_datetime_two()
         return rest
