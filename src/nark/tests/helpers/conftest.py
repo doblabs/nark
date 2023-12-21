@@ -641,7 +641,7 @@ factoid_fixture = (
         # Cover final line in must_parse_datetimes_magic.
         (
             "Tuesday to 12:00: foo@",
-            "verify_start",
+            "verify_both",
             {
                 "start_raw": datetime.datetime(2015, 12, 22, 0, 0, 0),
                 "end_raw": "12:00",
