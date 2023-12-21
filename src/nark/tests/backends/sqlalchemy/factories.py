@@ -90,11 +90,20 @@ class AlchemyTagFactory(factory.alchemy.SQLAlchemyModelFactory):
         sqlalchemy_session_persistence = "flush"
 
 
+# MAGIC: 'factory-boy' exposes fixture names after lowercase-underscoring.
+# - So the Meta class `model = AlchemyFact` member below exposes
+#   an 'alchemy_fact' fixture you can use as test method args.
+# - REFER: https://pypi.org/project/pytest-factoryboy/
 class AlchemyFactFactory(factory.alchemy.SQLAlchemyModelFactory):
     """Factory class for generic ``AlchemyFact`` instances."""
 
     pk = factory.Sequence(lambda n: n + 1)
     activity = factory.SubFactory(AlchemyActivityFactory)
+
+    # Note that faker.providers.date_time randomizes all fields, including
+    # microsecond, which nark doesn't use. But onus on AlchemyFact to scrub.
+    # - And why not 'datetime' (sans '_')? That's faker, and factory-boy shims faker.
+    #   https://github.com/joke2k/faker/tree/master/faker/providers/date_time
     start = factory.Faker("date_time")
     end = factory.LazyAttribute(lambda o: o.start + datetime.timedelta(hours=3))
 
