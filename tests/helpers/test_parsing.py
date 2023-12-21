@@ -86,14 +86,7 @@ class TestParser(object):
             # Use lenient=True so this returns errors, rather than raise.
             lenient=True,
         )
-        if (
-            "err" in expectation
-            and expectation["err"]
-            and (
-                "err_scope_inclusive" not in expectation
-                or not expectation["err_scope_inclusive"]
-            )
-        ):
+        if "err" in expectation and expectation["err"]:
             assert str(err).startswith(expectation["err"])
         else:
             assert fact_dict["start"] == expectation["start_raw"]

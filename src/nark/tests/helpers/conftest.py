@@ -454,6 +454,12 @@ factoid_fixture = (
             "-90: foo@bar",
             "verify_end",
             {
+                # For dob, because dob.facts.add_fact.add_fact raises
+                "err_inclusive": (
+                    "Please specify `start` to add Fact before time existed."
+                ),
+                #
+                # For nark, after nark.helpers.parsing.parse_factoid
                 "start_raw": None,
                 "end_raw": "-90",
                 "start": None,
@@ -472,6 +478,12 @@ factoid_fixture = (
             "to -90: foo@bar",
             "verify_end",
             {
+                # For dob, because dob.facts.add_fact.add_fact raises
+                "err_inclusive": (
+                    "Please specify `start` to add Fact before time existed."
+                ),
+                #
+                # For nark, after nark.helpers.parsing.parse_factoid
                 "start_raw": None,
                 "end_raw": datetime.datetime(1990, 12, 25, 0, 0, 0),
                 "start": None,
@@ -561,6 +573,10 @@ factoid_fixture = (
             "+10m to @",
             "verify_start",
             {
+                # For dob, because dob.facts.add_fact.add_fact raises
+                "err_inclusive": "Start after end!",
+                #
+                # For nark, after nark.helpers.parsing.parse_factoid
                 "start_raw": "+10m",
                 "end_raw": None,
                 "start": datetime.datetime(2015, 12, 25, 18, 10, 0),
