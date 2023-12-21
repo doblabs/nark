@@ -83,6 +83,7 @@ class TestParser(object):
         fact_dict, err = parse_factoid(
             raw_fact,
             time_hint=time_hint,
+            # Use lenient=True so this returns errors, rather than raise.
             lenient=True,
         )
         if (
