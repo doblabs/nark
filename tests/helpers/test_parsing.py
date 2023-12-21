@@ -72,7 +72,14 @@ class TestParser(object):
         time_hint,
         expectation,
     ):
-        """Make sure that a valid raw fact creates a proper Fact."""
+        """
+        Make sure that a valid raw fact creates a proper Fact.
+
+        CPYST: Test the factoid_fixture's:
+
+            pytest --pdb -s -vv \
+        tests/helpers/test_parsing.py::TestParser::test_helpers_parsing_parse_factoid
+        """
         fact_dict, err = parse_factoid(
             raw_fact,
             time_hint=time_hint,
