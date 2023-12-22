@@ -649,13 +649,13 @@ packaging = ">=20.9"
 
 [[package]]
 name = "easy-as-pypi-appdirs"
-version = "1.1.2a2"
+version = "1.1.5a2"
 description = "AppDirs overlay with mkdir -p side effect and Singleton access"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_appdirs-1.1.2a2-py3-none-any.whl", hash = "sha256:32647663e669f2dbfd6e68eb1aa98f19feb36218c3b38e4a53d4359227ed2db3"},
-    {file = "easy_as_pypi_appdirs-1.1.2a2.tar.gz", hash = "sha256:182a7a463b17865682f67db3cbfed33e6f09fc278f6909b159e113a220ff7b37"},
+    {file = "easy_as_pypi_appdirs-1.1.5a2-py3-none-any.whl", hash = "sha256:a9c8c91d849854b2dde12d66d958cf15bba301cb137b134e933f761d43ddffc9"},
+    {file = "easy_as_pypi_appdirs-1.1.5a2.tar.gz", hash = "sha256:4b8883c6d5c5849755cd2e382a8d077fd7e77d1ba1948bd23beca13c606943d1"},
 ]
 
 [package.dependencies]
@@ -671,13 +671,13 @@ reference = "testpypi"
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.1a1"
+version = "1.0.2"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.1a1-py3-none-any.whl", hash = "sha256:c53cf75c223d047eabb4e9a898f32c80f148bc856a42995a14da34e8bdfff276"},
-    {file = "easy_as_pypi_getver-1.0.1a1.tar.gz", hash = "sha256:ab622309696ea298985602931448170f031a3e169ed2b30d8830907d913120d5"},
+    {file = "easy_as_pypi_getver-1.0.2-py3-none-any.whl", hash = "sha256:fd9f646cb6544ac3df51204cc25d922033282142fd793d308267fb1cb08bdb2e"},
+    {file = "easy_as_pypi_getver-1.0.2.tar.gz", hash = "sha256:1039652162fb46a1339855e0c738c27762e41522157f74ad151e0aefe8e5c29b"},
 ]
 
 [package.extras]
