@@ -1102,7 +1102,7 @@ sqlalchemy = "~1.4.50"
 #  https://gitlab.com/dslackw/colored
 # Used in nark to format log messages, but also installed by dob(-bright),
 #  so not really adding any overhead.
-ansi-escape-room = { version = ">0", source = "testpypi" }
+ansi-escape-room = { version = ">0", source = "testpypi", allow-prereleases = true }
 # "textwrap, but savvy to ANSI colors"
 #  https://github.com/jonathaneunice/ansiwrap
 # Forked to update to latest Pythons
@@ -1110,19 +1110,19 @@ ansi-escape-room = { version = ">0", source = "testpypi" }
 ansiwrap-hotoffthehamster = ">0"
 # Pythonic config @decorator.
 #  https://github.com/hotoffthehamster/config-decorator
-config-decorator = { version = ">0", source = "testpypi" }
+config-decorator = { version = ">0", source = "testpypi", allow-prereleases = true }
 # ActiveState/appdirs + Singleton (app-wide access w/out appname) + `mkdir -p`.
 #  https://github.com/doblabs/easy-as-pypi-appdirs#🛣
-easy-as-pypi-appdirs = { version = ">0", source = "testpypi" }
+easy-as-pypi-appdirs = { version = ">0", source = "testpypi", allow-prereleases = true }
 # Get-package-or-Git-version helper.
 #  https://github.com/hotoffthehamster/easy-as-pypi-getver
-easy-as-pypi-getver = { version = ">0", source = "testpypi" }
+easy-as-pypi-getver = { version = ">0", source = "testpypi", allow-prereleases = true }
 # Elapsed timedelta formatter, e.g., "1.25 days".
 # - Imports as `pedantic_timedelta`.
 #  https://github.com/hotoffthehamster/human-friendly_pedantic-timedelta
-human-friendly_pedantic-timedelta = { version = ">0", source = "testpypi" }
+human-friendly_pedantic-timedelta = { version = ">0", source = "testpypi", allow-prereleases = true }
 # Database gooser/versioner.
 #  https://pypi.org/project/sqlalchemy-migrate/
 #  https://sqlalchemy-migrate.readthedocs.io/en/latest/
-sqlalchemy-migrate-hotoffthehamster = { version = ">0", source = "testpypi" }
+sqlalchemy-migrate-hotoffthehamster = { version = ">0", source = "testpypi", allow-prereleases = true }
 

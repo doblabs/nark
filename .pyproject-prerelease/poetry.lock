@@ -13,14 +13,17 @@ files = [
 
 [[package]]
 name = "ansi-escape-room"
-version = "1.4.2"
+version = "1.5.2a1"
 description = "Simple library for color and formatting to terminal"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansi-escape-room-1.4.2.tar.gz", hash = "sha256:6f83b81dcffb9c7c59b22699ffcfc2aa65a759af9aa5e073062e5528f4fbb5c0"},
-    {file = "ansi_escape_room-1.4.2-py3-none-any.whl", hash = "sha256:c8eee21b1b92cc4ad375a0d02ad425c7c3cf5e313b765b7c111c0c4a3cba8f49"},
+    {file = "ansi_escape_room-1.5.2a1-py3-none-any.whl", hash = "sha256:599c7f4dd9fccf6eb036ea72b1186c7eb5835d4ab02b77f9237820edea8fca93"},
+    {file = "ansi_escape_room-1.5.2a1.tar.gz", hash = "sha256:c380061ef42a403f08f937c5144daa60d7b37ccf3b5dba9c728320f2af9c6f99"},
 ]
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [package.source]
 type = "legacy"
@@ -399,14 +402,17 @@ files = [
 
 [[package]]
 name = "config-decorator"
-version = "2.0.14"
-description = "Class @decorator for defining exquisite settings configurations."
+version = "2.0.17a1"
+description = "Class @decorator for defining exquisite settings configurations"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "config-decorator-2.0.14.tar.gz", hash = "sha256:3ff9c15aa5c1342e855facae2d73031cbf5848aa2ddc69457c00c0e519d215f6"},
-    {file = "config_decorator-2.0.14-py3-none-any.whl", hash = "sha256:82b8e07d4a8605353f5e85eef00e6e567f3faef403de6d9e3cb341ce325dbe46"},
+    {file = "config_decorator-2.0.17a1-py3-none-any.whl", hash = "sha256:f4996059765d5f39f0777ba83607818e96e28fa360c5aeb1550fd70c80e0cf68"},
+    {file = "config_decorator-2.0.17a1.tar.gz", hash = "sha256:a2756a0887d5f7dd0a701e7149fbaaeeb3d44d1cb410bd21faa23ebacdbc9bad"},
 ]
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [package.source]
 type = "legacy"
@@ -671,13 +677,13 @@ reference = "testpypi"
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.2"
+version = "1.0.4a2"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.2-py3-none-any.whl", hash = "sha256:fd9f646cb6544ac3df51204cc25d922033282142fd793d308267fb1cb08bdb2e"},
-    {file = "easy_as_pypi_getver-1.0.2.tar.gz", hash = "sha256:1039652162fb46a1339855e0c738c27762e41522157f74ad151e0aefe8e5c29b"},
+    {file = "easy_as_pypi_getver-1.0.4a2-py3-none-any.whl", hash = "sha256:0a4b9da1dd4b16e9d1e2f872d468e520ae0068cad3adee81a93971ff7a0cf1e0"},
+    {file = "easy_as_pypi_getver-1.0.4a2.tar.gz", hash = "sha256:f5cd5354294098734372a0bbd706c418cf66b910015677869175a5f1aaade9c9"},
 ]
 
 [package.extras]
@@ -928,17 +934,20 @@ tests = ["flake8 (>=3.0.0)", "pytest (>=4.4.1)", "responses (>=0.5.0)"]
 
 [[package]]
 name = "human-friendly-pedantic-timedelta"
-version = "2.0.11"
+version = "2.0.13a1"
 description = "Human-friendly Pedantic `timedelta`"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "human-friendly_pedantic-timedelta-2.0.11.tar.gz", hash = "sha256:a3ccff1b870efd4d35bd530b1acfefaa0feebbf09d4bbc6a1898f3a6c8b71946"},
-    {file = "human_friendly_pedantic_timedelta-2.0.11-py3-none-any.whl", hash = "sha256:c0752c4387ea8899cfc813ac18aaf5e9dcd5d6cec037ba17007e02c4256063cb"},
+    {file = "human_friendly_pedantic_timedelta-2.0.13a1-py3-none-any.whl", hash = "sha256:b30d26420ced66b778a3785ab8739d2907b94edc107e241f52fb66058be5b8f8"},
+    {file = "human_friendly_pedantic_timedelta-2.0.13a1.tar.gz", hash = "sha256:c168db85f75f1f3a4489940071188dc57292e0b363c21f49c6563083682b2398"},
 ]
 
 [package.dependencies]
 Inflector = ">=3.0.1,<4"
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [package.source]
 type = "legacy"
@@ -2381,22 +2390,24 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-migrate-hotoffthehamster"
-version = "0.13.0"
+version = "0.14.2a2"
 description = "Database schema migration for SQLAlchemy"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "sqlalchemy-migrate-hotoffthehamster-0.13.0.tar.gz", hash = "sha256:7f5e2fc3113263f6113ab13db9adc582618adbbb1ff1b84087aec417a623830d"},
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.13.0-py3-none-any.whl", hash = "sha256:9ee261649b901e20bfa4226a43f9ddcedeaf179fc751f6133b3b050864144773"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.2a2-py3-none-any.whl", hash = "sha256:e0fe7890729c2e099179ff5d91aea27094672dbb11935d28b6c65076ec7605a2"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.2a2.tar.gz", hash = "sha256:0ab7c76c849c82227ca5153872b4a48bed09f51bca29ce28dc5eb66a60ffb1f4"},
 ]
 
 [package.dependencies]
-decorator = "*"
-pbr = ">=1.8"
+decorator = ">=5.1.1"
 six = ">=1.7.0"
-SQLAlchemy = ">=0.9.6"
-sqlparse = "*"
-Tempita = ">=0.4"
+sqlalchemy = ">=1.4.50,<1.5.0"
+sqlparse = ">=0.4.4,<0.5.0"
+tempita-hotoffthehamster = ">0"
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [package.source]
 type = "legacy"
@@ -2434,15 +2445,18 @@ files = [
 pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
-name = "tempita"
-version = "0.5.2"
+name = "tempita-hotoffthehamster"
+version = "1.0.2"
 description = "A very small text templating language"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "Tempita-0.5.2-py3-none-any.whl", hash = "sha256:f4554840cb59c6b4a5df4fad27eea4e3cb47ca7089bfeefb5890ff1bb8af2117"},
-    {file = "Tempita-0.5.2.tar.gz", hash = "sha256:cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"},
+    {file = "tempita_hotoffthehamster-1.0.2-py3-none-any.whl", hash = "sha256:06a3a08b858d06364b26ea8fa56dee44a13d7c1e2f96d14603f46a8db061bf97"},
+    {file = "tempita_hotoffthehamster-1.0.2.tar.gz", hash = "sha256:d4dbb16d695a85fc1b5b147e658e59dfa83b1152832c41bac465d6f17961a41b"},
 ]
+
+[package.extras]
+readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
 
 [[package]]
 name = "textwrap3"
@@ -2724,4 +2738,4 @@ readthedocs = ["sphinx", "sphinx", "sphinx-rtd-theme", "tomli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "3ed17545fea3ae65d7e868b8ce1538cff26dbb2ad3fe4ae79a23fe3f8f19fec0"
+content-hash = "97ed909039d16947d3ea01cb9222dc781fb16a309238f65a0188422352c00742"
