@@ -645,13 +645,13 @@ packaging = ">=20.9"
 
 [[package]]
 name = "easy-as-pypi-appdirs"
-version = "1.1.4"
+version = "1.1.5"
 description = "AppDirs overlay with mkdir -p side effect and Singleton access"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_appdirs-1.1.4-py3-none-any.whl", hash = "sha256:384168e4a2847f0434483cef2737cea400aaa7e214e7671229c7de38d544efa6"},
-    {file = "easy_as_pypi_appdirs-1.1.4.tar.gz", hash = "sha256:92bd24ed577451384a08118c438e8fa7d2e25a080c3ad439a7fb2dcd540c40b6"},
+    {file = "easy_as_pypi_appdirs-1.1.5-py3-none-any.whl", hash = "sha256:c8864244621f87f58450364ea0a32e1bfcd87b4f19aad3dbe25ba690123adea5"},
+    {file = "easy_as_pypi_appdirs-1.1.5.tar.gz", hash = "sha256:93cd97f2ecd33489d5277ec4a768ba5ae915afcaac412a3caea0c839a316c64a"},
 ]
 
 [package.dependencies]
@@ -662,13 +662,13 @@ readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.3"
+version = "1.0.4"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.3-py3-none-any.whl", hash = "sha256:a91e873ad731b08dea82c86a16870d8a8505ed9f8cacf24246ffe6ab6239f9da"},
-    {file = "easy_as_pypi_getver-1.0.3.tar.gz", hash = "sha256:1db55be305c1c88cf527342b47fe309a525cc4e1a25612aa0bc08b6074c714dd"},
+    {file = "easy_as_pypi_getver-1.0.4-py3-none-any.whl", hash = "sha256:91026e661b2f1b7189cbeff30d18dfe839a586fcc905c7ec290cd564e4d4767c"},
+    {file = "easy_as_pypi_getver-1.0.4.tar.gz", hash = "sha256:8c57328324d97f08d1a96417151b457b691cc877c0604c4f9871fe4b5b262d6e"},
 ]
 
 [package.extras]
