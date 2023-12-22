@@ -179,7 +179,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # At least one downstream user (`nark`) tests for a version tag.
+          # At least one downstream user (`nark`) tests for a version,
+          # which poetry-dynamic-versioning reads from tags.
           fetch-depth: 0
 
       - name: Check enablement flags
@@ -889,7 +890,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # At least one downstream user (`nark`) tests for a version tag.
+          # At least one downstream user (`nark`) tests for a version,
+          # which poetry-dynamic-versioning reads from tags.
           fetch-depth: 0
 
       - name: Prepare Poetry assets — pyproject.toml and poetry.lock
