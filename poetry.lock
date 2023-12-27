@@ -27,13 +27,13 @@ readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd
 
 [[package]]
 name = "ansiwrap-hotoffthehamster"
-version = "0.8.5"
+version = "0.8.6"
 description = "textwrap, but savvy to ANSI colors and styles"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansiwrap_hotoffthehamster-0.8.5-py3-none-any.whl", hash = "sha256:fe7607b42a70290dd7e45d92bec51dfcebe7b9b0c619efd8c90727283050442b"},
-    {file = "ansiwrap_hotoffthehamster-0.8.5.tar.gz", hash = "sha256:92f61d46caad827b73154ff2a4d9eee39f42613b01f9c0b242561aa2aef231d8"},
+    {file = "ansiwrap_hotoffthehamster-0.8.6-py3-none-any.whl", hash = "sha256:679415d510e92ccb788cbf7ce142bc6f5628afff6b60744245d5347215d018a0"},
+    {file = "ansiwrap_hotoffthehamster-0.8.6.tar.gz", hash = "sha256:9a3b60eaae2b5cdd5724040659663db3ebd58369840ba5213b654d8927486fbd"},
 ]
 
 [package.dependencies]
