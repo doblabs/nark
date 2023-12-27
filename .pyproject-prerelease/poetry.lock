@@ -32,13 +32,13 @@ reference = "testpypi"
 
 [[package]]
 name = "ansiwrap-hotoffthehamster"
-version = "0.8.5"
+version = "0.8.6a1"
 description = "textwrap, but savvy to ANSI colors and styles"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansiwrap_hotoffthehamster-0.8.5-py3-none-any.whl", hash = "sha256:fe7607b42a70290dd7e45d92bec51dfcebe7b9b0c619efd8c90727283050442b"},
-    {file = "ansiwrap_hotoffthehamster-0.8.5.tar.gz", hash = "sha256:92f61d46caad827b73154ff2a4d9eee39f42613b01f9c0b242561aa2aef231d8"},
+    {file = "ansiwrap_hotoffthehamster-0.8.6a1-py3-none-any.whl", hash = "sha256:d37ae9a2bd1518cd75b2735d84a9a6e28e2bac21fef898b21afc5e81b9f7b4ad"},
+    {file = "ansiwrap_hotoffthehamster-0.8.6a1.tar.gz", hash = "sha256:e5a11338d794fe02f5c300354b3064049e832129555eb0988515bbe1939d0c77"},
 ]
 
 [package.dependencies]
@@ -46,6 +46,11 @@ textwrap3 = ">=0.9.2,<0.10.0"
 
 [package.extras]
 readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd-theme (>=2.0.0rc4,<3.0.0)", "tomli (>=2.0.1)"]
+
+[package.source]
+type = "legacy"
+url = "https://test.pypi.org/simple"
+reference = "testpypi"
 
 [[package]]
 name = "appdirs"
@@ -655,13 +660,13 @@ packaging = ">=20.9"
 
 [[package]]
 name = "easy-as-pypi-appdirs"
-version = "1.1.5a2"
+version = "1.1.6a1"
 description = "AppDirs overlay with mkdir -p side effect and Singleton access"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_appdirs-1.1.5a2-py3-none-any.whl", hash = "sha256:a9c8c91d849854b2dde12d66d958cf15bba301cb137b134e933f761d43ddffc9"},
-    {file = "easy_as_pypi_appdirs-1.1.5a2.tar.gz", hash = "sha256:4b8883c6d5c5849755cd2e382a8d077fd7e77d1ba1948bd23beca13c606943d1"},
+    {file = "easy_as_pypi_appdirs-1.1.6a1-py3-none-any.whl", hash = "sha256:6e785000b29a17d813c4b6611b3718bfecef827a79695516a4790ed97eef718f"},
+    {file = "easy_as_pypi_appdirs-1.1.6a1.tar.gz", hash = "sha256:8d80e23d94cd881232e21e27c931a87fb63fbde3f0db95a18192f7c787ec06b7"},
 ]
 
 [package.dependencies]
@@ -677,13 +682,13 @@ reference = "testpypi"
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.4a2"
+version = "1.0.5a1"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.4a2-py3-none-any.whl", hash = "sha256:0a4b9da1dd4b16e9d1e2f872d468e520ae0068cad3adee81a93971ff7a0cf1e0"},
-    {file = "easy_as_pypi_getver-1.0.4a2.tar.gz", hash = "sha256:f5cd5354294098734372a0bbd706c418cf66b910015677869175a5f1aaade9c9"},
+    {file = "easy_as_pypi_getver-1.0.5a1-py3-none-any.whl", hash = "sha256:5aaa7f516d8542cb068718c94e939217dc7f4c82028c7796ac391a6e002567be"},
+    {file = "easy_as_pypi_getver-1.0.5a1.tar.gz", hash = "sha256:a2064b67f06cca394280cb9e32c4913730e9ba0c90b3d902afd859547abe3af3"},
 ]
 
 [package.extras]
@@ -2738,4 +2743,4 @@ readthedocs = ["sphinx", "sphinx", "sphinx-rtd-theme", "tomli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "97ed909039d16947d3ea01cb9222dc781fb16a309238f65a0188422352c00742"
+content-hash = "d06a59a021832a6a4b6b32f64676d5f11e35ed55aeed57ca1356ab4ccd048fb9"

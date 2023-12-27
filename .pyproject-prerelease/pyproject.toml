@@ -1107,7 +1107,7 @@ ansi-escape-room = { version = ">0", source = "testpypi", allow-prereleases = tr
 #  https://github.com/jonathaneunice/ansiwrap
 # Forked to update to latest Pythons
 #  https://github.com/hotoffthehamster/ansiwrap
-ansiwrap-hotoffthehamster = ">0"
+ansiwrap-hotoffthehamster = { version = ">0", source = "testpypi", allow-prereleases = true }
 # Pythonic config @decorator.
 #  https://github.com/hotoffthehamster/config-decorator
 config-decorator = { version = ">0", source = "testpypi", allow-prereleases = true }
