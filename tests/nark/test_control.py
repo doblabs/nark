@@ -80,7 +80,8 @@ class TestNarkLib:
         # (lb): I'd rather not encode the version number anywhere in code
         # (that's why we use setuptools_scm!), but also don't expect to
         # upgrade to v.4 anytime soon.
-        assert result.startswith("3.")
+        # - 2023-12-27: Such a tedious test. For alpha it's "0.0.0 (3.foo)".
+        assert result.startswith("3.") or result.startswith("0.0.0 (3.")
         # The repo version is appended in (parentheses), which we'll test next;
         # this test is meant to provide coverage of _version_from_tags, but we
         # won't know what the local repo version is, or even if it's different
