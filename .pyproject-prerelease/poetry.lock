@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "ansi-escape-room"
-version = "1.5.2a1"
+version = "1.5.3a1"
 description = "Simple library for color and formatting to terminal"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansi_escape_room-1.5.2a1-py3-none-any.whl", hash = "sha256:599c7f4dd9fccf6eb036ea72b1186c7eb5835d4ab02b77f9237820edea8fca93"},
-    {file = "ansi_escape_room-1.5.2a1.tar.gz", hash = "sha256:c380061ef42a403f08f937c5144daa60d7b37ccf3b5dba9c728320f2af9c6f99"},
+    {file = "ansi_escape_room-1.5.3a1-py3-none-any.whl", hash = "sha256:4e444ae2027849f5ac7f3d306a88291cc69e67d7b753f0772159032faa794ade"},
+    {file = "ansi_escape_room-1.5.3a1.tar.gz", hash = "sha256:605b5c928209a26d577cc85c1fb8e61e67912827796f9f1b342bedcb2de6986a"},
 ]
 
 [package.extras]
@@ -32,13 +32,13 @@ reference = "testpypi"
 
 [[package]]
 name = "ansiwrap-hotoffthehamster"
-version = "0.8.6a1"
+version = "0.8.7a1"
 description = "textwrap, but savvy to ANSI colors and styles"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansiwrap_hotoffthehamster-0.8.6a1-py3-none-any.whl", hash = "sha256:d37ae9a2bd1518cd75b2735d84a9a6e28e2bac21fef898b21afc5e81b9f7b4ad"},
-    {file = "ansiwrap_hotoffthehamster-0.8.6a1.tar.gz", hash = "sha256:e5a11338d794fe02f5c300354b3064049e832129555eb0988515bbe1939d0c77"},
+    {file = "ansiwrap_hotoffthehamster-0.8.7a1-py3-none-any.whl", hash = "sha256:c26d326c6d44de6db9fcdc21260e10cd8ff1b219988b5f7bf1f4f473d6d5d153"},
+    {file = "ansiwrap_hotoffthehamster-0.8.7a1.tar.gz", hash = "sha256:3c32d420fdeb1ea313538810215a8d7ad342503a512aba146bddf1b0a40ce57f"},
 ]
 
 [package.dependencies]
@@ -407,13 +407,13 @@ files = [
 
 [[package]]
 name = "config-decorator"
-version = "2.0.17a1"
+version = "2.0.18a1"
 description = "Class @decorator for defining exquisite settings configurations"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "config_decorator-2.0.17a1-py3-none-any.whl", hash = "sha256:f4996059765d5f39f0777ba83607818e96e28fa360c5aeb1550fd70c80e0cf68"},
-    {file = "config_decorator-2.0.17a1.tar.gz", hash = "sha256:a2756a0887d5f7dd0a701e7149fbaaeeb3d44d1cb410bd21faa23ebacdbc9bad"},
+    {file = "config_decorator-2.0.18a1-py3-none-any.whl", hash = "sha256:739af370ded4e9f4ab040b459b17703551f8c95aef229b1b55409c5a8c633473"},
+    {file = "config_decorator-2.0.18a1.tar.gz", hash = "sha256:b713d6d1b46c94a08020fbba61ca767035cb43cdd1662b133d4f1546533f761f"},
 ]
 
 [package.extras]
@@ -660,13 +660,13 @@ packaging = ">=20.9"
 
 [[package]]
 name = "easy-as-pypi-appdirs"
-version = "1.1.6a1"
+version = "1.1.6a2"
 description = "AppDirs overlay with mkdir -p side effect and Singleton access"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_appdirs-1.1.6a1-py3-none-any.whl", hash = "sha256:6e785000b29a17d813c4b6611b3718bfecef827a79695516a4790ed97eef718f"},
-    {file = "easy_as_pypi_appdirs-1.1.6a1.tar.gz", hash = "sha256:8d80e23d94cd881232e21e27c931a87fb63fbde3f0db95a18192f7c787ec06b7"},
+    {file = "easy_as_pypi_appdirs-1.1.6a2-py3-none-any.whl", hash = "sha256:79e1f0ebac9153b58e08c6ebc0fe1ba8db8c316806e47a392bd962a109a30f38"},
+    {file = "easy_as_pypi_appdirs-1.1.6a2.tar.gz", hash = "sha256:a6b5e851bb59607c7fbc3ab38faec75fd40ada29508e6c7eb8f1bb77237480c4"},
 ]
 
 [package.dependencies]
@@ -682,13 +682,13 @@ reference = "testpypi"
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.5a1"
+version = "1.0.5a2"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.5a1-py3-none-any.whl", hash = "sha256:5aaa7f516d8542cb068718c94e939217dc7f4c82028c7796ac391a6e002567be"},
-    {file = "easy_as_pypi_getver-1.0.5a1.tar.gz", hash = "sha256:a2064b67f06cca394280cb9e32c4913730e9ba0c90b3d902afd859547abe3af3"},
+    {file = "easy_as_pypi_getver-1.0.5a2-py3-none-any.whl", hash = "sha256:c28447a642332648a509f9238766fa4b18dc31de88f8565a24a7c764a8bd47c9"},
+    {file = "easy_as_pypi_getver-1.0.5a2.tar.gz", hash = "sha256:0995c6ae5e341302aa0dab6fd6aadb5b39484bbbfaea0ec8fda17f815a15800b"},
 ]
 
 [package.extras]
@@ -939,13 +939,13 @@ tests = ["flake8 (>=3.0.0)", "pytest (>=4.4.1)", "responses (>=0.5.0)"]
 
 [[package]]
 name = "human-friendly-pedantic-timedelta"
-version = "2.0.13a1"
+version = "2.0.14a1"
 description = "Human-friendly Pedantic `timedelta`"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "human_friendly_pedantic_timedelta-2.0.13a1-py3-none-any.whl", hash = "sha256:b30d26420ced66b778a3785ab8739d2907b94edc107e241f52fb66058be5b8f8"},
-    {file = "human_friendly_pedantic_timedelta-2.0.13a1.tar.gz", hash = "sha256:c168db85f75f1f3a4489940071188dc57292e0b363c21f49c6563083682b2398"},
+    {file = "human_friendly_pedantic_timedelta-2.0.14a1-py3-none-any.whl", hash = "sha256:cb29b0cb9a282d2fe4c754ea3eb3db11cb8df32cca8550ac4ca5334ec22944eb"},
+    {file = "human_friendly_pedantic_timedelta-2.0.14a1.tar.gz", hash = "sha256:9a66c168b597a67fc47c448eaef8b8fddd89fe6b0b629325e8b1ec0709ce0dba"},
 ]
 
 [package.dependencies]
@@ -2395,13 +2395,13 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-migrate-hotoffthehamster"
-version = "0.14.2a2"
+version = "0.14.3a1"
 description = "Database schema migration for SQLAlchemy"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.2a2-py3-none-any.whl", hash = "sha256:e0fe7890729c2e099179ff5d91aea27094672dbb11935d28b6c65076ec7605a2"},
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.2a2.tar.gz", hash = "sha256:0ab7c76c849c82227ca5153872b4a48bed09f51bca29ce28dc5eb66a60ffb1f4"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.3a1-py3-none-any.whl", hash = "sha256:79348e61db9319bad74b923319b08494b8a1b7d3a20dcbdc5c5a10d3689f72b8"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.3a1.tar.gz", hash = "sha256:f7f9331641337f1f31ab5bc9ce763aab40866f82526c83b3d7cc7baec2cd2da7"},
 ]
 
 [package.dependencies]
@@ -2451,13 +2451,13 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "tempita-hotoffthehamster"
-version = "1.0.2"
+version = "1.0.3"
 description = "A very small text templating language"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "tempita_hotoffthehamster-1.0.2-py3-none-any.whl", hash = "sha256:06a3a08b858d06364b26ea8fa56dee44a13d7c1e2f96d14603f46a8db061bf97"},
-    {file = "tempita_hotoffthehamster-1.0.2.tar.gz", hash = "sha256:d4dbb16d695a85fc1b5b147e658e59dfa83b1152832c41bac465d6f17961a41b"},
+    {file = "tempita_hotoffthehamster-1.0.3-py3-none-any.whl", hash = "sha256:8e575bd2b314659daccf29a8b9dfe36d4692fb9cd656aaa1eef6d176c3135f4e"},
+    {file = "tempita_hotoffthehamster-1.0.3.tar.gz", hash = "sha256:39621b855e7863b2873de9ac662821725c1e89b271f26992b6780bdf6a49883d"},
 ]
 
 [package.extras]
