@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "ansi-escape-room"
-version = "1.5.3a1"
+version = "1.5.4a1"
 description = "Simple library for color and formatting to terminal"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansi_escape_room-1.5.3a1-py3-none-any.whl", hash = "sha256:4e444ae2027849f5ac7f3d306a88291cc69e67d7b753f0772159032faa794ade"},
-    {file = "ansi_escape_room-1.5.3a1.tar.gz", hash = "sha256:605b5c928209a26d577cc85c1fb8e61e67912827796f9f1b342bedcb2de6986a"},
+    {file = "ansi_escape_room-1.5.4a1-py3-none-any.whl", hash = "sha256:0ac7f583ccdeb91f7cd13acaafcf92bd00a074e331feca1712654e3345f1f751"},
+    {file = "ansi_escape_room-1.5.4a1.tar.gz", hash = "sha256:ba8d34815f94fc7eaf286b9c9714ed584a80f878c2fbe85a987decfc50a993aa"},
 ]
 
 [package.extras]
@@ -32,13 +32,13 @@ reference = "testpypi"
 
 [[package]]
 name = "ansiwrap-hotoffthehamster"
-version = "0.8.7a1"
+version = "1.0.0a1"
 description = "textwrap, but savvy to ANSI colors and styles"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "ansiwrap_hotoffthehamster-0.8.7a1-py3-none-any.whl", hash = "sha256:c26d326c6d44de6db9fcdc21260e10cd8ff1b219988b5f7bf1f4f473d6d5d153"},
-    {file = "ansiwrap_hotoffthehamster-0.8.7a1.tar.gz", hash = "sha256:3c32d420fdeb1ea313538810215a8d7ad342503a512aba146bddf1b0a40ce57f"},
+    {file = "ansiwrap_hotoffthehamster-1.0.0a1-py3-none-any.whl", hash = "sha256:e1d242e3f27cd020c00a5a94924c0fe8707145d980fac790cde7169f49f5dfee"},
+    {file = "ansiwrap_hotoffthehamster-1.0.0a1.tar.gz", hash = "sha256:aebe793c00ac9faf3a9375f13dcca7f23db535f4082128ad74dc47353faf0ec0"},
 ]
 
 [package.dependencies]
@@ -407,13 +407,13 @@ files = [
 
 [[package]]
 name = "config-decorator"
-version = "2.0.18a1"
+version = "2.0.19a1"
 description = "Class @decorator for defining exquisite settings configurations"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "config_decorator-2.0.18a1-py3-none-any.whl", hash = "sha256:739af370ded4e9f4ab040b459b17703551f8c95aef229b1b55409c5a8c633473"},
-    {file = "config_decorator-2.0.18a1.tar.gz", hash = "sha256:b713d6d1b46c94a08020fbba61ca767035cb43cdd1662b133d4f1546533f761f"},
+    {file = "config_decorator-2.0.19a1-py3-none-any.whl", hash = "sha256:b2729810940f7153e8da42ad77fed3e48f76c89b1e90b3bd01a014041dce38be"},
+    {file = "config_decorator-2.0.19a1.tar.gz", hash = "sha256:c1b0f4c7a3d005b2952b72302dcdaafa25f8fd38e3ded75788a5215568ade728"},
 ]
 
 [package.extras]
@@ -660,13 +660,13 @@ packaging = ">=20.9"
 
 [[package]]
 name = "easy-as-pypi-appdirs"
-version = "1.1.6a2"
+version = "1.1.6a3"
 description = "AppDirs overlay with mkdir -p side effect and Singleton access"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_appdirs-1.1.6a2-py3-none-any.whl", hash = "sha256:79e1f0ebac9153b58e08c6ebc0fe1ba8db8c316806e47a392bd962a109a30f38"},
-    {file = "easy_as_pypi_appdirs-1.1.6a2.tar.gz", hash = "sha256:a6b5e851bb59607c7fbc3ab38faec75fd40ada29508e6c7eb8f1bb77237480c4"},
+    {file = "easy_as_pypi_appdirs-1.1.6a3-py3-none-any.whl", hash = "sha256:27b5cf150c920f5b927784b7bfd940ad11fcd71810b32c9a885f5ea243c7b02a"},
+    {file = "easy_as_pypi_appdirs-1.1.6a3.tar.gz", hash = "sha256:c9e0265af4083cbfc2fc01833230cba8e24af1232be18ec2a125ad776cdfdadf"},
 ]
 
 [package.dependencies]
@@ -682,13 +682,13 @@ reference = "testpypi"
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.5a2"
+version = "1.0.5a3"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.5a2-py3-none-any.whl", hash = "sha256:c28447a642332648a509f9238766fa4b18dc31de88f8565a24a7c764a8bd47c9"},
-    {file = "easy_as_pypi_getver-1.0.5a2.tar.gz", hash = "sha256:0995c6ae5e341302aa0dab6fd6aadb5b39484bbbfaea0ec8fda17f815a15800b"},
+    {file = "easy_as_pypi_getver-1.0.5a3-py3-none-any.whl", hash = "sha256:b10487e24304519166ad25785ad931ff3b83e6242933f5682571bf11dbd1f9d6"},
+    {file = "easy_as_pypi_getver-1.0.5a3.tar.gz", hash = "sha256:6d5c1f8ca3485514cbfe53a49d5613e090c961cfbd596fa4eb7badee3049cea3"},
 ]
 
 [package.extras]
@@ -939,13 +939,13 @@ tests = ["flake8 (>=3.0.0)", "pytest (>=4.4.1)", "responses (>=0.5.0)"]
 
 [[package]]
 name = "human-friendly-pedantic-timedelta"
-version = "2.0.14a1"
+version = "2.0.15a1"
 description = "Human-friendly Pedantic `timedelta`"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "human_friendly_pedantic_timedelta-2.0.14a1-py3-none-any.whl", hash = "sha256:cb29b0cb9a282d2fe4c754ea3eb3db11cb8df32cca8550ac4ca5334ec22944eb"},
-    {file = "human_friendly_pedantic_timedelta-2.0.14a1.tar.gz", hash = "sha256:9a66c168b597a67fc47c448eaef8b8fddd89fe6b0b629325e8b1ec0709ce0dba"},
+    {file = "human_friendly_pedantic_timedelta-2.0.15a1-py3-none-any.whl", hash = "sha256:83c405750967f12626f2d8d1df4b79d0c5d82a626df6b79e86d697be3dfdb3ad"},
+    {file = "human_friendly_pedantic_timedelta-2.0.15a1.tar.gz", hash = "sha256:86acac65f0a73e0171b03e5953953064df22fdfe0b652ebe391175d5f3840868"},
 ]
 
 [package.dependencies]
@@ -2395,13 +2395,13 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-migrate-hotoffthehamster"
-version = "0.14.3a1"
+version = "0.14.4a1"
 description = "Database schema migration for SQLAlchemy"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.3a1-py3-none-any.whl", hash = "sha256:79348e61db9319bad74b923319b08494b8a1b7d3a20dcbdc5c5a10d3689f72b8"},
-    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.3a1.tar.gz", hash = "sha256:f7f9331641337f1f31ab5bc9ce763aab40866f82526c83b3d7cc7baec2cd2da7"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.4a1-py3-none-any.whl", hash = "sha256:726d01a3be6ddb021ca5783011c4764a7fac0551bd4b9ef6ce2184c54d2891c8"},
+    {file = "sqlalchemy_migrate_hotoffthehamster-0.14.4a1.tar.gz", hash = "sha256:e9b0232d0f149e9176c1d965cdfb92aa611eaf4ff28a42a5a01583f71b5c1491"},
 ]
 
 [package.dependencies]
