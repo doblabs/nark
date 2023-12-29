@@ -645,13 +645,13 @@ packaging = ">=20.9"
 
 [[package]]
 name = "easy-as-pypi-appdirs"
-version = "1.1.5"
+version = "1.1.6"
 description = "AppDirs overlay with mkdir -p side effect and Singleton access"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_appdirs-1.1.5-py3-none-any.whl", hash = "sha256:c8864244621f87f58450364ea0a32e1bfcd87b4f19aad3dbe25ba690123adea5"},
-    {file = "easy_as_pypi_appdirs-1.1.5.tar.gz", hash = "sha256:93cd97f2ecd33489d5277ec4a768ba5ae915afcaac412a3caea0c839a316c64a"},
+    {file = "easy_as_pypi_appdirs-1.1.6-py3-none-any.whl", hash = "sha256:188aa82a8a1a19a2b9b84d7c0d6b1219555d6c7c94e02c4c046b4d984da2442d"},
+    {file = "easy_as_pypi_appdirs-1.1.6.tar.gz", hash = "sha256:0f3219fdd90c90b999d09bb62e4aca23a0a2333996aea978fedc8bef413f05b7"},
 ]
 
 [package.dependencies]
@@ -662,13 +662,13 @@ readthedocs = ["sphinx (>=6.2.1,<7.0.0)", "sphinx (>=7.2.6,<8.0.0)", "sphinx-rtd
 
 [[package]]
 name = "easy-as-pypi-getver"
-version = "1.0.4"
+version = "1.0.5"
 description = "Determine package version from what pip last installed and what Git says"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "easy_as_pypi_getver-1.0.4-py3-none-any.whl", hash = "sha256:91026e661b2f1b7189cbeff30d18dfe839a586fcc905c7ec290cd564e4d4767c"},
-    {file = "easy_as_pypi_getver-1.0.4.tar.gz", hash = "sha256:8c57328324d97f08d1a96417151b457b691cc877c0604c4f9871fe4b5b262d6e"},
+    {file = "easy_as_pypi_getver-1.0.5-py3-none-any.whl", hash = "sha256:80d8a557d4d9da61b9b68c2cd2eb1c6ccc2d57d01e19b413e19606fede981a21"},
+    {file = "easy_as_pypi_getver-1.0.5.tar.gz", hash = "sha256:08462b7ae3ed7e5e44ac09671a4fdacded08557172b63462b38ef832d86bd14d"},
 ]
 
 [package.extras]
